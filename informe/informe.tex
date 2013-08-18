@@ -30,7 +30,7 @@
 \pagestyle{fancy}
 \thispagestyle{fancy}
 \addtolength{\headheight}{1pt}
-\lhead{AED3}
+\lhead{Algoritmos y Estructuras de Datos 3}
 \rhead{TP1}
 \cfoot{\thepage /\pageref{LastPage}}
 \renewcommand{\footrulewidth}{0.4pt}
@@ -49,10 +49,10 @@
 \materia{Algoritmos y Estructuras de Datos III}
 \submateria{Trabajo Pr\'actico N$^{\circ}$1}
 \titulo{}
-\integrante{Amil, Diego Alejandro}{68/09}{amildie@gmail.com}
-\integrante{Barabas, Ariel}{755/11}{ariel.baras@gmail.com}
+\integrante{Izcovich, Sabrina}{550/11}{sizcovich@gmail.com}
 \integrante{Garcia Marset, Matias}{356/11}{matiasgarciamarset@gmail.com}
 \integrante{Orellana, Ignacio}{229/11}{nacho@foxdev.com.ar}
+\integrante{Vita, Sebastián}{149/11}{sebastian\_vita@yahoo.com.ar}
 
 \maketitle
 
@@ -60,30 +60,31 @@
 \newpage
 
 \section{Introducci\'on}
-El presente informe apunta a documentar el desarrollo del trabajo pr\'actico n\'umero 1 de la materia Algoritmos y Estructuras de Datos III, cursada correspondiente al primer cuatrimestre
-del a\~no 2013. El siguiente trabajo pr\'actico propone la resoluci\'on de cuatro problemas algor\'itmicos. Vamos a dividir la resoluci\'on de cada uno de estos problemas en los siguientes aspectos:
+Este trabajo práctico consiste en la resolución de ciertos problemas algorítmicos delimitados por ciertas restricciones impuestas por la cátedra, como por ejemplo el orden de complejidad máximo de los mismos entre otras. Para justificar las implementaciones de los problemas en cuestión, fue necesaria la utilización de herramientas lógico-matemáticas que serán mencionadas a lo largo del desarrollo de cada ejercicio.\newline
+Para comprobar que nuestras soluciones resolvieran correctamente los problemas propuestos, debimos dividir el análisis de los mismos en secciones a fin de estudiar minuciosamente cada característica de los mismos. Estas secciones se dividen de la siguiente forma:\newline
 
 \begin{enumerate}
-\item Realizar una descripci\'on del problema en s\'i; tratando de exponer la naturaleza del ejercicio sin ambiguedades, detallar las particularidades que consideremos pertinentes y proponer una soluci\'on.
-\item Demostrar formalmente que la soluci\'on propuesta es la correcta.
-\item Detallar mediante pseudoc\'odigo la implementaci\'on realizada para la obtener la soluci\'on y justificar la complejidad del algoritmo.
-\item Someter a la implementaci\'on a una serie de tests para verificar tanto su correctitud como su performance y graficar los resultados.
+\item \textbf{Problema a resolver:} En esta sección, nos encargamos de describir detalladamente el problema a resolver dando ejemplos del mismo y sus soluciones.
+\item \textbf{Resolución coloquial:} En esta parte, nos dedicamos a explicar de forma clara, sencilla, estructurada y concisa las ideas desarrolladas para la resolución del problema en cuestión. Para ello, decidimos utilizar pseudocódigo y lenguaje coloquial combinando ambas herramientas de manera adecuada.
+\item \textbf{Demostración de correctitud:} Utilizamos este apartado para justificar que el punto anterior resuelve efectivamente el problema y demostramos formalmente la correctitud del mismo.
+\item \textbf{Complejidad del algoritmo:} En esta sección, nos ocupamos de deducir una cota de complejidad temporal del algoritmo propuesto en función de los parámetros considerados como correctos. Por otro lado, justificamos por qué el algoritmo desarrollado para la resolución del problema cumple con la cota dada.
+\item \textbf{Código fuente:} En esta parte, presentamos las partes relevantes del código fuente que implementa la solución propuesta.
+\item \textbf{Instancias posibles:} Este sector presenta un conjunto de instancias que permiten verificar la correctitud del programa implementado cubriendo todos los casos posibles y justificando la elección de los mismos. Dichas instancias fueron evaluadas por el algoritmo realizado y los resultados obtenidos fueron comprobados.
+\item \textbf{Testing:} Por último, los tests consistieron en experimentaciones computacionales utilizadas para medir la performance del programa implementado. Para ello, debimos preparar un conjunto de casos de test que permitieran observar los tiempos de ejecución en función de los parámetros de entrada que fueran relevantes. De este modo, nos encargamos de generar instancias aleatorias como también con instancias particulares. Para que los resultados fueran visibles y claros, utilizamos una comparación gráfica entre los tiempos medidos y la complejidad teórica calculada.
 \end{enumerate}
 
-\section{Pautas de Implementaci\'on}
-Adoptaremos a \verb*#C++# como lenguaje para realizar las implementaciones. De ser necesario vamos a usar la librer\'ia standard, haciendo referencia a la documentaci\'on de la misma cuando sea necesario. Cada
-ejercicio se encuentra en su respectiva carpeta dentro de la carpeta \verb*#codigo#, en archivos nomenclados desde \verb*#ej1.cpp# a \verb*#ej3.cpp#.
- 
+\section{Pautas de Implementaci\'on} 
+ Para realizar la implementación de los problemas a resolver, decidimos utilizar el lenguaje \verb*#C++# dado que las herramientas proporcionadas por la librería .
 \newpage
 
 \section{Resoluciones}
-\input{ejercicios/ej1.tex}
+%\input{ejercicios/ej1.tex}
 \newpage
 
-\input{ejercicios/ej2.tex}
+%\input{ejercicios/ej2.tex}
 \newpage
 
-\input{ejercicios/ej3.tex}
+%\input{ejercicios/ej3.tex}
 \newpage
 
 \end{document}
