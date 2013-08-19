@@ -23,6 +23,8 @@ En lo que sigue, presentaremos dos ejemplos sobre el sistema impulsado por Pascu
 \begin{itemize}
 \item \large{\textbf{Ejemplo 1:}}\newline
 
+En este ejemplo, decidimos conveniente develar un caso en el que fuera agregado un paquete a un camión ya cargado. Por otro lado, quisimos contrarestarlo insertando un paquete con una carga que superaba la capacidad del camión creado anteriormente. Por último, nos pareció importante mostrar un caso en el que al agregar un nuevo paquete, si bien un nuevo camión había sido creado, éste era colocado en el camión cuya carga fuera la menor.
+
 \textbf{Formato de entrada:}
 $$100\ \ 5\ \ 20\ \ 40\ \ 80\ \ 15\ \ 100$$
 
@@ -35,7 +37,10 @@ $$100\ \ 5\ \ 20\ \ 40\ \ 80\ \ 15\ \ 100$$
 \textbf{Formato de salida:}
 $$3\ \ 75\ \ 80\ \ 100$$
 
+
 \item \large{\textbf{Ejemplo 2:}}\newline
+
+En este ejemplo, quisimos mostrar lo que ocurría en caso en el que cada paquete superara el 50\% de la carga disponible en un camión.
 
 \textbf{Formato de entrada:} 
 $$150\ \ 3\ \ 80\ \ 75\ \ 82$$
@@ -49,18 +54,21 @@ $$150\ \ 3\ \ 80\ \ 75\ \ 82$$
 \textbf{Formato de salida:}
 $$3\ \ 80\ \ 75\ \ 82$$
 
+
+
 \end{itemize}
 \subsection{Resolución coloquial}
 Al analizar el problema a resolver, nos percatamos de que lo más conveniente era implementar la solución en base a un $algoritmo\ goloso$. Dicho algoritmo consiste en la construcción de una solución seleccionando, en cada paso, la mejor alternativa sin considerar las implicancias de ésta.\newline Por otro lado, dicha técnica de diseño algorítmico resulta fácil de implementar, suele ser eficiente y permite construir soluciones razonables.\newline
 En este caso, la resolución basada en un algoritmo goloso nos permitió tomar cada instancia de la entrada y ubicarla en el lugar más conveniente en ese momento. Esto significa que dada la $i-ésima$ caja ingresada en un mismo día, ésta era ubicada en el camión que menor cargado se encontraba en el momento en el que se la agregaba. Para lograr esto, decidimos utilizar como estructura un heap.\newline
 Un heap consiste en una estructura de datos del tipo árbol binario completo con información perteneciente a un tipo de datos cumpliendo con un cierto orden. Un heap máximo tiene la característica de que cada nodo padre tiene un valor mayor que el de cualquiera de sus nodos hijos.\newline
-Para adaptar el problema de Pascual al heap, decidimos que cada nodo representa la capacidad de carga disponible correspondiente a un camión determinado en un momento dado.
+Para adaptar el problema de Pascual al heap, decidimos que cada nodo debía representar la capacidad de carga disponible correspondiente a un camión determinado en un momento dado.
 
-
-Esta estructura resultó la más adecuada para nuestra implementación dado que 
 
 
 \subsection{Demostración de correctitud}
+Esta estructura resultó la más adecuada para nuestra implementación dado que 
+
+
 
 \subsection{Complejidad del algoritmo}
 Tal como requerido, la complejidad temporal del algoritmo debe ser estrictamente menor a $\mathcal{O}(n^2)$.
