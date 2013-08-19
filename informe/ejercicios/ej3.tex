@@ -3,6 +3,34 @@
 
 \subsection{Resolución coloquial}
 
+\begin{algorithm}[H]
+	\SetAlgoLined
+	\caption{conectarFuertemente}
+	\KwIn{nodo v}
+
+	v.index = index\footnote{index corresponde al algorithm 8 y es una variable global}\;
+	v.lowlink = index\;
+	index ++\;
+	agrego v en S\;
+
+	\ForEach{arista (v, w) en E}{
+		\eIf{w.index est\'a indefinido}{
+			conectarFuertemente(w)\;
+			v.lowlink = min(v.lowlink, w.lowlink)\;
+		}{
+			v.lowlink = min(v.lowlink, w.index)\;
+		}
+	}
+
+	\If{v.lowlink == v.index}{
+		sea U una nueva CFC\footnote{un vector}\;
+		\Repeat{w == v}{
+			w = saco el tope de S\;
+			agrego w a U\;
+		}
+		muestro U\;
+	}
+\end{algorithm}
 
 \subsection{Demostración de correctitud}
 
