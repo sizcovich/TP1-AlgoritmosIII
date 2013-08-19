@@ -54,13 +54,8 @@ $$3\ \ 80\ \ 75\ \ 82$$
 Al analizar el problema a resolver, nos percatamos de que lo más conveniente era implementar la solución en base a un $algoritmo\ goloso$. Dicho algoritmo consiste en la construcción de una solución seleccionando, en cada paso, la mejor alternativa sin considerar las implicancias de ésta.\newline Por otro lado, dicha técnica de diseño algorítmico resulta fácil de implementar, suele ser eficiente y permite construir soluciones razonables.\newline
 En este caso, la resolución basada en un algoritmo goloso nos permitió tomar cada instancia de la entrada y ubicarla en el lugar más conveniente en ese momento. Esto significa que dada la $i-ésima$ caja ingresada en un mismo día, ésta era ubicada en el camión que menor cargado se encontraba en el momento en el que se la agregaba. Para lograr esto, decidimos utilizar como estructura un heap.\newline
 Un heap consiste en una estructura de datos del tipo árbol binario completo con información perteneciente a un tipo de datos cumpliendo con un cierto orden. Un heap máximo tiene la característica de que cada nodo padre tiene un valor mayor que el de cualquiera de sus nodos hijos.\newline
-\newline
-Adaptamos la estructura del heap de la siguiente manera:
-\begin{itemize}
-\item Cada nodo representa la capacidad de carga disponible correspondiente a un camión determinado en un momento dado.
+Para adaptar el problema de Pascual al heap, decidimos que cada nodo representa la capacidad de carga disponible correspondiente a un camión determinado en un momento dado.
 
-\item 
-\end{itemize}
 
 Esta estructura resultó la más adecuada para nuestra implementación dado que 
 
