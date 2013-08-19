@@ -1,12 +1,13 @@
 #include <string>
 #include <cstdio>
 #include <iostream>
+#include <vector>
+#include <algorithm>
 #include <utility>
-#include <vector>
-#include <vector>
+
 using namespace std;
 
-int main(){
+int main() {
 	
 	return 0;
 }
