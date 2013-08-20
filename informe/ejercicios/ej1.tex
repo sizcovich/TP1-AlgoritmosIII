@@ -89,6 +89,29 @@ El pseudocódigo ideado para resolver el problema es el siguiente:\newline
 	}
 \end{algorithm}
 
+\begin{algorithm}[H]
+	\SetAlgoLined
+	\caption{Algoritmo de Pascual (version Nacho)}
+	\KwIn{Paquetes $ps$}
+	\KwOut{cantidadDeCamiones, listaDePesos}
+
+	Camiones $ca \leftarrow \{nuevoCamion\}$\\
+	cantidadDeCamiones := 0\\
+	\lIf{$ps = \emptyset$}{\textbf{devolver} 0, $\emptyset$}\\
+	\For{Paquete p $\in$ $ps$}{
+		Camion $c$ := camionMenosCargado($ca$)\\
+		\eIf{peso($p$) $\leq$ capacidad($c$)}{
+			capacidad($c$) $-=$ peso($p$)
+		}{
+			$ca \leftarrow$ Camion $cNuevo$\\
+			capacidad($cNuevo$) $-=$ peso($p$)
+		}
+	}
+	\textbf{devolver} cantidadDeCamiones, $ca$
+
+
+\end{algorithm}
+
 \subsection{Demostración de correctitud}
 Esta estructura resultó la más adecuada para nuestra implementación dado que 
 
