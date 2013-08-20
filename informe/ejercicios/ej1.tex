@@ -96,7 +96,7 @@ El pseudocódigo ideado para resolver el problema es el siguiente:\newline
 	\KwOut{cantidadDeCamiones, listaDePesos}
 
 	Camiones $ca \leftarrow \{nuevoCamion\}$\\
-	cantidadDeCamiones := 0\\
+	cantidadDeCamiones := 1\\
 	\lIf{$ps = \emptyset$}{\textbf{devolver} 0, $\emptyset$}\\
 	\For{Paquete p $\in$ $ps$}{
 		Camion $c$ := camionMenosCargado($ca$)\\
@@ -105,6 +105,7 @@ El pseudocódigo ideado para resolver el problema es el siguiente:\newline
 		}{
 			$ca \leftarrow$ Camion $cNuevo$\\
 			capacidad($cNuevo$) $-=$ peso($p$)
+			cantidadDeCamiones + 1;
 		}
 	}
 	\textbf{devolver} cantidadDeCamiones, $ca$
