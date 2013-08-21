@@ -69,65 +69,23 @@ El pseudocódigo ideado para resolver el problema es el siguiente:\newline
 \begin{algorithm}[H]
 	\SetAlgoLined
 	\caption{Algoritmo de Pascual}
-	\KwIn{capacidadCamion, cantidadDePaquetes, pesosDePaquetes}
-	\KwOut{cantidadDeCamiones, listaDeCamiones}
-	cantidadDeCamiones = 0\\
-	actual = 0\\
-	camionesCreados = vacio\\
-	\While{pesosDePaquetes $\geq$ vacio}{
-	\eIf{camionesCreados $\neq$ vacio $\land$ camionMenosCargado(camionesCreados)\footnote{Esta funcion devuelve el camion menos cargado} $\geq$ $pesosDePaquetes_{actual}$}{
-		camionActual = camionMenosCargado(camionesCreados)\\
-		camionActual = camionActual - $pesosDePaquetes_{actual}$\\
-		camionesCreados $\leftarrow$ camionActual
-		}{
-			camionActual = capacidadCamion - $pesosDePaquetes_{actual}$	\\
-			camionesCreados $\leftarrow$ camionActual\\
-			cantidadDeCamiones = cantidadDeCamiones + 1\\
-		}	
-		actual = actual + 1\\
-		
-	}
-\end{algorithm}
-
-\begin{algorithm}[H]
-	\SetAlgoLined
-	\caption{Algoritmo de Pascual (version Nacho)}
 	\KwIn{Entero limite,Paquetes $ps$}
 	\KwOut{cantidadDeCamiones, listaDePesos}
-
-	Camiones $ca \leftarrow \{nuevoCamion\}$\\
-	cantidadDeCamiones := 0\\
-	\lIf{$ps = \emptyset$}{\textbf{devolver} 0, $\emptyset$}\\
+	\lIf{$ps = \emptyset$}{\textbf{devolver} 0, $ListaVacia$}\\
+	
+	Camiones $ca \leftarrow \{Camion\}$\\
+	cantidadDeCamiones := 1\\
 	\For{Paquete p $\in$ $ps$}{
-		Camion $c$ := camionMenosCargado($limite$,$ca$)\\
-		\eIf{peso($p$)+capacidad($c$) $\leq$ $limite$ }{
-			capacidad($c$) $+=$ peso($p$)
+		Camion $c$ := camionMenosCargado\footnote{Funci\'on que toma el cami\'on menos cargado.}($ca$)\\
+		\eIf{peso($p$) $\leq$ capacidad($c$) }{
+			capacidad($c$) $-=$ peso($p$)
 		}{
 			$ca \leftarrow$ Camion $cNuevo$\\
-			capacidad($cNuevo$) $=$ peso($p$)
+			capacidad($cNuevo$) $-=$ peso($p$)
 			cantidadDeCamiones + 1;
 		}
 	}
 	\textbf{devolver} cantidadDeCamiones, $ca$
-
-
-
-\end{algorithm}
-
-\begin{algorithm}[H]
-	\SetAlgoLined
-	\caption{Algoritmo camionMenosCargado}
-	\KwIn{Entero limite,Camiones $ca$}
-	\KwOut{camion}
-
-	Camion $cam$  \\
-	\eIf{$ca = \emptyset$}{
-			$cam \leftarrow$ limite\\
-	}{
-			
-			$cam \leftarrow$ primero($ca$)\\
-	}
-	\textbf{devolver} cam
 
 
 
