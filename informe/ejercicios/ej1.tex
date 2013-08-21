@@ -23,7 +23,7 @@ En lo que sigue, presentaremos dos ejemplos sobre el sistema impulsado por Pascu
 \begin{itemize}
 \item {\large{\textbf{Ejemplo 1:}}}\newline
 
-En este ejemplo, decidimos conveniente develar un caso en el que fuera agregado un paquete a un camión ya cargado. Por otro lado, quisimos contrarestarlo insertando un paquete con una carga que superaba la capacidad del camión creado anteriormente. Por último, nos pareció importante mostrar un caso en el que al agregar un nuevo paquete, si bien un nuevo camión había sido creado, éste era colocado en el camión cuya carga fuera la menor.\newline
+En este ejemplo, decidimos conveniente develar un caso en el que fuera agregado un paquete a un camión ya cargado. Por otro lado, quisimos contrarrestarlo insertando un paquete con una carga que superaba la capacidad del camión creado anteriormente. Por último, nos pareció importante mostrar un caso en el que al agregar un nuevo paquete, si bien un nuevo camión había sido creado, éste era colocado en el camión cuya carga fuera la menor.\newline
 
 \textbf{Formato de entrada:}
 $$100\ \ 5\ \ 20\ \ 40\ \ 80\ \ 15\ \ 100$$
@@ -115,9 +115,17 @@ El pseudocódigo ideado para resolver el problema es el siguiente:\newline
 \end{algorithm}
 
 \subsection{Demostración de correctitud}
-Esta estructura resultó la más adecuada para nuestra implementación dado que 
+Para demostrar la correctitud de este problema definamos los invariantes del algoritmo:
+\begin{itemize}
+\item Todos los paquetes son cargados en camiones
 
+<ACA VA UNA >
 
+\item Cada camion leva hasta su limite en peso
+
+\item Los paquetes se intentan agregar en los camiones ya llenos
+
+\end{itemize}
 
 \subsection{Complejidad del algoritmo}
 Tal como requerido, la complejidad temporal del algoritmo debe ser estrictamente menor a $\mathcal{O}(n^2)$.
