@@ -92,19 +92,19 @@ El pseudocódigo ideado para resolver el problema es el siguiente:\newline
 \begin{algorithm}[H]
 	\SetAlgoLined
 	\caption{Algoritmo de Pascual (version Nacho)}
-	\KwIn{Paquetes $ps$}
+	\KwIn{Entero limite,Paquetes $ps$}
 	\KwOut{cantidadDeCamiones, listaDePesos}
 
 	Camiones $ca \leftarrow \{nuevoCamion\}$\\
-	cantidadDeCamiones := 1\\
+	cantidadDeCamiones := 0\\
 	\lIf{$ps = \emptyset$}{\textbf{devolver} 0, $\emptyset$}\\
 	\For{Paquete p $\in$ $ps$}{
-		Camion $c$ := camionMenosCargado($ca$)\\
-		\eIf{peso($p$) $\leq$ capacidad($c$)}{
-			capacidad($c$) $-=$ peso($p$)
+		Camion $c$ := camionMenosCargado($limite$,$ca$)\\
+		\eIf{peso($p$)+capacidad($c$) $\leq$ $limite$ }{
+			capacidad($c$) $+=$ peso($p$)
 		}{
 			$ca \leftarrow$ Camion $cNuevo$\\
-			capacidad($cNuevo$) $-=$ peso($p$)
+			capacidad($cNuevo$) $=$ peso($p$)
 			cantidadDeCamiones + 1;
 		}
 	}
@@ -114,18 +114,43 @@ El pseudocódigo ideado para resolver el problema es el siguiente:\newline
 
 \end{algorithm}
 
+\begin{algorithm}[H]
+	\SetAlgoLined
+	\caption{Algoritmo camionMenosCargado}
+	\KwIn{Entero limite,Camiones $ca$}
+	\KwOut{camion}
+
+	Camion $cam$  \\
+	\eIf{$ca = \emptyset$}{
+			$cam \leftarrow$ limite\\
+	}{
+			
+			$cam \leftarrow$ primero($ca$)\\
+	}
+	\textbf{devolver} cam
+
+
+
+\end{algorithm}
+
 \subsection{Demostración de correctitud}
-Para demostrar la correctitud de este problema definamos los invariantes del algoritmo:
+
+Para demostrar la correctitud de este problema definamos el invariante del algoritmo:
+\begin{figure}[H] %[h] Aqui [b] para button [t] para top
+\begin{center}
+\includegraphics[width=300pt]{../imgs/demo11.png}
+\end{center}
+\end{figure}
+
 \begin{itemize}
-\item Todos los paquetes son cargados en camiones
-
-<ACA VA UNA >
-
-\item Cada camion leva hasta su limite en peso
-
-\item Los paquetes se intentan agregar en los camiones ya llenos
-
+\item Cada camion leva hasta su limite en peso \\
+Como se puede observar en la linea 47, la guarda no permite agregar un paquete tal que el mismo haga exceder el peso limite del camion.
+\item Los paquetes se intentan agregar en los camiones ya llenos \\
+ Se puede ver como en la linea 46 ya se toma el camion que este menos cargado (si es que existe), y si este puede contener el paquete, el mismo se agrega ahi. De no poder contenerlo lo pone en un camion nuevo. Lo que me asegura que no haya otro camion que pueda contener el paquete es, por un lado, el invariante de la estructura que estamos utilizando\footnote{http://en.cppreference.com/w/cpp/container/multimap}, y por otro, que si tomo el camion con mayor disponibilidad y no alcanza, los demas que tienen menos lugar, claramente tampoco van a poder llevar el paquete. 
 \end{itemize}
+
+Finalmente, sea $S$ una solucion del problema tal que contiene los camiones necesarios con sus cargas respectivas. Por nuestro invariante podemos asegurar que los camiones se van llenando segun el procedimiento explicitado por Pascual y por lo tanto la salida $S$ es correcta.
+
 
 \subsection{Complejidad del algoritmo}
 Tal como requerido, la complejidad temporal del algoritmo debe ser estrictamente menor a $\mathcal{O}(n^2)$.

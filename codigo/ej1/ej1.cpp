@@ -4,15 +4,18 @@
 #include <vector>
 #include <algorithm>
 #include <utility>
-// MAS QUE HEAP
 #include <map>
 
 /* -------------------------------------------------------------
 
 Ejercicio 1
 
-Referencia de la estructura map en http://en.cppreference.com/w/cpp/container/map
-ejemplos en http://www.cplusplus.com/reference/map/map/
+Referencia de la estructura map en http://en.cppreference.com/w/cpp/container/multimap
+ejemplos en http://www.cplusplus.com/reference/map/multimap/
+Complejidades:
+ -iterador begin O(1)
+ -insert O(log(n))
+ -erase O(log(n)) en realidad es menos
 
 El algoritmo esta basado en el pseudocodigo del informe.
 
@@ -24,36 +27,37 @@ typedef int Paquete;
 typedef int Camion; //El camion se define por su capacidad
 typedef vector<Paquete> Paquetes;
 
-Camion camionMenosCargado(map<Camion, int> ca)
+Camion camionMenosCargado(int limite,multimap<Camion, int> ca)
 {
-    map<int,int>::iterator it = ca.begin();
+    multimap<int,int>::iterator it = ca.begin();
+    if (it==ca.end())
+        return limite;
     return (it->first);
 }
 
 vector<int> ej1(int limite, int cantPaquetes, Paquetes ps) {
 	vector<int> res;
 	//estructura
-	map<Camion, int> ca; //El segundo int es al cuete basicamente
-	int cantCamiones = 1;
+	multimap<Camion, int> ca; //El segundo int es al cuete basicamente
+	int cantCamiones = 0;
 
     for (int i=0;i<cantPaquetes;++i)
     {
-        Camion c = camionMenosCargado(ca);
-        if (Paquetes[i]<= c)
+        Camion c = camionMenosCargado(limite,ca);
+        if (ps[i]+c <= limite )
         {
-            c -= Paquetes[i];
-            map<int,int>::iterator it = ca.begin();
+            c += ps[i];
+            multimap<int,int>::iterator it = ca.begin();
             ca.erase(it); //elimina el camion menos cargado y en la siguiente linea lo vuelve a agregar
-            ca.emplace(make_pair(std::int(c), std::int(0))); //agrega el valor c
+            ca.insert(pair<int,int>(int(c), int(0)));
         }else{
-            ca.emplace(make_pair(std::int(limite-Paquetes[i]), std::int(0)));
+            ca.insert(pair<int,int>(int(ps[i]), int(0)));
             ++cantCamiones;
         }
     }
-
     //Guardo los resultados en el vector
     res.push_back(cantCamiones);
-    for (map<int,int>::iterator it2=mymap.begin(); it2!=mymap.end(); ++it2)
+    for (multimap<int,int>::iterator it2=ca.begin(); it2!=ca.end(); ++it2)
         res.push_back(it2->first);
 
 	return res;
@@ -69,7 +73,6 @@ int main() {
 
 		Paquetes ps;
 		Paquete p;
-		cin >> p;
 
 		for (int i = 0; i < cantPaquetes; ++i)
 		{
@@ -80,6 +83,7 @@ int main() {
 		res = ej1(limite, cantPaquetes, ps);
 		for (int i = 0; i < res.size(); ++i)
 			cout << res[i] << " ";
+        cout<<endl;
 		termino = (cin >> ws).peek();
 	}
 	return 0;
