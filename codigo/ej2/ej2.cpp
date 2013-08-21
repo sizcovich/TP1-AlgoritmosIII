@@ -5,13 +5,29 @@
 #include <algorithm>
 #include <utility>
 
+/* -----------------------------------------
+
+Referencia: http://en.cppreference.com/w/cpp/algorithm/sort
+Complejidad:
+  -Sort : O(n.log(n))
+
+--------------------------------------------*/
+
 using namespace std;
 
 typedef pair<int> Curso;
 
+struct {
+        bool operator()(Curso a, Curso b)
+        {
+            return a.second < b.second;
+        }
+    } customLess;
+
 
 vector<int> ej2(int cantCursos, vector<Curso> cs) {
 	vector<int> res;
+	sort(cs.begin()+1, cs.end(),customLess); //ORDENA SEGUN LA SEGUNDA TUPLA Y A PARTIR DEL SEGUNDO ELEMENTO, PORQUE EL PRIMERO ES LA CANTIDAD DE ELEMENTOS
 	return res;
 }
 
