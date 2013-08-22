@@ -13,19 +13,90 @@ struct Casilla {
 	int laser;
 	// 0: libre, 1: laser horizontal, 2: laser vertical, 3: ambos.
 	bool ocupado;
-	// Si hay un sensor ahi
+	// Si hay un sensor ahi.
 	int tipoSensor;
 	// 1: bidireccional, 2: horizontal, 3: vertical.
+	int restricciones;
+	//1: horizontal, 2: vertical.
 	Casilla () {
 		laser = 0;
 		ocupado = false;
 		tipoSensor = -1;
+		restricciones = 0;
 	}
 };
 
 typedef vector< vector <Casilla> > Grilla;
 
+void restringirCasillasPorImportante(int i, int j, Grilla &g) {
+	/*
+	Basicamente lo que hace esto es recorrer todas las casillas desde la casilla importante
+	hacia las casillas izquierda, derecha, arriba y abajo para marcar las restricciones.
+	Se termina de recorrer las casillas cuando toque el borde o cuando me choque con una pared.
+	*/
+	int iAnterior=i, jAnterior=j; //Me guardo los valores anteriores por que voy a tener q restaurarlos
+	int ancho=g.size(), alto=g[i].size(); //Obtendo el ancho y alto del la matriz
+	while (i<ancho && g[i][j].tipo != 0) { //Aca voy desde el lugar importante hacia la derecho
+		g[i][j].restricciones = 1;
+		i++;
+	}
+	i = iAnterior;
+	while(i>0 && g[i][j].tipo != 0) { //Aca voy desde el lugar importante hacia la izquierda
+		g[i][j].restricciones = 1;
+		i--;
+	}
+	i = iAnterior;
+	while(j<alto && g[i][j].tipo != 0) { //Aca voy desde el lugar importante hacia abajo
+		g[i][j].restricciones = 2;
+		j++;
+	}
+	j = jAnterior;
+	while(j>0 && g[i][j].tipo != 0) { //Aca voy desde el lugar importante hacia arriba
+		g[i][j].restricciones = 2;
+		j--;
+	}
+	j = jAnterior;
+	g[i][j].restricciones = 4;
+}
+
+void mostrar(Grilla g, string parametro) {
+	for (int i = 0; i < g.size(); ++i) {
+		for (int j = 0; j < g[i].size(); ++j) {
+			if (parametro=="tipo") {
+				cout << g[i][j].tipo << " ";
+			}
+			if (parametro=="laser") {
+				cout << g[i][j].laser << " ";
+			}
+			if (parametro=="restricciones") {
+				cout << g[i][j].restricciones << " ";
+			}
+		}
+		cout << endl;
+	}
+}
+
+
 vector< vector< int > > ej3(Grilla g) {
+	for (int i = 0; i < g.size(); ++i) {
+		for (int j = 0; j < g[i].size(); ++j) { //Por cada casilla 
+			if (g[i][j].tipo == 2) { //Si es importante
+				restringirCasillasPorImportante(i, j, g); //Restringo sus casillas horizontales y verticales.
+			}
+		}
+	}
+	mostrar(g, "restricciones");
+
+
+
+
+
+
+
+
+
+
+
 	vector < vector <int > > res;
 	return res;
 }
