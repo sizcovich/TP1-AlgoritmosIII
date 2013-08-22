@@ -88,6 +88,8 @@ El pseudocódigo ideado para resolver el problema es el siguiente:\newline
 	\textbf{devolver} cantidadDeCamiones, $ca$
 \end{algorithm}
 
+En este pseudocodigo la funcion $Camion$ crea un nuevo cami\'on que tiene como propiedad su capacidad, \'esta esta definida en base a la informaci\'on de entrada y luego de utiliza para chequear si los paquetes entran o no en el. Los paquetes que entran como par\'ametro tienen una propiedad que dice el peso que tienen llamada "peso". $camionMenosCargado$ es una funci\'on que devuelve el cami\'on que tiene mayor espacio libre, no presentamos un pseudocodigo del mismo ya que en la implementaci\'on su acceso es trivial por la estructura de datos que elegimos para almacenar los camiones.
+
 \subsection{Demostración de correctitud}
 
 Para demostrar la correctitud de este problema definamos el invariante del algoritmo:
