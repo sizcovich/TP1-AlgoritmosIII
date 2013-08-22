@@ -69,26 +69,23 @@ El pseudocódigo ideado para resolver el problema es el siguiente:\newline
 \begin{algorithm}[H]
 	\SetAlgoLined
 	\caption{Algoritmo de Pascual}
-	\KwIn{Entero limite,Paquetes $ps$}
+	\KwIn{Entero limite, Paquetes $ps$}
 	\KwOut{cantidadDeCamiones, listaDePesos}
 	\lIf{$ps = \emptyset$}{\textbf{devolver} 0, $ListaVacia$}\\
 	
-	Camiones $ca \leftarrow \{Camion\}$\\
+	Camiones $ca \leftarrow$ \{Camion $cNuevo(limite)\}$\\
 	cantidadDeCamiones := 1\\
 	\For{Paquete p $\in$ $ps$}{
-		Camion $c$ := camionMenosCargado\footnote{Funci\'on que toma el cami\'on menos cargado.}($ca$)\\
+		Camion $c$ := camionMenosCargado\footnote{Funci\'on que toma el cami\'on menos cargado de la lista de camiones.}($ca$)\\
 		\eIf{peso($p$) $\leq$ capacidad($c$) }{
 			capacidad($c$) $-=$ peso($p$)
 		}{
-			$ca \leftarrow$ Camion $cNuevo$\\
+			$ca \leftarrow$ Camion $cNuevo(limite)$\\
 			capacidad($cNuevo$) $-=$ peso($p$)
 			cantidadDeCamiones + 1;
 		}
 	}
 	\textbf{devolver} cantidadDeCamiones, $ca$
-
-
-
 \end{algorithm}
 
 \subsection{Demostración de correctitud}
