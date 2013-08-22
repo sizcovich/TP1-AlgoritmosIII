@@ -23,6 +23,7 @@ bool customLess (Curso i,Curso j)
 vector<Curso> filtrarSolapamientos(vector<Curso>& cs)
 {
     vector<Curso> res;
+    res.reserve(cs.size()); //Esto es para que luego agregar elementos sea constante
     res.push_back(cs[0]);
     int ult = 0;
     for(int i=1;i<cs.size();++i)
@@ -37,6 +38,7 @@ vector<Curso> filtrarSolapamientos(vector<Curso>& cs)
 
 vector<int> ej2(vector<Curso> cs) {
 	vector<int> res;
+	res.reserve(cs.size()); //Esto es para que luego agregar elementos sea constante
  	sort(cs.begin(), cs.end(),customLess); //ORDENA SEGUN LA SEGUNDA TUPLA
 	vector<Curso> salida = filtrarSolapamientos(cs); //Quita los cursos que se solapan de izquierda a derecha
 
@@ -59,6 +61,7 @@ int main() {
 
 		cin >> cantCursos;
 
+        res.reserve(cs.size()); //Esto es para que luego agregar elementos sea constante
 		for (int i = 0; i < cantCursos; ++i)
 		{
 			cin >> ci;
