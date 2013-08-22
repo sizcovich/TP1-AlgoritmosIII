@@ -34,7 +34,7 @@ pair<int,vector<int> > algoritmoDePascual(int limite, int cantPaquetes, Paquetes
 	if (ps.empty()) //Si NO HAY PAQUETES, entonces devuelve el resultado vacio
 		return make_pair(0, vector<int>());
 	else { //Si hay paquetes, agrego el primer paquete al heap.
-		ca.push(make_pair(ps[0], cantCamiones)); 
+		ca.push(make_pair(cantCamiones, ps[0])); 
 		cantCamiones++;
 	}
 
@@ -47,7 +47,7 @@ pair<int,vector<int> > algoritmoDePascual(int limite, int cantPaquetes, Paquetes
             ca.pop(); //elimina el camion menos cargado y en la siguiente linea lo vuelve a agregar
             ca.push(c);
         }else{
-            ca.push(make_pair(ps[i], cantCamiones)); //agrega un nuevo camion
+            ca.push(make_pair(cantCamiones, ps[i])); //agrega un nuevo camion
             ++cantCamiones;
         }
     }
@@ -82,7 +82,7 @@ int main() {
 		res.second.resize(res.first);
 		cout << res.first << " ";
 		for (int i = 0; i < res.first; ++i)
-			cout << res.second[i].first << " ";
+			cout << res.second[i] << " ";
         cout<<endl;
 		termino = (cin >> ws).peek();
 	}
