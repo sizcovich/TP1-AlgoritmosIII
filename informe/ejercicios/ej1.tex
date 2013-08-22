@@ -57,12 +57,13 @@ $$3\ \ 80\ \ 75\ \ 82$$
 
 \end{itemize}
 \subsection{Resolución coloquial}
-Al analizar el problema a resolver, nos percatamos de que lo más conveniente era implementar la solución en base a un $algoritmo\ goloso$. Dicho algoritmo consiste en la construcción de una solución seleccionando, en cada paso, la mejor alternativa sin considerar las implicancias de ésta.\newline Por otro lado, dicha técnica de diseño algorítmico resulta fácil de implementar, suele ser eficiente y permite construir soluciones razonables.\newline
+Al analizar el problema a resolver, nos percatamos de que lo más conveniente era implementar la solución en base a un $algoritmo\ goloso$. Dicho algoritmo consiste en la construcción de una solución seleccionando, en cada paso, la mejor alternativa sin considerar las implicancias de ésta.\newline Por otro lado, dicha técnica de diseño algorítmico resulta fácil de implementar, suele ser eficiente y permite construir soluciones razonables.\newline
 \newline
-En este caso, la resolución basada en un algoritmo goloso nos permitió tomar cada instancia de la entrada y ubicarla en el lugar más conveniente en ese momento. Esto significa que dada la $i-ésima$ caja ingresada en un mismo día, ésta era ubicada en el camión que menor cargado se encontraba en el momento en el que se la agregaba. Para lograr esto, decidimos utilizar como estructura un heap.\newline
+En este caso, la resolución basada en un algoritmo goloso nos permitió tomar cada instancia de la entrada y ubicarla en el lugar más conveniente en ese momento. Esto significa que dada la $i-ésima$ caja ingresada en un mismo día, ésta era ubicada en el camión que menor cargado se encontraba en el momento en el que se la agregaba. Para lograr esto, decidimos utilizar como estructura una cola de prioridad.\newline
 \newline
-Un heap consiste en una estructura de datos del tipo árbol binario completo con información perteneciente a un tipo de datos cumpliendo con un cierto orden. Un heap máximo tiene la característica de que cada nodo padre tiene un valor mayor que el de cualquiera de sus nodos hijos.\newline
-Para adaptar el problema de Pascual al heap, decidimos que cada nodo debía representar la capacidad de carga disponible correspondiente a un camión determinado en un momento dado.\newline
+Una cola de prioridad consiste en una estructura de datos en la que sus elementos son atendidos según la prioridad que éstos tengan asociada. Dicha estructura se caracteriza por admitir inserciones de nuevos elementos y la consulta y eliminación del elemento de mínima (o máxima) prioridad.\newline
+Las colas de prioridad suelen ser útiles para resolver algoritmos golosos ya que éstos suelen tener una iteración principal, y una de las tareas a realizar en cada una de dichas iteraciones es seleccionar un elemento de entre varios que minimiza (o maximiza) un cierto criterio de optimalidad local.\newline
+Para adaptar el problema de Pascual a la cola de prioridad, decidimos que cada elemento debía representar la capacidad de carga disponible correspondiente a un camión determinado en un momento dado junto con el orden de creación del mismo.\newline
 \newline
 El pseudocódigo ideado para resolver el problema es el siguiente:\newline
 
