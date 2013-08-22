@@ -100,16 +100,6 @@ vector< vector< int > > ej3(Grilla g) {
 	}
 	mostrar(g, "restricciones");
 
-
-
-
-
-
-
-
-
-
-
 	vector < vector <int > > res;
 	return res;
 }
