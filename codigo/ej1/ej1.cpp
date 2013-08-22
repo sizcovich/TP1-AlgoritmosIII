@@ -82,7 +82,7 @@ int main() {
 		res.second.resize(res.first);
 		cout << res.first << " ";
 		for (int i = 0; i < res.first; ++i)
-			cout << res.second[i] << " ";
+			cout << res.second[i].first << " ";
         cout<<endl;
 		termino = (cin >> ws).peek();
 	}
