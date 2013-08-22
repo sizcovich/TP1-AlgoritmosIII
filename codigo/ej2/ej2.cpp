@@ -17,23 +17,19 @@ using namespace std;
 
 typedef pair<int,int> Curso;
 
-/*struct {
-        bool operator()(Curso a, Curso b)
-        {
-            return a.second < b.second;
-        }
-    } customLess;*/
-
-bool customLess (Curso i,Curso j) { return (i.second < j.second); }
+bool customLess (Curso i,Curso j)
+{ return (i.second < j.second); }
 
 vector<Curso> filtrarSolapamientos(vector<Curso>& cs)
 {
     vector<Curso> res;
     res.push_back(cs[0]);
+    int ult = 0;
     for(int i=1;i<cs.size();++i)
     {
-        if (cs[i].first >= cs[i-1].second) //VEO SI EL INICIO DE UN CURSO ES DESPUES DEL TERMINO DEL ANTERIOR.
-            res.push_back(cs[i]);
+        if (cs[i].first >= res[ult].second) //VEO SI EL INICIO DE UN CURSO ES DESPUES DEL TERMINO DEL ANTERIOR (DEL ANTERIOR AGREGADO).
+            {res.push_back(cs[i]);
+            ++ult;}
     }
     return (res);
 }
