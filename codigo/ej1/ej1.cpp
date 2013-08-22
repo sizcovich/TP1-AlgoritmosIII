@@ -4,6 +4,7 @@
 #include <vector>
 #include <algorithm>
 #include <queue>
+#include <functional>
 
 /* -------------------------------------------------------------
 
@@ -28,7 +29,7 @@ typedef vector<Paquete> Paquetes;
 pair<int,vector<int> > algoritmoDePascual(int limite, int cantPaquetes, Paquetes ps) {
 	vector<int> vectorCamionesOrdenados(cantPaquetes);
 	pair<int,vector<int> > res;
-	priority_queue<Camion > ca;
+	priority_queue<Camion, vector<Camion>, greater<Camion> > ca;
 	int cantCamiones = 0; //contador de camiones
 
 	if (ps.empty()) //Si NO HAY PAQUETES, entonces devuelve el resultado vacio
@@ -58,7 +59,7 @@ pair<int,vector<int> > algoritmoDePascual(int limite, int cantPaquetes, Paquetes
 		ca.pop();
 	}
 	vectorCamionesOrdenados.resize(cantCamiones);
-    res.first = cantCamiones;
+    res.first = cantCamiones; //como empieza en 0 le sumo 1
     res.second = vectorCamionesOrdenados;
 	return res; //devuelvo la tupla (cantCamiones,[c1 c2 ... cn])
 }
