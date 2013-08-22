@@ -17,7 +17,7 @@ struct Casilla {
 	int tipoSensor;
 	// 1: bidireccional, 2: horizontal, 3: vertical.
 	int restricciones;
-	//1: horizontal, 2: vertical.
+	//1: horizontal, 2: vertical, 3: ambos.
 	Casilla () {
 		laser = 0;
 		ocupado = false;
@@ -37,26 +37,36 @@ void restringirCasillasPorImportante(int i, int j, Grilla &g) {
 	int iAnterior=i, jAnterior=j; //Me guardo los valores anteriores por que voy a tener q restaurarlos
 	int ancho=g.size(), alto=g[i].size(); //Obtendo el ancho y alto del la matriz
 	while (i<ancho && g[i][j].tipo != 0) { //Aca voy desde el lugar importante hacia la derecho
-		g[i][j].restricciones = 1;
+		if (g[i][j].restricciones == 2 || g[i][j].restricciones == 3)
+			g[i][j].restricciones = 3;
+		else
+			g[i][j].restricciones = 1;
 		i++;
 	}
 	i = iAnterior;
 	while(i>0 && g[i][j].tipo != 0) { //Aca voy desde el lugar importante hacia la izquierda
-		g[i][j].restricciones = 1;
+		if (g[i][j].restricciones == 2 || g[i][j].restricciones == 3)
+			g[i][j].restricciones = 3;
+		else
+			g[i][j].restricciones = 1;
 		i--;
 	}
 	i = iAnterior;
 	while(j<alto && g[i][j].tipo != 0) { //Aca voy desde el lugar importante hacia abajo
-		g[i][j].restricciones = 2;
+		if (g[i][j].restricciones == 1 || g[i][j].restricciones == 3)
+			g[i][j].restricciones = 3;
+		else
+			g[i][j].restricciones = 2;
 		j++;
 	}
 	j = jAnterior;
 	while(j>0 && g[i][j].tipo != 0) { //Aca voy desde el lugar importante hacia arriba
-		g[i][j].restricciones = 2;
+		if (g[i][j].restricciones == 1 || g[i][j].restricciones == 3)
+			g[i][j].restricciones = 3;
+		else
+			g[i][j].restricciones = 2;
 		j--;
 	}
-	j = jAnterior;
-	g[i][j].restricciones = 4;
 }
 
 void mostrar(Grilla g, string parametro) {
@@ -69,7 +79,10 @@ void mostrar(Grilla g, string parametro) {
 				cout << g[i][j].laser << " ";
 			}
 			if (parametro=="restricciones") {
-				cout << g[i][j].restricciones << " ";
+				if (g[i][j].tipo == 2)
+					cout << "X" << " ";
+				else
+					cout << g[i][j].restricciones << " ";
 			}
 		}
 		cout << endl;
