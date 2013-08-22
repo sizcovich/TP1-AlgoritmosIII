@@ -74,29 +74,32 @@ El pseudocódigo ideado para resolver el problema es el siguiente:\newline
 	\KwOut{cantidadDeCamiones, listaDePesos}
 	\lIf{$ps = \emptyset$}{\textbf{devolver} 0, $ListaVacia$}\\
 	
-	Camiones $ca \leftarrow$ \{Camion $cNuevo(limite)\}$\\
+	Camiones $ca \leftarrow$ \{Camion $cNuevo(0)\}$\\
 	cantidadDeCamiones := 1\\
 	\For{Paquete p $\in$ $ps$}{
-		Camion $c$ := camionMenosCargado\footnote{Funci\'on que toma el cami\'on menos cargado de la lista de camiones.}($ca$)\\
-		\eIf{peso($p$) $\leq$ capacidad($c$) }{
-			capacidad($c$) $-=$ peso($p$)
+		Camion $c$ := camionMenosCargado\footnote{camionMenosCargado: Función que toma el camión menos cargado de la lista de camiones.}($ca$)\\
+		\eIf{peso($p$)+capacidad($c$) $\leq$  limite}{
+			capacidad($c$) $+=$ peso($p$)
 		}{
-			$ca \leftarrow$ Camion $cNuevo(limite)$\\
-			capacidad($cNuevo$) $-=$ peso($p$)
+			$ca \leftarrow$ Camion $cNuevo(0)$\\
+			capacidad($cNuevo$) $=$ peso($p$)
 			cantidadDeCamiones + 1;
 		}
 	}
 	\textbf{devolver} cantidadDeCamiones, $ca$
 \end{algorithm}
 
-En este pseudocodigo la funcion $Camion$ crea un nuevo cami\'on que tiene como propiedad su capacidad, \'esta esta definida en base a la informaci\'on de entrada y luego de utiliza para chequear si los paquetes entran o no en el. Los paquetes que entran como par\'ametro tienen una propiedad que dice el peso que tienen llamada "peso". $camionMenosCargado$ es una funci\'on que devuelve el cami\'on que tiene mayor espacio libre, no presentamos un pseudocodigo del mismo ya que en la implementaci\'on su acceso es trivial por la estructura de datos que elegimos para almacenar los camiones.
+Como puede observarse en el pseudocódigo anterior, la función $cNuevo$ crea un nuevo camión cuya carga inicial es 0 (siendo ésta la misma para todos). Por otro lado, los paquetes que ingresan como parámetro se identifican por su peso.\newline
+\newline
+La función $camionMenosCargado$ devuelve el camión con mayor carga disponible. Dado que la estructura utilizada para almacenar los camiones provee dicha función, decidimos que no era necesario presentar el pseudocódigo de la misma.\newline
+
 
 \subsection{Demostración de correctitud}
 
 Para demostrar la correctitud de este problema definamos el invariante del algoritmo:
 \begin{figure}[H] %[h] Aqui [b] para button [t] para top
 \begin{center}
-\includegraphics[width=300pt]{../imgs/demo11.png}
+\includegraphics[width=300pt]{../imgs/demo11.jpg}
 \end{center}
 \end{figure}
 
@@ -111,7 +114,7 @@ Finalmente, sea $S$ una solucion del problema tal que contiene los camiones nece
 
 
 \subsection{Complejidad del algoritmo}
-Tal como requerido, la complejidad temporal del algoritmo debe ser estrictamente menor a $\mathcal{O}(n^2)$.
+Tal como requerido, la complejidad temporal del algoritmo es estrictamente menor a $\mathcal{O}(n^2)$.
 
 
 \subsection{Código fuente}
