@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <queue>
 
 /* -------------------------------------------------------------
 
@@ -20,20 +21,20 @@ El algoritmo esta basado en el pseudocodigo del informe.
 using namespace std;
 
 typedef int Paquete;
-typedef pair<int,int> Camion; //El camion se define por su capacidad
+typedef pair<int,int> Camion; //El camion se define por su orden y su capacidad
 typedef vector<Paquete> Paquetes;
 
 
 pair<int,vector<int> > algoritmoDePascual(int limite, int cantPaquetes, Paquetes ps) {
-	vector<int> vectorCamionesOrdenados[cantPaquetes];
+	vector<int> vectorCamionesOrdenados(cantPaquetes);
 	pair<int,vector<int> > res;
-	priority_queue<pair<Camion, int> > ca; //el entero representa el orden del camion
+	priority_queue<Camion > ca;
 	int cantCamiones = 0; //contador de camiones
 
     for (int i=0;i<cantPaquetes;++i)
     {
         Camion c = ca.top();
-        if (ps[i]+c <= limite)
+        if ((ps[i]+c.second) <= limite)
         {
             c.second += ps[i];
             ca.pop(); //elimina el camion menos cargado y en la siguiente linea lo vuelve a agregar
@@ -45,8 +46,9 @@ pair<int,vector<int> > algoritmoDePascual(int limite, int cantPaquetes, Paquetes
     }
     //Guardo los resultados en el vector         
 	while(!ca.empty()){
-		Camion c = ca.top(); ca.pop();
-		vectorCamionesOrdenados[c.first] = c;
+		Camion c = ca.top();
+		vectorCamionesOrdenados[c.first] = c.second;
+		ca.pop();
 	}
 	vectorCamionesOrdenados.resize(cantCamiones);
     res.first = cantCamiones + 1; //como empieza en 0 le sumo 1
@@ -61,19 +63,19 @@ int main() {
 		int cantPaquetes;
 		cin >> limite;
 		cin >> cantPaquetes;
-
 		Paquetes ps;
 		Paquete p;
-
 		for (int i = 0; i < cantPaquetes; ++i)
 		{
 			cin >> p;
 			ps.push_back(p);
 		}
-		vector<int> res;
+		pair<int,vector<int> > res;
 		res = algoritmoDePascual(limite, cantPaquetes, ps);
-		for (int i = 0; i < res.size(); ++i)
-			cout << res[i] << " ";
+		res.second.resize(res.first);
+		cout << res.first << " ";
+		for (int i = 0; i < res.first; ++i)
+			cout << res.second[i] << " ";
         cout<<endl;
 		termino = (cin >> ws).peek();
 	}
