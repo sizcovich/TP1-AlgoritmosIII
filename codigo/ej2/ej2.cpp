@@ -15,18 +15,21 @@ Complejidad:
 
 using namespace std;
 
-typedef pair<int> Curso;
+typedef pair<int,int> Curso;
 
-struct {
+/*struct {
         bool operator()(Curso a, Curso b)
         {
             return a.second < b.second;
         }
-    } customLess;
+    } customLess;*/
+
+bool customLess (Curso i,Curso j) { return (i.second < j.second); }
 
 vector<Curso> filtrarSolapamientos(vector<Curso>& cs)
 {
     vector<Curso> res;
+    res.push_back(cs[0]);
     for(int i=1;i<cs.size();++i)
     {
         if (cs[i].first >= cs[i-1].second) //VEO SI EL INICIO DE UN CURSO ES DESPUES DEL TERMINO DEL ANTERIOR.
@@ -38,7 +41,7 @@ vector<Curso> filtrarSolapamientos(vector<Curso>& cs)
 
 vector<int> ej2(vector<Curso> cs) {
 	vector<int> res;
-	sort(cs.begin(), cs.end(),customLess); //ORDENA SEGUN LA SEGUNDA TUPLA
+ 	sort(cs.begin(), cs.end(),customLess); //ORDENA SEGUN LA SEGUNDA TUPLA
 	vector<Curso> salida = filtrarSolapamientos(cs); //Quita los cursos que se solapan de izquierda a derecha
 
 	//PREPARO LA SALIDA
@@ -68,7 +71,9 @@ int main() {
 		}
 
 		vector<int> res;
+
 		res = ej2(cs);
+
 		for (int i = 0; i < res.size(); ++i)
 			cout << res[i] << " ";
         cout<<endl;
