@@ -58,7 +58,7 @@ pair<int,vector<int> > algoritmoDePascual(int limite, int cantPaquetes, Paquetes
 		ca.pop();
 	}
 	vectorCamionesOrdenados.resize(cantCamiones);
-    res.first = cantCamiones + 1; //como empieza en 0 le sumo 1
+    res.first = cantCamiones;
     res.second = vectorCamionesOrdenados;
 	return res; //devuelvo la tupla (cantCamiones,[c1 c2 ... cn])
 }
