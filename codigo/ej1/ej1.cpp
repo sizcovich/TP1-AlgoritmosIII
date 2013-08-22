@@ -31,7 +31,14 @@ pair<int,vector<int> > algoritmoDePascual(int limite, int cantPaquetes, Paquetes
 	priority_queue<Camion > ca;
 	int cantCamiones = 0; //contador de camiones
 
-    for (int i=0;i<cantPaquetes;++i)
+	if (ps.empty()) //Si NO HAY PAQUETES, entonces devuelve el resultado vacio
+		return make_pair(0, vector<int>());
+	else { //Si hay paquetes, agrego el primer paquete al heap.
+		ca.push(make_pair(ps[0], cantCamiones)); 
+		cantCamiones++;
+	}
+
+    for (int i=1;i<cantPaquetes;++i)
     {
         Camion c = ca.top();
         if ((ps[i]+c.second) <= limite)
