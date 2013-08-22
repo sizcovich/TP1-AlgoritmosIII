@@ -3,19 +3,15 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-#include <utility>
-#include <map>
 
 /* -------------------------------------------------------------
 
 Ejercicio 1
 
-Referencia de la estructura map en http://en.cppreference.com/w/cpp/container/multimap
-ejemplos en http://www.cplusplus.com/reference/map/multimap/
+Referencia de la estructura priority_queue en http://www.cplusplus.com/reference/queue/priority_queue/
 Complejidades:
- -iterador begin O(1)
- -insert O(log(n))
- -erase O(log(n)) en realidad es menos
+ -insertar O(log(n))
+ -borrar O(log(n))
 
 El algoritmo esta basado en el pseudocodigo del informe.
 
@@ -24,43 +20,36 @@ El algoritmo esta basado en el pseudocodigo del informe.
 using namespace std;
 
 typedef int Paquete;
-typedef int Camion; //El camion se define por su capacidad
+typedef pair<int,int> Camion; //El camion se define por su capacidad
 typedef vector<Paquete> Paquetes;
 
-Camion camionMenosCargado(int limite,multimap<Camion, int> ca)
-{
-    multimap<int,int>::iterator it = ca.begin();
-    if (it==ca.end())
-        return limite;
-    return (it->first);
-}
 
-vector<int> ej1(int limite, int cantPaquetes, Paquetes ps) {
-	vector<int> res;
-	//estructura
-	multimap<Camion, int> ca; //El segundo int es al cuete basicamente
-	int cantCamiones = 0;
+vector<int> algoritmoDePascual(int limite, int cantPaquetes, Paquetes ps) {
+	vector<int> vectorCamionesOrdenados[cantPaquetes];
+	pair<int,vector<int>> res;
+	priority_queue<Camion, int> ca; //el entero representa el orden del camion
+	int cantCamiones = 0; //contador de camiones
 
     for (int i=0;i<cantPaquetes;++i)
     {
-        Camion c = camionMenosCargado(limite,ca);
-        if (ps[i]+c <= limite )
+        Camion c = ca.top();
+        if (ps[i]+c <= limite)
         {
-            c += ps[i];
-            multimap<int,int>::iterator it = ca.begin();
-            ca.erase(it); //elimina el camion menos cargado y en la siguiente linea lo vuelve a agregar
-            ca.insert(pair<int,int>(int(c), int(0)));
+            c.second() += ps[i];
+            ca.pop(); //elimina el camion menos cargado y en la siguiente linea lo vuelve a agregar
+            ca.push(c);
         }else{
-            ca.insert(pair<int,int>(int(ps[i]), int(0)));
+            ca.push(make_pair(ps[i], cantCamiones); //agrega un nuevo camion
             ++cantCamiones;
         }
     }
-    //Guardo los resultados en el vector
-    res.push_back(cantCamiones);
-    for (multimap<int,int>::iterator it2=ca.begin(); it2!=ca.end(); ++it2)
-        res.push_back(it2->first);
-
-	return res;
+    //Guardo los resultados en el vector         
+	while(!ca.empty()){
+		Camion c = ca.top(); ca.pop();
+		vectorCamionesOrdenados[c.first()] = c;
+	}
+	vectorCamionesOrdenados.resize(cantCamiones);
+	return res; //devuelvo la tupla (cantCamiones,[c1 c2 ... cn])
 }
 
 int main() {
@@ -80,7 +69,7 @@ int main() {
 			ps.push_back(p);
 		}
 		vector<int> res;
-		res = ej1(limite, cantPaquetes, ps);
+		res = algoritmoDePascual(limite, cantPaquetes, ps);
 		for (int i = 0; i < res.size(); ++i)
 			cout << res[i] << " ";
         cout<<endl;
