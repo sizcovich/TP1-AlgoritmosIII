@@ -4,8 +4,10 @@
 #include <vector>
 #include <algorithm>
 #include <utility>
+#include <queue>
 
 using namespace std;
+
 
 struct Casilla {
 	int tipo;
@@ -18,17 +20,21 @@ struct Casilla {
 	// 1: bidireccional, 2: horizontal, 3: vertical.
 	int restricciones;
 	//1: horizontal, 2: vertical, 3: ambos.
+	int i, j;
 	Casilla () {
 		laser = 0;
 		ocupado = false;
 		tipoSensor = -1;
 		restricciones = 0;
+		i = 0;
+		j = 0;
 	}
 };
-
+queue<Casilla*> casillasLibres;
 typedef vector< vector <Casilla> > Grilla;
+Grilla g;
 
-void restringirCasillasPorImportante(int i, int j, Grilla &g) {
+void restringirCasillasPorImportante(int i, int j) {
 	/*
 	Basicamente lo que hace esto es recorrer todas las casillas desde la casilla importante
 	hacia las casillas izquierda, derecha, arriba y abajo para marcar las restricciones.
@@ -69,7 +75,7 @@ void restringirCasillasPorImportante(int i, int j, Grilla &g) {
 	}
 }
 
-void mostrar(Grilla g, string parametro) {
+void mostrar(string parametro) {
 	for (int i = 0; i < g.size(); ++i) {
 		for (int j = 0; j < g[i].size(); ++j) {
 			if (parametro=="tipo") {
@@ -89,20 +95,75 @@ void mostrar(Grilla g, string parametro) {
 	}
 }
 
+void backtrack(queue<Casilla*> casillasLibres) {
+	
+	queue<Casilla*> ignorados;
+	while(casillasLibres.front()->laser > 0) {
+		ignorados.push(casillasLibres.front()); 
+		casillasLibres.pop();
+	}
+	Casilla* casillaActual = casillasLibres.front(); 
+	casillasLibres.pop();
+
+	//LLAMADA A BACKTRACKING CON VACIO
+	backtrack()
+
+	if (casillaActual->restricciones != 3) {
+		if (casillaActual->restricciones != 1){
+			//LLAMADA A BACKTRACKING CON HORIZONTAL
+			casillaActual.ocupado = true;
+			casillaActual.tipoSensor = 3;
+			casillaActual.laser = 2;
+			//LLENA TODA COLUMNA
+			restringVertical(casillaActual.i, casillaActual.j);
+		}
+		if (casillaActual->restricciones != 2){
+			//LLAMADA A BACKTRACKING CON VERTICAL
+			casillaActual.ocupado = true;
+			casillaActual.tipoSensor = 3;
+			casillaActual.laser = 2;
+			//LLENA TODA COLUMNA
+			restringHorizontal(casillaActual.i, casillaActual.j);
+		}
+	}
+
+	//LLAMADA A BACKTRACKING CON BIDIRECCIONAL
+
+
+
+	if (casillasLibres.empty()) {
+
+
+	}
+
+
+
+
+
+}
+
+
+
 
 vector< vector< int > > ej3(Grilla g) {
 	for (int i = 0; i < g.size(); ++i) {
 		for (int j = 0; j < g[i].size(); ++j) { //Por cada casilla 
 			if (g[i][j].tipo == 2) { //Si es importante
-				restringirCasillasPorImportante(i, j, g); //Restringo sus casillas horizontales y verticales.
+				if (g[i][j].tipo == 1) 
+					casillasLibres.push(&(g[i][j]));
+				restringirCasillasPorImportante(i, j); //Restringo sus casillas horizontales y verticales.
 			}
 		}
 	}
-	mostrar(g, "restricciones");
-
+	
+	backtrack(casillasLibres);
 	
 
+
+
 	vector < vector <int > > res;
+	
+
 	return res;
 }
 
@@ -121,6 +182,8 @@ int main() {
 			g.push_back(filaC);
 			for (int j = 0; j < m; ++j) {
 				cin >> c.tipo;
+				c.i = i;
+				c.j = j;
 				g[i].push_back(c);
 			}
 		}
