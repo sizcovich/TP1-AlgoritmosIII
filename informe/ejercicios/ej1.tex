@@ -102,7 +102,12 @@ En primer lugar, podemos ver que una vez que ingresa un paquete, se analiza si �
 Luego, si el peso del paquete permite cargarlo en ese camión, se lo carga allí (línea 7). Caso contrario, se utiliza un nuevo camión para el paquete ingresado (líneas 9 y 10).
 
 \subsection{Complejidad del algoritmo}
-Tal como requerido, la complejidad temporal del algoritmo es estrictamente menor a $\mathcal{O}(n^2)$.
+
+Debido a que el algoritmo realizado consiste en una serie de operaciones básicas, comparaciones y asignaciones (cuyas complejidades son lineales), la complejidad del mismo puede determinarse a partir de los ciclos que éste realiza y de la función $camionMenosCargado$. Dado que nuestro algoritmo fue implementado sobre una cola de mínima prioridad, la obtención del camión menos cargado se realiza en $\mathcal{O}(1)$ gracias a la función \textbf{top()} provista por $stl$. Luego, la función $camionMenosCargado$ tiene un orden de complejidad constante.\newline
+Por otro lado, la inserción de un nuevo camión (\textbf{push()})se realiza en $\mathcal{O}(log n)$ + $\mathcal{O}(1)$ = $\mathcal{O}(log n)$. Esto se debe a que la cola de prioridad está implementada sobre un vector cuyo tamaño es equivalente a la cantidad de paquetes (correspondiente al peor caso, e.g. $Ejemplo\ 2$). A partir de esto, podemos agregar que la extracción de un camión (\textbf{pop()}) tiene orden $\mathcal{O}(log n)$ al igual que el agregado.\newline
+
+
+Luego, tal como pudimos comprobar, la complejidad temporal del algoritmo es estrictamente menor a $\mathcal{O}(n^2)$, que fue lo requerido por la cátedra.
 
 
 \subsection{Código fuente}
