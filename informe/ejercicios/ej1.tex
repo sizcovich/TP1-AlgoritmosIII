@@ -57,7 +57,7 @@ $$3\ \ 80\ \ 75\ \ 82$$
 
 \end{itemize}
 \subsection{Resolución coloquial}
-Al analizar el problema a resolver, nos percatamos de que lo más conveniente era implementar la solución en base a un $algoritmo\ goloso$. Dicho algoritmo consiste en la construcción de una solución seleccionando, en cada paso, la mejor alternativa sin considerar las implicancias de ésta.\newline Por otro lado, dicha técnica de diseño algorítmico resulta fácil de implementar, suele ser eficiente y permite construir soluciones razonables.\newline
+Al analizar el problema a resolver, nos percatamos de que el algoritmo de Pascual corresponde a un $algoritmo\ goloso$. Dicho algoritmo consiste en la construcción de una solución seleccionando, en cada paso, la mejor alternativa sin considerar las implicancias de ésta.\newline Por otro lado, dicha técnica de diseño algorítmico resulta fácil de implementar, suele ser eficiente y permite construir soluciones razonables.\newline
 \newline
 En este caso, la resolución basada en un algoritmo goloso nos permitió tomar cada instancia de la entrada y ubicarla en el lugar más conveniente en ese momento. Esto significa que dada la $i-ésima$ caja ingresada en un mismo día, ésta era ubicada en el camión que menor cargado se encontraba en el momento en el que se la agregaba. Para lograr esto, decidimos utilizar como estructura una cola de prioridad.\newline
 \newline
@@ -77,12 +77,12 @@ El pseudocódigo ideado para resolver el problema es el siguiente:\newline
 	Camiones $ca \leftarrow$ \{Camion $cNuevo(0)\}$\\
 	cantidadDeCamiones := 1\\
 	\For{Paquete p $\in$ $ps$}{
-		Camion $c$ := camionMenosCargado\footnote{camionMenosCargado: Función que toma el camión menos cargado de la lista de camiones.}($ca$)\\
+		Camion $c$ := camionMenosCargado($ca$)\\
 		\eIf{peso($p$)+capacidad($c$) $\leq$  limite}{
 			capacidad($c$) $+=$ peso($p$)
 		}{
 			$ca \leftarrow$ Camion $cNuevo(0)$\\
-			capacidad($cNuevo$) $=$ peso($p$)
+			capacidad($cNuevo$) $=$ peso($p$)\\
 			cantidadDeCamiones + 1;
 		}
 	}
@@ -95,23 +95,11 @@ La función $camionMenosCargado$ devuelve el camión con mayor carga disponible.
 
 
 \subsection{Demostración de correctitud}
-
-Para demostrar la correctitud de este problema definamos el invariante del algoritmo:
-\begin{figure}[H] %[h] Aqui [b] para button [t] para top
-\begin{center}
-\includegraphics[width=300pt]{../imgs/demo11.jpg}
-\end{center}
-\end{figure}
-
-\begin{itemize}
-\item Cada camion leva hasta su limite en peso \\
-Como se puede observar en la linea 47, la guarda no permite agregar un paquete tal que el mismo haga exceder el peso limite del camion.
-\item Los paquetes se intentan agregar en los camiones ya llenos \\
- Se puede ver como en la linea 46 ya se toma el camion que este menos cargado (si es que existe), y si este puede contener el paquete, el mismo se agrega ahi. De no poder contenerlo lo pone en un camion nuevo. Lo que me asegura que no haya otro camion que pueda contener el paquete es, por un lado, el invariante de la estructura que estamos utilizando\footnote{http://en.cppreference.com/w/cpp/container/multimap}, y por otro, que si tomo el camion con mayor disponibilidad y no alcanza, los demas que tienen menos lugar, claramente tampoco van a poder llevar el paquete. 
-\end{itemize}
-
-Finalmente, sea $S$ una solucion del problema tal que contiene los camiones necesarios con sus cargas respectivas. Por nuestro invariante podemos asegurar que los camiones se van llenando segun el procedimiento explicitado por Pascual y por lo tanto la salida $S$ es correcta.
-
+Para demostrar que nuestro algoritmo es realmente el algoritmo de Pascual, decidimos realizar una comparación, de forma paulatina, entre lo que define el algoritmo de Pascual y nuestro pseudocódigo.\newline
+\newline
+En primer lugar, podemos ver que una vez que ingresa un paquete, se analiza si éste entra en el camión ya conteniendo algún paquete en su interior cuya carga sea la menor. En nuestro pseudocódigo, ésto corresponde a la línea 6.\newline
+\newline
+Luego, si el peso del paquete permite cargarlo en ese camión, se lo carga allí (línea 7). Caso contrario, se utiliza un nuevo camión para el paquete ingresado (líneas 9 y 10).
 
 \subsection{Complejidad del algoritmo}
 Tal como requerido, la complejidad temporal del algoritmo es estrictamente menor a $\mathcal{O}(n^2)$.
