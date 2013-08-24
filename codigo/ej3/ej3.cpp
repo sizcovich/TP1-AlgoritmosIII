@@ -41,7 +41,7 @@ bool chequearSolucion() {
 	for (int i = 0; i < g.size(); ++i) {
 		for (int j = 0; j < g[i].size(); ++j) { //Por cada casilla 
 			if (g[i][j].tipo == 1)  //Si es piso
-				if (g[i][j].laser == 0 && !ocupado) 
+				if (g[i][j].laser == 0 && !g[i][j].ocupado) 
 					return false;
 			if (g[i][j].tipo == 2)  //Si es importante
 				if (g[i][j].laser != 3) 
