@@ -52,11 +52,13 @@ por lo tanto, $|$S'$| \leq |$S$|$.
 
 \subsection{Complejidad del algoritmo}
 
-Sea $n$ la cantidad de cursos . La complejidad de nuestro algoritmo es $O(n.log n)$, antes de ver el porque de esto tengamos en cuenta algunos aspectos:
+Sea $n$ la cantidad de cursos . La complejidad de nuestro algoritmo es $O(n.log (n))$, antes de ver el porque de esto tengamos en cuenta algunos aspectos:
 \begin{enumerate}
-\item La complejidad del algoritmo \textbf{Sort} es $O(n.log n)$. Referencia en: http://en.cppreference.com/w/cpp/algorithm/sort donde dice $"$O(N.log(N)), where N = std::distance(first, last) applications of cmp $"$ y nuestra funcion de comparacion es constante ya que solo compara dos tuplas.
-\item La complejidad del \textbf{constructor} que utilizamos sobre la estructura \textbf{vector} es $O(1)$. Referencia en:http://en.cppreference.com/w/cpp/container/vector/vector .
-\item La complejidad del algoritmo \textbf{push$\_$back} sobre la estructura \textbf{vector} es O(1) amortizado. Referencia en: http://en.cppreference.com/w/cpp/container/vector/push$\_$back. 
+\item La complejidad del algoritmo \textbf{Sort} es $O(n.log n)$. Referencia en:  \\
+       http://en.cppreference.com/w/cpp/algorithm/sort .
+\item La complejidad del \textbf{constructor} que utilizamos sobre la estructura \textbf{vector} es $O(1)$. Referencia en: http://en.cppreference.com/w/cpp/container/vector/vector .
+\item La complejidad del \textbf{reserve} que utilizamos sobre la estructura \textbf{vector} es $O(n)$. Referencia en: http://en.cppreference.com/w/cpp/container/vector/reserve .
+\item La complejidad del algoritmo \textbf{push$\_$back} sobre la estructura \textbf{vector} es O(1) amortizado pero cuando se ultiliza previamente la funcion $reserve(n)$ agregar los primeros n elementos es O(1). Referencia en: http://en.cppreference.com/w/cpp/container/vector/push$\_$back. 
 \item La complejidad del algoritmo \textbf{size} sobre la estructura \textbf{vector} es O(1). Referencia en: http://en.cppreference.com/w/cpp/container/vector/size.
 \item La complejidad de la funcion \textbf{filtrarSolapamientos} es $O(n)$ ya que va recorriendo los cursos, comparando y agregando elementos segun corresponda (comparar es constante al igual que agregar y recorrer lineal), en otras palabras, se encuentra un \textbf{if} (complejidad constante) y un \textbf{push$\_$back} (complejidad constante) dentro de un \textbf{for} (complejidad lineal). 
 \end{enumerate}
