@@ -41,10 +41,6 @@ bool chequearSolucion() {
 	return true;
 }
 
-long int obtenerCostoSolucion() {
-	return 0;
-}
-
 void laserVertical(int i, int j, string sacarOPoner) {
 	int iAnterior=i, jAnterior=j; //Me guardo los valores anteriores por que voy a tener q restaurarlos
 	int ancho=g.size(); //Obtengo el ancho y alto del la matriz
@@ -196,9 +192,8 @@ void backtrack() {
 		return;
 	if (casillasLibres.empty()) {
 		if (chequearSolucion()) { //CHEQUEO SI ES UNA SOLUCION
-			long int costo = obtenerCostoSolucion(); //OBTENGO EL COSTO DE ESTA SOLUCION
-			if (costo < mejorCosto) {
-				mejorCosto = costo;
+			if (costoActual < mejorCosto) {
+				mejorCosto = costoActual;
 				gMejor = g;				
 			}
 		}
@@ -211,11 +206,13 @@ void backtrack() {
 		casillasLibres.pop();
 	}
 	Casilla* casillaActual = casillasLibres.front();  //SACO DE LA LISTA LA CASILLA EN LA CUAL VOY A INTENTAR METER COSAS
+	Casilla* recuperarCasillaActual = casillaActual;
 	casillasLibres.pop();
 
 	//LLAMADA A BACKTRACKING CON VACIO
 	backtrack();
 	
+	//LLAMADA A BACKTRACKING CON UNIDIRECCIONAL
 	if (casillaActual->restricciones != 3) {
 		if (casillaActual->restricciones != 1){ //LLAMADA A BACKTRACKING CON HORIZONTAL
 			//LA ACCION DE ASIGNARLE A LA CASILLA LA INFORMACION QUE DICE QUE HAY UN SENSOR
@@ -264,11 +261,39 @@ void backtrack() {
 
 	//LLAMADA A BACKTRACKING CON BIDIRECCIONAL
 	casillaActual->ocupado = true;
-	casillaActual->tipo = 1;
+	casillaActual->tipoSensor = 1;
 	casillaActual->laser = 3;
+	
+	//LUEGO ME GUARDO EL ESTADO ANTERIOR DE LAS CASILLAS QUE VOY A RESTRINGIR HORIZONTALMENTE
+	vector<Casilla> cache = g[casillaActual->i];
+	restringHorizontal(casillaActual->i, casillaActual->j);
+	//LUEGO TRAZO EL LASER QUE GENERA EL SENSOR QUE ACABO DE PONER 
+	laserVertical(casillaActual->i, casillaActual->j, "PONER");
+	
+	//LUEGO ME GUARDO EL ESTADO ANTERIOR DE LAS CASILLAS QUE VOY A RESTRINGIR VERTICALMENTE
+	vector<Casilla> cache2 = g[casillaActual->j];
+	for (int i = 0; i < g[casillaActual->i].size(); ++i)
+		cache2.push_back(g[casillaActual->i][i]);
+	restringVertical(casillaActual->i, casillaActual->j);
+	//LUEGO TRAZO EL LASER QUE GENERA EL SENSOR QUE ACABO DE PONER
+	laserHorizontal(casillaActual->i, casillaActual->j, "PONER");
+			 
+	//ACTUALIZO MI COSTO ACTUAL PARA HACER LA PODA
 	costoActual = costoActual + 6000;
+	//HAGO LA LLAMADA RECURSIVA, SI DEVUELVE CERO ES POR QUE LLEGUE A UNA SOLUCION
 	backtrack();
 	costoActual = costoActual - 6000;
+	//COMO NO DEVOLVIO CERO, ENTONCES RESTAURO EL TRAZADO DE LASER DE LAS CASILLAS QUE AFECTA EL SENSOR QUE PUSE
+	laserVertical(casillaActual->i, casillaActual->j, "SACAR");
+	//RESTAURO TAMBIEN LAS RESTRICCIONES DE LAS OTRAS CASILLAS.
+	g[casillaActual->i] = cache;
+	
+	//COMO NO DEVOLVIO CERO, ENTONCES RESTAURO EL TRAZADO DE LASER DE LAS CASILLAS QUE AFECTA EL SENSOR QUE PUSE
+	laserHorizontal(casillaActual->i, casillaActual->j, "SACAR");
+	//RESTAURO TAMBIEN LAS RESTRICCIONES DE LAS OTRAS CASILLAS.
+	for (int i = 0; i < cache2.size(); ++i)
+		g[casillaActual->i][i] = cache2[i];
+			
 	/* 
 	AHORA LO QUE PASO FUE QUE YA SE EJECUTARON TODOS LOS BACKTRACK Y LLEGUE ACA
 	TENGO QUE RESTAURAR:
@@ -276,7 +301,12 @@ void backtrack() {
 	2) METERLA DE NUEVO EN casillerosLibres.
 	3) SI HAY CASILLEROS EN "ignorados" TAMBIEN VOLVERLOS A METER.
 	*/
-
+	casillasLibres.push(recuperarCasillaActual);
+	while(!ignorados.empty()) {
+		Casilla* casillaIgnorada = ignorados.front();
+		ignorados.pop();
+		casillasLibres.push(casillaIgnorada);
+	}
 	return;
 
 }
@@ -287,9 +317,9 @@ vector< vector< int > > ej3() {
 	for (int i = 0; i < g.size(); ++i) {
 		for (int j = 0; j < g[i].size(); ++j) { //Por cada casilla 
 			if (g[i][j].tipo == 2) { //Si es importante
+				restringirCasillasPorImportante(i, j); //Restringo sus casillas horizontales y verticales.
 				if (g[i][j].tipo == 1) 
 					casillasLibres.push(&(g[i][j]));
-				restringirCasillasPorImportante(i, j); //Restringo sus casillas horizontales y verticales.
 			}
 		}
 	}
@@ -346,7 +376,6 @@ ARMAR TODA LA SOLUCION EN BASE A LA INFORMACION:
 
 
 FALTAN LAS FUNCIONES: 
-obtenerCostoSolucion();
 chequearSolucion();
 
 */
