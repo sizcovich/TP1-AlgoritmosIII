@@ -30,16 +30,96 @@ struct Casilla {
 		j = 0;
 	}
 };
-queue<Casilla*> casillasLibres;
 typedef vector< vector <Casilla> > Grilla;
+queue<Casilla*> casillasLibres;
 Grilla g;
+Grilla gMejor;
+long int mejorCosto;
+long int costoActual=0;
 
-void restringirCasillasPorImportante(int i, int j) {
-	/*
-	Basicamente lo que hace esto es recorrer todas las casillas desde la casilla importante
-	hacia las casillas izquierda, derecha, arriba y abajo para marcar las restricciones.
-	Se termina de recorrer las casillas cuando toque el borde o cuando me choque con una pared.
-	*/
+bool chequearSolucion() {
+	return true;
+}
+
+long int obtenerCostoSolucion() {
+	return 0;
+}
+
+void laserVertical(int i, int j, string sacarOPoner) {
+	int iAnterior=i, jAnterior=j; //Me guardo los valores anteriores por que voy a tener q restaurarlos
+	int ancho=g.size(); //Obtengo el ancho y alto del la matriz
+	while (i<ancho && g[i][j].tipo != 0) { //Aca voy desde el lugar importante hacia la derecho
+		if (sacarOPoner=="SACAR") { //Si tengo que sacarlo
+			if (g[i][j].laser == 3) //Me fijo si tiene dos lasers al mismo tiempo
+				g[i][j].laser = 1; //DEJO EL QUE NO ES EL QUE QUIERO SACAR
+			else
+				g[i][j].laser = 0; //NO DEJO NINGUNO
+		}
+		else if (sacarOPoner=="PONER") {
+			if (g[i][j].laser == 1)
+				g[i][j].laser = 3;
+			else
+				g[i][j].laser = 2;
+		}
+		i++;
+	}
+	i = iAnterior;
+	while(i>0 && g[i][j].tipo != 0) { //Aca voy desde el lugar importante hacia la izquierda
+		if (sacarOPoner=="SACAR") {
+			if (g[i][j].laser == 3)
+				g[i][j].laser = 1;
+			else
+				g[i][j].laser = 0;
+		}
+		else if (sacarOPoner=="PONER") {
+			if (g[i][j].laser == 1)
+				g[i][j].laser = 3;
+			else
+				g[i][j].laser = 2;
+		}
+		i--;
+	}
+	return;
+}
+
+void laserHorizontal(int i, int j, string sacarOPoner) {
+	int iAnterior=i, jAnterior=j; //Me guardo los valores anteriores por que voy a tener q restaurarlos
+	int alto=g[i].size(); //Obtendo el ancho y alto del la matriz
+	while(j<alto && g[i][j].tipo != 0) { //Aca voy desde el lugar importante hacia abajo
+		if (sacarOPoner=="SACAR") {
+			if (g[i][j].laser == 3)
+				g[i][j].laser = 2;
+			else
+				g[i][j].laser = 0;
+		}
+		else if (sacarOPoner=="PONER") {
+			if (g[i][j].laser == 2)
+				g[i][j].laser = 3;
+			else
+				g[i][j].laser = 1;
+		}
+		j++;
+	}
+	j = jAnterior;
+	while(j>0 && g[i][j].tipo != 0) { //Aca voy desde el lugar importante hacia arriba
+		if (sacarOPoner=="SACAR") {
+			if (g[i][j].laser == 3)
+				g[i][j].laser = 2;
+			else
+				g[i][j].laser = 0;
+		}
+		else if (sacarOPoner=="PONER") {
+			if (g[i][j].laser == 2)
+				g[i][j].laser = 3;
+			else
+				g[i][j].laser = 1;
+		}
+		j--;
+	}
+	return;
+}
+
+void restringVertical(int i, int j) {
 	int iAnterior=i, jAnterior=j; //Me guardo los valores anteriores por que voy a tener q restaurarlos
 	int ancho=g.size(), alto=g[i].size(); //Obtendo el ancho y alto del la matriz
 	while (i<ancho && g[i][j].tipo != 0) { //Aca voy desde el lugar importante hacia la derecho
@@ -57,7 +137,12 @@ void restringirCasillasPorImportante(int i, int j) {
 			g[i][j].restricciones = 1;
 		i--;
 	}
-	i = iAnterior;
+	return;
+}
+
+void restringHorizontal(int i, int j) {
+	int iAnterior=i, jAnterior=j; //Me guardo los valores anteriores por que voy a tener q restaurarlos
+	int ancho=g.size(), alto=g[i].size(); //Obtendo el ancho y alto del la matriz
 	while(j<alto && g[i][j].tipo != 0) { //Aca voy desde el lugar importante hacia abajo
 		if (g[i][j].restricciones == 1 || g[i][j].restricciones == 3)
 			g[i][j].restricciones = 3;
@@ -73,6 +158,16 @@ void restringirCasillasPorImportante(int i, int j) {
 			g[i][j].restricciones = 2;
 		j--;
 	}
+	return;
+}
+
+void restringirCasillasPorImportante(int i, int j) {
+	/*	Basicamente lo que hace esto es recorrer todas las casillas desde la casilla importante
+	hacia las casillas izquierda, derecha, arriba y abajo para marcar las restricciones.
+	Se termina de recorrer las casillas cuando toque el borde o cuando me choque con una pared.	*/
+	restringVertical(i, j);
+	restringHorizontal(i, j);
+	return;
 }
 
 void mostrar(string parametro) {
@@ -95,57 +190,100 @@ void mostrar(string parametro) {
 	}
 }
 
-void backtrack(queue<Casilla*> casillasLibres) {
-	
-	queue<Casilla*> ignorados;
+void backtrack() {
+	//SI NO TENGO MAS CASILLAS QUE ASIGNAR ENTONCES QUEIRE DECIR QUE TERMINE Y DEBERIA SER UNA SOLUCION
+	if (costoActual >= mejorCosto)
+		return;
+	if (casillasLibres.empty()) {
+		if (chequearSolucion()) { //CHEQUEO SI ES UNA SOLUCION
+			long int costo = obtenerCostoSolucion(); //OBTENGO EL COSTO DE ESTA SOLUCION
+			if (costo < mejorCosto) {
+				mejorCosto = costo;
+				gMejor = g;				
+			}
+		}
+		return;
+	}
+
+	queue<Casilla*> ignorados;	//ACA VAN LOS ELEMENTOS QUE TIENEN UN LASER PASANDO POR EL Y NO LO USO PARA EL BACKTRACK
 	while(casillasLibres.front()->laser > 0) {
 		ignorados.push(casillasLibres.front()); 
 		casillasLibres.pop();
 	}
-	Casilla* casillaActual = casillasLibres.front(); 
+	Casilla* casillaActual = casillasLibres.front();  //SACO DE LA LISTA LA CASILLA EN LA CUAL VOY A INTENTAR METER COSAS
 	casillasLibres.pop();
 
 	//LLAMADA A BACKTRACKING CON VACIO
-	backtrack()
-
+	backtrack();
+	
 	if (casillaActual->restricciones != 3) {
-		if (casillaActual->restricciones != 1){
-			//LLAMADA A BACKTRACKING CON HORIZONTAL
-			casillaActual.ocupado = true;
-			casillaActual.tipoSensor = 3;
-			casillaActual.laser = 2;
-			//LLENA TODA COLUMNA
-			restringVertical(casillaActual.i, casillaActual.j);
+		if (casillaActual->restricciones != 1){ //LLAMADA A BACKTRACKING CON HORIZONTAL
+			//LA ACCION DE ASIGNARLE A LA CASILLA LA INFORMACION QUE DICE QUE HAY UN SENSOR
+			casillaActual->ocupado = true;
+			casillaActual->tipoSensor = 2;
+			casillaActual->laser = 1;
+			//LUEGO ME GUARDO EL ESTADO ANTERIOR DE LAS CASILLAS QUE VOY A RESTRINGIR
+			vector<Casilla> cache = g[casillaActual->j];
+			for (int i = 0; i < g[casillaActual->i].size(); ++i)
+				cache.push_back(g[casillaActual->i][i]);
+			restringVertical(casillaActual->i, casillaActual->j);
+			//LUEGO TRAZO EL LASER QUE GENERA EL SENSOR QUE ACABO DE PONER
+			laserHorizontal(casillaActual->i, casillaActual->j, "PONER");
+			//ACTUALIZO MI COSTO ACTUAL PARA HACER LA PODA
+			costoActual = costoActual + 4000;
+			backtrack();
+			costoActual = costoActual - 4000;
+			//COMO NO DEVOLVIO CERO, ENTONCES RESTAURO EL TRAZADO DE LASER DE LAS CASILLAS QUE AFECTA EL SENSOR QUE PUSE
+			laserHorizontal(casillaActual->i, casillaActual->j, "SACAR");
+			//RESTAURO TAMBIEN LAS RESTRICCIONES DE LAS OTRAS CASILLAS.
+			for (int i = 0; i < cache.size(); ++i)
+				g[casillaActual->i][i] = cache[i];
+
 		}
-		if (casillaActual->restricciones != 2){
-			//LLAMADA A BACKTRACKING CON VERTICAL
-			casillaActual.ocupado = true;
-			casillaActual.tipoSensor = 3;
-			casillaActual.laser = 2;
-			//LLENA TODA COLUMNA
-			restringHorizontal(casillaActual.i, casillaActual.j);
+		if (casillaActual->restricciones != 2){ //LLAMADA A BACKTRACKING CON VERTICAL
+			//LA ACCION DE ASIGNARLE A LA CASILLA LA INFORMACION QUE DICE QUE HAY UN SENSOR
+			casillaActual->ocupado = true;
+			casillaActual->tipoSensor = 3;
+			casillaActual->laser = 2;
+			//LUEGO ME GUARDO EL ESTADO ANTERIOR DE LAS CASILLAS QUE VOY A RESTRINGIR
+			vector<Casilla> cache = g[casillaActual->i];
+			restringHorizontal(casillaActual->i, casillaActual->j);
+			//LUEGO TRAZO EL LASER QUE GENERA EL SENSOR QUE ACABO DE PONER
+			laserVertical(casillaActual->i, casillaActual->j, "PONER"); 
+			//ACTUALIZO MI COSTO ACTUAL PARA HACER LA PODA
+			costoActual = costoActual + 4000;
+			//HAGO LA LLAMADA RECURSIVA, SI DEVUELVE CERO ES POR QUE LLEGUE A UNA SOLUCION
+			backtrack();
+			costoActual = costoActual - 4000;
+			//COMO NO DEVOLVIO CERO, ENTONCES RESTAURO EL TRAZADO DE LASER DE LAS CASILLAS QUE AFECTA EL SENSOR QUE PUSE
+			laserVertical(casillaActual->i, casillaActual->j, "SACAR");
+			//RESTAURO TAMBIEN LAS RESTRICCIONES DE LAS OTRAS CASILLAS.
+			g[casillaActual->i] = cache;
 		}
 	}
 
 	//LLAMADA A BACKTRACKING CON BIDIRECCIONAL
+	casillaActual->ocupado = true;
+	casillaActual->tipo = 1;
+	casillaActual->laser = 3;
+	costoActual = costoActual + 6000;
+	backtrack();
+	costoActual = costoActual - 6000;
+	/* 
+	AHORA LO QUE PASO FUE QUE YA SE EJECUTARON TODOS LOS BACKTRACK Y LLEGUE ACA
+	TENGO QUE RESTAURAR:
+	1) casillaActual: PONERLA COMO ESTABA AL RPINCIPIO (hace una variable temporal para guardar el casillero como estaba antes).
+	2) METERLA DE NUEVO EN casillerosLibres.
+	3) SI HAY CASILLEROS EN "ignorados" TAMBIEN VOLVERLOS A METER.
+	*/
 
-
-
-	if (casillasLibres.empty()) {
-
-
-	}
-
-
-
-
+	return;
 
 }
 
-
-
-
-vector< vector< int > > ej3(Grilla g) {
+vector< vector< int > > ej3() {
+	queue<Casilla*> casillasLibresEnLimpio; //RESTAURAR EL CASILLEROlIBRE POR UNO QUE ESTE EN LIMPIO.
+	casillasLibres = casillasLibresEnLimpio;
 	for (int i = 0; i < g.size(); ++i) {
 		for (int j = 0; j < g[i].size(); ++j) { //Por cada casilla 
 			if (g[i][j].tipo == 2) { //Si es importante
@@ -156,14 +294,8 @@ vector< vector< int > > ej3(Grilla g) {
 		}
 	}
 	
-	backtrack(casillasLibres);
-	
-
-
-
+	backtrack();
 	vector < vector <int > > res;
-	
-
 	return res;
 }
 
@@ -171,6 +303,9 @@ int main() {
 	char termino = ' ';
 	while (termino != '#') {
 		int n, m;
+		mejorCosto = n*m*6000; //NECESITO TENER UN COSTO MAXIMO PARA IR MEJORANDOLO EN CADA SOLUCION, EL INICIAL ES EL MAXIMO QUE SE PODRIA OBTENER.
+		Grilla gEnLimpio; //A LA PRIMERA VUELTA ESTA TODO BIEN, PERO CUANDO SE EJECUTA POR SEGUNDA VEZ, HAY INFORMACION EN LA GRILLA DE LA VEZ ANTERIOR
+		g = gEnLimpio; //ENTONCES CREO UNA GRILLA EN LIMPIO Y LA REEMPLAZO
 		cin >> n;
 		cin >> m;
 
@@ -188,7 +323,7 @@ int main() {
 			}
 		}
 		vector<vector<int> > res;
-		res = ej3(g);
+		res = ej3();
 		for (int i = 0; i < res.size(); ++i) {
 			for(int j = 0; j < res[i].size(); ++j) {
 				cout << res[i][j] << " ";
@@ -199,3 +334,19 @@ int main() {
 	}
 	return 0;
 }
+
+
+/*
+To-do list:
+
+ARMAR TODA LA SOLUCION EN BASE A LA INFORMACION:
+- mejorCosto (tiene el mejor Costo que se uso)
+- gMejor (la grilla de la cual se obtuvo el mejor Costo)
+
+
+
+FALTAN LAS FUNCIONES: 
+obtenerCostoSolucion();
+chequearSolucion();
+
+*/
