@@ -103,17 +103,21 @@ Luego, si el peso del paquete permite cargarlo en ese camión, se lo carga allí
 Por último, podemos observar que la cantidad de camiones que se utilizan al final del día se acumula en la variable $cantidadDeCamiones$ y los pesos de camiones en orden se devuelven a través de $ca$.
 
 \subsection{Complejidad del algoritmo}
-
-Debido a que el algoritmo realizado consiste en una serie de operaciones básicas, comparaciones y asignaciones (cuyas complejidades son lineales), la complejidad del mismo puede determinarse a partir de los ciclos que éste realiza y de la función $camionMenosCargado$. Dado que nuestro algoritmo fue implementado sobre una cola de mínima prioridad, la obtención del camión menos cargado se realiza en $\mathcal{O}(1)$ gracias a la función \textbf{top()} provista por $stl$. Luego, la función $camionMenosCargado$ tiene un orden de complejidad constante.\newline
-Por otro lado, la inserción de un nuevo camión (\textbf{push()})se realiza en $\mathcal{O}(log n)$ + $\mathcal{O}(1)$ = $\mathcal{O}(log n)$. Esto se debe a que la cola de prioridad está implementada sobre un vector cuyo tamaño es equivalente a la cantidad de paquetes (correspondiente al peor caso, e.g. $Ejemplo\ 2$). A partir de esto, podemos agregar que la extracción de un camión (\textbf{pop()}) tiene orden $\mathcal{O}(log n)$ al igual que el agregado.\newline
-
-
-Luego, tal como pudimos comprobar, la complejidad temporal del algoritmo es estrictamente menor a $\mathcal{O}(n^2)$, que fue lo requerido por la cátedra.
-
+Para el análisis de complejidad de nuestro algoritmo, llamamos $n$ a la cantidad de paquetes que ingresan como parámetro de entrada.\newline
+\newline
+Debido a que el algoritmo realizado consiste en una serie de operaciones básicas, comparaciones y asignaciones (cuyas complejidades son lineales), la complejidad del mismo puede determinarse a partir de los ciclos que éste realiza.\newline
+\newline
+Nuestro algoritmo fue implementado sobre una cola de mínima prioridad, luego, la extracción del camión menos cargado se realiza en $\mathcal{O}(log\ n)$\footnote{http://www.cplusplus.com/reference/queue/priority\_queue/} gracias a la función \textbf{pop()} provista por $stl$.\newline
+\newline
+Por otro lado, la inserción de un nuevo camión (\textbf{push()}) se realiza en $\mathcal{O}(log\ n)$ + $\mathcal{O}(1)$ = $\mathcal{O}(log\ n)$\footnotemark[1]. Esto se debe a que la cola de prioridad está implementada sobre un vector cuyo tamaño es equivalente a la cantidad de paquetes (correspondiente al peor caso, e.g. $Ejemplo\ 2$). Para lograr esto, debimos agregar un camión por cada paquete a la cola de prioridad y luego retirarlos uno por uno ($\mathcal{O}(n)$).\newline
+\newline
+El ciclo del código recorre los paquetes ingresados como parámetro. Debido a que los pasos que realiza el mismo constan de un condicional cuyos resultados consisten en asignaciones y operaciones simples, y la función $push()$ y $pop()$ ($\mathcal{O}(log\ n)$), la ejecución del mismo tiene un orden de $\mathcal{O}(n\ log\ n)$.\newline
+\newline
+Además del ciclo, el algoritmo llama a $top()$ ($\mathcal{O}(1)$\footnotemark[1]) y, luego, recorre la cola de prioridad en un ciclo para ordenar los camiones por orden de creación ($\mathcal{O}(n)$). El orden de estos pasos del algoritmo quedan envueltos por la complejidad del ciclo principal. Por lo tanto, pudimos comprobar que la complejidad temporal del algoritmo es $\mathcal{O}(n\ log\ n)$, siendo ésta estrictamente menor a $\mathcal{O}(n^2)$, que fue lo requerido por la cátedra.
 
 \subsection{Código fuente}
 
-\begin{figure}[!h]
+\begin{figure}[H]
 \begin{center}
 \begin{verbatim}
 Camion c = ca.top();
@@ -130,7 +134,7 @@ if ((ps[i]+c.second) <= limite){
 \end{center}
 \end{figure}
 
-\begin{figure}[!h]
+\begin{figure}[H]
 \begin{center}
 \begin{verbatim}
 while(!ca.empty()){
@@ -144,8 +148,7 @@ while(!ca.empty()){
 \end{figure}
 
 \subsection{Instancias posibles}
-Para verificar la correctitud de nuestro programa, dispusimos variar estratégicamente las instancias de entrada al ejecutarlo.\newline
-\newline
+Para verificar la correctitud de nuestro programa, dispusimos variar estratégicamente las instancias de entrada al ejecutarlo.
 \begin{itemize}
 \item En primer lugar, ejecutamos el programa ingresando paquetes cuyos pesos fueran equivalentes al límite de los camiones. De este modo, nos aseguramos de no estar cometiendo errores de cotas. El resultado obtenido fue el esperado: una cantidad de camiones equivalente a la cantidad de paquetes ingresados cuyos pesos correspondían exactamente al de cada paquete.
 
