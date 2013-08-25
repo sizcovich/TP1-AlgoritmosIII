@@ -36,6 +36,7 @@ Grilla g;
 Grilla gMejor;
 long int mejorCosto;
 long int costoActual=0;
+int cantSensores=0;
 
 bool chequearSolucion() {
 	for (int i = 0; i < g.size(); ++i) {
@@ -238,7 +239,9 @@ void backtrack() {
 			laserHorizontal(casillaActual->i, casillaActual->j, "PONER");
 			//ACTUALIZO MI COSTO ACTUAL PARA HACER LA PODA
 			costoActual = costoActual + 4000;
+			cantSensores++;
 			backtrack();
+			cantSensores--;
 			costoActual = costoActual - 4000;
 			//COMO NO DEVOLVIO CERO, ENTONCES RESTAURO EL TRAZADO DE LASER DE LAS CASILLAS QUE AFECTA EL SENSOR QUE PUSE
 			laserHorizontal(casillaActual->i, casillaActual->j, "SACAR");
@@ -259,8 +262,10 @@ void backtrack() {
 			laserVertical(casillaActual->i, casillaActual->j, "PONER"); 
 			//ACTUALIZO MI COSTO ACTUAL PARA HACER LA PODA
 			costoActual = costoActual + 4000;
+			cantSensores++;
 			//HAGO LA LLAMADA RECURSIVA, SI DEVUELVE CERO ES POR QUE LLEGUE A UNA SOLUCION
 			backtrack();
+			cantSensores--;
 			costoActual = costoActual - 4000;
 			//COMO NO DEVOLVIO CERO, ENTONCES RESTAURO EL TRAZADO DE LASER DE LAS CASILLAS QUE AFECTA EL SENSOR QUE PUSE
 			laserVertical(casillaActual->i, casillaActual->j, "SACAR");
@@ -290,8 +295,10 @@ void backtrack() {
 			 
 	//ACTUALIZO MI COSTO ACTUAL PARA HACER LA PODA
 	costoActual = costoActual + 6000;
+	cantSensores++;
 	//HAGO LA LLAMADA RECURSIVA, SI DEVUELVE CERO ES POR QUE LLEGUE A UNA SOLUCION
 	backtrack();
+	cantSensores--;
 	costoActual = costoActual - 6000;
 	//COMO NO DEVOLVIO CERO, ENTONCES RESTAURO EL TRAZADO DE LASER DE LAS CASILLAS QUE AFECTA EL SENSOR QUE PUSE
 	laserVertical(casillaActual->i, casillaActual->j, "SACAR");
@@ -321,7 +328,7 @@ void backtrack() {
 
 }
 
-vector< vector< int > > ej3() {
+void ej3() {
 	queue<Casilla*> casillasLibresEnLimpio; //RESTAURAR EL CASILLEROlIBRE POR UNO QUE ESTE EN LIMPIO.
 	casillasLibres = casillasLibresEnLimpio;
 	for (int i = 0; i < g.size(); ++i) {
@@ -335,8 +342,7 @@ vector< vector< int > > ej3() {
 	}
 	
 	backtrack();
-	vector < vector <int > > res;
-	return res;
+	return;
 }
 
 int main() {
@@ -362,13 +368,31 @@ int main() {
 				g[i].push_back(c);
 			}
 		}
-		vector<vector<int> > res;
-		res = ej3();
-		for (int i = 0; i < res.size(); ++i) {
-			for(int j = 0; j < res[i].size(); ++j) {
-				cout << res[i][j] << " ";
-			}
+		ej3();
+		
+		if (mejorCosto == n*m*6000)
+			cout << "-1";
+		else {
+			cout << cantSensores << " " << mejorCosto;
 			cout << endl;
+			for (int i = 0; i < gMejor.size(); ++i) {
+				for(int j = 0; j < gMejor[i].size(); ++j) {
+					if (gMejor[i][j].ocupado) {
+						if (gMejor[i][j].tipoSensor == 1) {
+							cout << "bidireccional" << i++ << j++;
+							cout << endl;
+						}
+						if (gMejor[i][j].tipoSensor == 2) {
+							cout << "horizontal" << i++ << j++;
+							cout << endl;
+						}
+						if (gMejor[i][j].tipoSensor == 3) {
+							cout << "verticañ" << i++ << j++;
+							cout << endl;
+						}
+					}
+				}
+			}
 		}
 		termino = (cin >> ws).peek();
 	}
