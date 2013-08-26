@@ -210,7 +210,7 @@ void mostrar(string parametro) {
 
 void backtrack() {
 	//SI NO TENGO MAS CASILLAS QUE ASIGNAR ENTONCES QUEIRE DECIR QUE TERMINE Y DEBERIA SER UNA SOLUCION
-
+	mostrar("restricciones");
 	queue<Casilla*> ignorados;	//ACA VAN LOS ELEMENTOS QUE TIENEN UN LASER PASANDO POR EL Y NO LO USO PARA EL BACKTRACK
 	if (costoActual >= mejorCosto)
 		return;
@@ -229,6 +229,7 @@ void backtrack() {
 		}
 		return;
 	}
+	
 	Casilla* casillaActual = casillasLibres.front();  //SACO DE LA LISTA LA CASILLA EN LA CUAL VOY A INTENTAR METER COSAS
 	Casilla* recuperarCasillaActual = casillaActual;
 	casillasLibres.pop();
@@ -277,9 +278,8 @@ void backtrack() {
 			costoActual = costoActual + 4000;
 			cantSensores++;
 			//HAGO LA LLAMADA RECURSIVA, SI DEVUELVE CERO ES POR QUE LLEGUE A UNA SOLUCION
-
 			backtrack();
-			
+
 			cantSensores--;
 			costoActual = costoActual - 4000;
 			//COMO NO DEVOLVIO CERO, ENTONCES RESTAURO EL TRAZADO DE LASER DE LAS CASILLAS QUE AFECTA EL SENSOR QUE PUSE
