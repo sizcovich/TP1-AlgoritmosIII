@@ -39,6 +39,36 @@ long int mejorCosto;
 long int costoActual=0;
 int cantSensores=0;
 
+void mostrar(string parametro) {
+	for (int i = 0; i < g.size(); ++i) {
+		for (int j = 0; j < g[i].size(); ++j) {
+			if (parametro=="tipo") {
+				cout << g[i][j].tipo << " ";
+			}
+			if (parametro=="laser") {
+				cout << g[i][j].laser << " ";
+			}
+			if (parametro=="restricciones") {
+				if (g[i][j].tipo == 2)
+					cout << "X" << " ";
+				else
+					cout << g[i][j].restricciones << " ";
+			}
+		}
+		cout << endl;
+	}
+	if ("casillasLibres") {
+		queue<Casilla*> tmp;
+		while(!casillasLibres.empty()) {
+			Casilla* c = casillasLibres.front(); casillasLibres.pop();
+			tmp.push(c);
+			printf("(%i, %i) ", c->i, c->j);
+		}
+		casillasLibres = tmp;
+		cout << endl;
+	}
+}
+
 bool chequearSolucion() {
 	for (int i = 0; i < g.size(); ++i) {
 		for (int j = 0; j < g[i].size(); ++j) { //Por cada casilla 
@@ -178,39 +208,8 @@ void restringirCasillasPorImportante(int i, int j) {
 	return;
 }
 
-void mostrar(string parametro) {
-	for (int i = 0; i < g.size(); ++i) {
-		for (int j = 0; j < g[i].size(); ++j) {
-			if (parametro=="tipo") {
-				cout << g[i][j].tipo << " ";
-			}
-			if (parametro=="laser") {
-				cout << g[i][j].laser << " ";
-			}
-			if (parametro=="restricciones") {
-				if (g[i][j].tipo == 2)
-					cout << "X" << " ";
-				else
-					cout << g[i][j].restricciones << " ";
-			}
-		}
-		cout << endl;
-	}
-	if ("casillasLibres") {
-		queue<Casilla*> tmp;
-		while(!casillasLibres.empty()) {
-			Casilla* c = casillasLibres.front(); casillasLibres.pop();
-			tmp.push(c);
-			printf("(%i, %i) ", c->i, c->j);
-		}
-		casillasLibres = tmp;
-		cout << endl;
-	}
-}
-
 void backtrack() {
 	//SI NO TENGO MAS CASILLAS QUE ASIGNAR ENTONCES QUEIRE DECIR QUE TERMINE Y DEBERIA SER UNA SOLUCION
-	mostrar("restricciones");
 	queue<Casilla*> ignorados;	//ACA VAN LOS ELEMENTOS QUE TIENEN UN LASER PASANDO POR EL Y NO LO USO PARA EL BACKTRACK
 	if (costoActual >= mejorCosto)
 		return;
@@ -229,13 +228,12 @@ void backtrack() {
 		}
 		return;
 	}
-	
+
 	Casilla* casillaActual = casillasLibres.front();  //SACO DE LA LISTA LA CASILLA EN LA CUAL VOY A INTENTAR METER COSAS
 	Casilla* recuperarCasillaActual = casillaActual;
 	casillasLibres.pop();
 	//LLAMADA A BACKTRACKING CON VACIO
 	backtrack();
-	
 	//LLAMADA A BACKTRACKING CON UNIDIRECCIONAL
 	if (casillaActual->restricciones != 3) {
 		if (casillaActual->restricciones != 1){ //LLAMADA A BACKTRACKING CON HORIZONTAL
@@ -254,7 +252,6 @@ void backtrack() {
 			costoActual = costoActual + 4000;
 			cantSensores++;
 			backtrack();
-
 			cantSensores--;
 			costoActual = costoActual - 4000;
 			//COMO NO DEVOLVIO CERO, ENTONCES RESTAURO EL TRAZADO DE LASER DE LAS CASILLAS QUE AFECTA EL SENSOR QUE PUSE
@@ -279,7 +276,6 @@ void backtrack() {
 			cantSensores++;
 			//HAGO LA LLAMADA RECURSIVA, SI DEVUELVE CERO ES POR QUE LLEGUE A UNA SOLUCION
 			backtrack();
-
 			cantSensores--;
 			costoActual = costoActual - 4000;
 			//COMO NO DEVOLVIO CERO, ENTONCES RESTAURO EL TRAZADO DE LASER DE LAS CASILLAS QUE AFECTA EL SENSOR QUE PUSE
@@ -306,12 +302,11 @@ void backtrack() {
 	// restringVertical(casillaActual->i, casillaActual->j);
 	//LUEGO TRAZO EL LASER QUE GENERA EL SENSOR QUE ACABO DE PONER
 	laserHorizontal(casillaActual->i, casillaActual->j, "PONER");
-			 
+	
 	//ACTUALIZO MI COSTO ACTUAL PARA HACER LA PODA
 	costoActual = costoActual + 6000;
 	cantSensores++;
 	//HAGO LA LLAMADA RECURSIVA, SI DEVUELVE CERO ES POR QUE LLEGUE A UNA SOLUCION
-
 	backtrack();
 
 	cantSensores--;
@@ -326,14 +321,6 @@ void backtrack() {
 	//RESTAURO TAMBIEN LAS RESTRICCIONES DE LAS OTRAS CASILLAS.
 	// for (int i = 0; i < cache2.size(); ++i)
 	// 	g[casillaActual->i][i] = cache2[i];
-			
-	/* 
-	AHORA LO QUE PASO FUE QUE YA SE EJECUTARON TODOS LOS BACKTRACK Y LLEGUE ACA
-	TENGO QUE RESTAURAR:
-	1) casillaActual: PONERLA COMO ESTABA AL RPINCIPIO (hace una variable temporal para guardar el casillero como estaba antes).
-	2) METERLA DE NUEVO EN casillerosLibres.
-	3) SI HAY CASILLEROS EN "ignorados" TAMBIEN VOLVERLOS A METER.
-	*/
 
 	casillasLibres.push(recuperarCasillaActual);
 
@@ -342,7 +329,6 @@ void backtrack() {
 		ignorados.pop();
 		casillasLibres.push(casillaIgnorada);
 	}
-	cout << "hola" << endl;
 	return;
 }
 
@@ -365,6 +351,7 @@ void ej3() {
 }
 
 int main() {
+	stdin = freopen("./ej3.in", "r", stdin);
 	char termino = ' ';
 	while (termino != '#') {
 		int n, m;
@@ -389,46 +376,31 @@ int main() {
 		}
 		ej3();
 		
-		if (mejorCosto == n*m*6000)
-			cout << "-1";
-		else {
-			cout << cantSensores << " " << mejorCosto;
-			cout << endl;
-			for (int i = 0; i < gMejor.size(); ++i) {
-				for(int j = 0; j < gMejor[i].size(); ++j) {
-					if (gMejor[i][j].ocupado) {
-						if (gMejor[i][j].tipoSensor == 1) {
-							cout << "bidireccional" << i++ << j++;
-							cout << endl;
-						}
-						if (gMejor[i][j].tipoSensor == 2) {
-							cout << "horizontal" << i++ << j++;
-							cout << endl;
-						}
-						if (gMejor[i][j].tipoSensor == 3) {
-							cout << "vertical" << i++ << j++;
-							cout << endl;
-						}
-					}
-				}
-			}
-		}
+		// if (mejorCosto == n*m*6000)
+		// 	cout << "-1";
+		// else {
+		// 	cout << cantSensores << " " << mejorCosto;
+		// 	cout << endl;
+		// 	for (int i = 0; i < gMejor.size(); ++i) {
+		// 		for(int j = 0; j < gMejor[i].size(); ++j) {
+		// 			if (gMejor[i][j].ocupado) {
+		// 				if (gMejor[i][j].tipoSensor == 1) {
+		// 					cout << "bidireccional" << i++ << j++;
+		// 					cout << endl;
+		// 				}
+		// 				if (gMejor[i][j].tipoSensor == 2) {
+		// 					cout << "horizontal" << i++ << j++;
+		// 					cout << endl;
+		// 				}
+		// 				if (gMejor[i][j].tipoSensor == 3) {
+		// 					cout << "vertical" << i++ << j++;
+		// 					cout << endl;
+		// 				}
+		// 			}
+		// 		}
+		// 	}
+		// }
 		termino = (cin >> ws).peek();
 	}
 	return 0;
 }
-
-
-/*
-To-do list:
-
-ARMAR TODA LA SOLUCION EN BASE A LA INFORMACION:
-- mejorCosto (tiene el mejor Costo que se uso)
-- gMejor (la grilla de la cual se obtuvo el mejor Costo)
-
-
-
-FALTAN LAS FUNCIONES: 
-chequearSolucion();
-
-*/
