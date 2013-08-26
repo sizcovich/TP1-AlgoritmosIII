@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <utility>
 #include <queue>
+#include <stdio.h>
 
 using namespace std;
 
@@ -193,8 +194,17 @@ void mostrar(string parametro) {
 					cout << g[i][j].restricciones << " ";
 			}
 		}
-		cout << endl;
 	}
+	if ("casillasLibres") {
+		queue<Casilla*> tmp;
+		while(!casillasLibres.empty()) {
+			Casilla* c = casillasLibres.front(); casillasLibres.pop();
+			tmp.push(c);
+			printf("(%i, %i) ", c->i, c->j);
+		}
+		casillasLibres = tmp;
+	}
+	cout << endl;
 }
 
 void backtrack() {
@@ -280,16 +290,16 @@ void backtrack() {
 	casillaActual->laser = 3;
 	
 	//LUEGO ME GUARDO EL ESTADO ANTERIOR DE LAS CASILLAS QUE VOY A RESTRINGIR HORIZONTALMENTE
-	vector<Casilla> cache = g[casillaActual->i];
-	restringHorizontal(casillaActual->i, casillaActual->j);
+	// vector<Casilla> cache = g[casillaActual->i];
+	// restringHorizontal(casillaActual->i, casillaActual->j);
 	//LUEGO TRAZO EL LASER QUE GENERA EL SENSOR QUE ACABO DE PONER 
 	laserVertical(casillaActual->i, casillaActual->j, "PONER");
 	
 	//LUEGO ME GUARDO EL ESTADO ANTERIOR DE LAS CASILLAS QUE VOY A RESTRINGIR VERTICALMENTE
-	vector<Casilla> cache2 = g[casillaActual->j];
-	for (int i = 0; i < g[casillaActual->i].size(); ++i)
-		cache2.push_back(g[casillaActual->i][i]);
-	restringVertical(casillaActual->i, casillaActual->j);
+	// vector<Casilla> cache2 = g[casillaActual->j];
+	// for (int i = 0; i < g[casillaActual->i].size(); ++i)
+	// 	cache2.push_back(g[casillaActual->i][i]);
+	// restringVertical(casillaActual->i, casillaActual->j);
 	//LUEGO TRAZO EL LASER QUE GENERA EL SENSOR QUE ACABO DE PONER
 	laserHorizontal(casillaActual->i, casillaActual->j, "PONER");
 			 
@@ -303,13 +313,13 @@ void backtrack() {
 	//COMO NO DEVOLVIO CERO, ENTONCES RESTAURO EL TRAZADO DE LASER DE LAS CASILLAS QUE AFECTA EL SENSOR QUE PUSE
 	laserVertical(casillaActual->i, casillaActual->j, "SACAR");
 	//RESTAURO TAMBIEN LAS RESTRICCIONES DE LAS OTRAS CASILLAS.
-	g[casillaActual->i] = cache;
+	// g[casillaActual->i] = cache;
 	
 	//COMO NO DEVOLVIO CERO, ENTONCES RESTAURO EL TRAZADO DE LASER DE LAS CASILLAS QUE AFECTA EL SENSOR QUE PUSE
 	laserHorizontal(casillaActual->i, casillaActual->j, "SACAR");
 	//RESTAURO TAMBIEN LAS RESTRICCIONES DE LAS OTRAS CASILLAS.
-	for (int i = 0; i < cache2.size(); ++i)
-		g[casillaActual->i][i] = cache2[i];
+	// for (int i = 0; i < cache2.size(); ++i)
+	// 	g[casillaActual->i][i] = cache2[i];
 			
 	/* 
 	AHORA LO QUE PASO FUE QUE YA SE EJECUTARON TODOS LOS BACKTRACK Y LLEGUE ACA
@@ -325,7 +335,6 @@ void backtrack() {
 		casillasLibres.push(casillaIgnorada);
 	}
 	return;
-
 }
 
 void ej3() {
@@ -333,15 +342,15 @@ void ej3() {
 	casillasLibres = casillasLibresEnLimpio;
 	for (int i = 0; i < g.size(); ++i) {
 		for (int j = 0; j < g[i].size(); ++j) { //Por cada casilla 
-			if (g[i][j].tipo == 2) { //Si es importante
+			if (g[i][j].tipo == 2)
 				restringirCasillasPorImportante(i, j); //Restringo sus casillas horizontales y verticales.
-				if (g[i][j].tipo == 1) 
-					casillasLibres.push(&(g[i][j]));
-			}
+			if (g[i][j].tipo == 1) 
+				casillasLibres.push(&(g[i][j]));
 		}
 	}
-	
-	backtrack();
+
+
+	// backtrack();
 	return;
 }
 
@@ -357,7 +366,6 @@ int main() {
 
 		vector<Casilla> filaC;
 		Casilla c;
-		Grilla g;
 
 		for (int i = 0; i < n; ++i) {
 			g.push_back(filaC);
@@ -387,7 +395,7 @@ int main() {
 							cout << endl;
 						}
 						if (gMejor[i][j].tipoSensor == 3) {
-							cout << "verticañ" << i++ << j++;
+							cout << "vertical" << i++ << j++;
 							cout << endl;
 						}
 					}
