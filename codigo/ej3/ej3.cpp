@@ -138,7 +138,7 @@ void restringVertical(int i, int j) {
 		i++;
 	}
 	i = iAnterior;
-	while(i>0 && g[i][j].tipo != 0) { //Aca voy desde el lugar importante hacia la izquierda
+	while(i>=0 && g[i][j].tipo != 0) { //Aca voy desde el lugar importante hacia la izquierda
 		if (g[i][j].restricciones == 2 || g[i][j].restricciones == 3)
 			g[i][j].restricciones = 3;
 		else
@@ -159,7 +159,7 @@ void restringHorizontal(int i, int j) {
 		j++;
 	}
 	j = jAnterior;
-	while(j>0 && g[i][j].tipo != 0) { //Aca voy desde el lugar importante hacia arriba
+	while(j>=0 && g[i][j].tipo != 0) { //Aca voy desde el lugar importante hacia arriba
 		if (g[i][j].restricciones == 1 || g[i][j].restricciones == 3)
 			g[i][j].restricciones = 3;
 		else
@@ -234,7 +234,6 @@ void backtrack() {
 	casillasLibres.pop();
 	//LLAMADA A BACKTRACKING CON VACIO
 	backtrack();
-	cout << "hola" << endl;
 	
 	//LLAMADA A BACKTRACKING CON UNIDIRECCIONAL
 	if (casillaActual->restricciones != 3) {
@@ -244,16 +243,17 @@ void backtrack() {
 			casillaActual->tipoSensor = 2;
 			casillaActual->laser = 1;
 			//LUEGO ME GUARDO EL ESTADO ANTERIOR DE LAS CASILLAS QUE VOY A RESTRINGIR
-			vector<Casilla> cache = g[casillaActual->j];
+			vector<Casilla> cache;
 			for (int i = 0; i < g[casillaActual->i].size(); ++i)
 				cache.push_back(g[casillaActual->i][i]);
 			restringVertical(casillaActual->i, casillaActual->j);
 			//LUEGO TRAZO EL LASER QUE GENERA EL SENSOR QUE ACABO DE PONER
 			laserHorizontal(casillaActual->i, casillaActual->j, "PONER");
-			//ACTUALIZO MI COSTO ACTUAL PARA HACER LA PODA
+			//ACTUALIZO MI COSTO ACTUAL PARA HACER LA PODA2
 			costoActual = costoActual + 4000;
 			cantSensores++;
 			backtrack();
+
 			cantSensores--;
 			costoActual = costoActual - 4000;
 			//COMO NO DEVOLVIO CERO, ENTONCES RESTAURO EL TRAZADO DE LASER DE LAS CASILLAS QUE AFECTA EL SENSOR QUE PUSE
@@ -277,7 +277,9 @@ void backtrack() {
 			costoActual = costoActual + 4000;
 			cantSensores++;
 			//HAGO LA LLAMADA RECURSIVA, SI DEVUELVE CERO ES POR QUE LLEGUE A UNA SOLUCION
+
 			backtrack();
+			
 			cantSensores--;
 			costoActual = costoActual - 4000;
 			//COMO NO DEVOLVIO CERO, ENTONCES RESTAURO EL TRAZADO DE LASER DE LAS CASILLAS QUE AFECTA EL SENSOR QUE PUSE
@@ -291,7 +293,6 @@ void backtrack() {
 	casillaActual->ocupado = true;
 	casillaActual->tipoSensor = 1;
 	casillaActual->laser = 3;
-	
 	//LUEGO ME GUARDO EL ESTADO ANTERIOR DE LAS CASILLAS QUE VOY A RESTRINGIR HORIZONTALMENTE
 	// vector<Casilla> cache = g[casillaActual->i];
 	// restringHorizontal(casillaActual->i, casillaActual->j);
@@ -310,7 +311,9 @@ void backtrack() {
 	costoActual = costoActual + 6000;
 	cantSensores++;
 	//HAGO LA LLAMADA RECURSIVA, SI DEVUELVE CERO ES POR QUE LLEGUE A UNA SOLUCION
+
 	backtrack();
+
 	cantSensores--;
 	costoActual = costoActual - 6000;
 	//COMO NO DEVOLVIO CERO, ENTONCES RESTAURO EL TRAZADO DE LASER DE LAS CASILLAS QUE AFECTA EL SENSOR QUE PUSE
@@ -331,12 +334,15 @@ void backtrack() {
 	2) METERLA DE NUEVO EN casillerosLibres.
 	3) SI HAY CASILLEROS EN "ignorados" TAMBIEN VOLVERLOS A METER.
 	*/
+
 	casillasLibres.push(recuperarCasillaActual);
+
 	while(!ignorados.empty()) {
 		Casilla* casillaIgnorada = ignorados.front();
 		ignorados.pop();
 		casillasLibres.push(casillaIgnorada);
 	}
+	cout << "hola" << endl;
 	return;
 }
 
