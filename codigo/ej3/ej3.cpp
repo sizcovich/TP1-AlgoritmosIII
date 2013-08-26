@@ -210,9 +210,16 @@ void mostrar(string parametro) {
 
 void backtrack() {
 	//SI NO TENGO MAS CASILLAS QUE ASIGNAR ENTONCES QUEIRE DECIR QUE TERMINE Y DEBERIA SER UNA SOLUCION
-	mostrar("laser");
+
+	queue<Casilla*> ignorados;	//ACA VAN LOS ELEMENTOS QUE TIENEN UN LASER PASANDO POR EL Y NO LO USO PARA EL BACKTRACK
 	if (costoActual >= mejorCosto)
 		return;
+	if (!casillasLibres.empty()) {
+		while(casillasLibres.front()->laser > 0) {
+			ignorados.push(casillasLibres.front()); 
+			casillasLibres.pop();
+		}
+	}
 	if (casillasLibres.empty()) {
 		if (chequearSolucion()) { //CHEQUEO SI ES UNA SOLUCION
 			if (costoActual < mejorCosto) {
@@ -222,18 +229,12 @@ void backtrack() {
 		}
 		return;
 	}
-
-	queue<Casilla*> ignorados;	//ACA VAN LOS ELEMENTOS QUE TIENEN UN LASER PASANDO POR EL Y NO LO USO PARA EL BACKTRACK
-	while(casillasLibres.front()->laser > 0) {
-		ignorados.push(casillasLibres.front()); 
-		casillasLibres.pop();
-	}
 	Casilla* casillaActual = casillasLibres.front();  //SACO DE LA LISTA LA CASILLA EN LA CUAL VOY A INTENTAR METER COSAS
 	Casilla* recuperarCasillaActual = casillaActual;
 	casillasLibres.pop();
-
 	//LLAMADA A BACKTRACKING CON VACIO
 	backtrack();
+	cout << "hola" << endl;
 	
 	//LLAMADA A BACKTRACKING CON UNIDIRECCIONAL
 	if (casillaActual->restricciones != 3) {
@@ -351,7 +352,7 @@ void ej3() {
 		}
 	}
 
-
+	// mostrar("casillasLibres");
 
 	backtrack();
 	return;
