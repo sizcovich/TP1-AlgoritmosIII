@@ -209,6 +209,7 @@ void mostrar(string parametro) {
 
 void backtrack() {
 	//SI NO TENGO MAS CASILLAS QUE ASIGNAR ENTONCES QUEIRE DECIR QUE TERMINE Y DEBERIA SER UNA SOLUCION
+	mostrar("casillasLibres");
 	if (costoActual >= mejorCosto)
 		return;
 	if (casillasLibres.empty()) {
@@ -350,7 +351,8 @@ void ej3() {
 	}
 
 
-	// backtrack();
+
+	backtrack();
 	return;
 }
 
@@ -358,11 +360,12 @@ int main() {
 	char termino = ' ';
 	while (termino != '#') {
 		int n, m;
-		mejorCosto = n*m*6000; //NECESITO TENER UN COSTO MAXIMO PARA IR MEJORANDOLO EN CADA SOLUCION, EL INICIAL ES EL MAXIMO QUE SE PODRIA OBTENER.
 		Grilla gEnLimpio; //A LA PRIMERA VUELTA ESTA TODO BIEN, PERO CUANDO SE EJECUTA POR SEGUNDA VEZ, HAY INFORMACION EN LA GRILLA DE LA VEZ ANTERIOR
 		g = gEnLimpio; //ENTONCES CREO UNA GRILLA EN LIMPIO Y LA REEMPLAZO
 		cin >> n;
 		cin >> m;
+		mejorCosto = n*m*6000; //NECESITO TENER UN COSTO MAXIMO PARA IR MEJORANDOLO EN CADA SOLUCION, EL INICIAL ES EL MAXIMO QUE SE PODRIA OBTENER.
+
 
 		vector<Casilla> filaC;
 		Casilla c;
