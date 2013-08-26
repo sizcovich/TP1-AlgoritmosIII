@@ -72,7 +72,7 @@ void laserVertical(int i, int j, string sacarOPoner) {
 		i++;
 	}
 	i = iAnterior;
-	while(i>0 && g[i][j].tipo != 0) { //Aca voy desde el lugar importante hacia la izquierda
+	while(i>=0 && g[i][j].tipo != 0) { //Aca voy desde el lugar importante hacia la izquierda
 		if (sacarOPoner=="SACAR") {
 			if (g[i][j].laser == 3)
 				g[i][j].laser = 1;
@@ -109,7 +109,7 @@ void laserHorizontal(int i, int j, string sacarOPoner) {
 		j++;
 	}
 	j = jAnterior;
-	while(j>0 && g[i][j].tipo != 0) { //Aca voy desde el lugar importante hacia arriba
+	while(j>=0 && g[i][j].tipo != 0) { //Aca voy desde el lugar importante hacia arriba
 		if (sacarOPoner=="SACAR") {
 			if (g[i][j].laser == 3)
 				g[i][j].laser = 2;
@@ -194,6 +194,7 @@ void mostrar(string parametro) {
 					cout << g[i][j].restricciones << " ";
 			}
 		}
+		cout << endl;
 	}
 	if ("casillasLibres") {
 		queue<Casilla*> tmp;
@@ -203,13 +204,13 @@ void mostrar(string parametro) {
 			printf("(%i, %i) ", c->i, c->j);
 		}
 		casillasLibres = tmp;
+		cout << endl;
 	}
-	cout << endl;
 }
 
 void backtrack() {
 	//SI NO TENGO MAS CASILLAS QUE ASIGNAR ENTONCES QUEIRE DECIR QUE TERMINE Y DEBERIA SER UNA SOLUCION
-	mostrar("casillasLibres");
+	mostrar("laser");
 	if (costoActual >= mejorCosto)
 		return;
 	if (casillasLibres.empty()) {
