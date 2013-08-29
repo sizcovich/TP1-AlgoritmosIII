@@ -167,53 +167,68 @@ void laserHorizontal(int i, int j, string sacarOPoner) {
 	return;
 }
 
-void restringVertical(int i, int j, bool bidireccionalTambien=false) {
+void restringVertical(int i, int j) {
 	int iAnterior=i, jAnterior=j; //Me guardo los valores anteriores por que voy a tener q restaurarlos
 	int ancho=g.size(), alto=g[i].size(); //Obtendo el ancho y alto del la matriz
 	i++;
 	while (i<ancho && g[i][j].tipo != 0) { //Aca voy desde el lugar importante hacia la derecho
 		g[i][j].restricciones[1] = 0;
-		if (bidireccionalTambien)
-			g[i][j].restricciones[2] = 0;
+		g[i][j].restricciones[2] = 0;
 		i++;
 	}
 	i = iAnterior;
 	i--;
 	while(i>=0 && g[i][j].tipo != 0) { //Aca voy desde el lugar importante hacia la izquierda
 		g[i][j].restricciones[1] = 0;
-		if (bidireccionalTambien)
-			g[i][j].restricciones[2] = 0;
+		g[i][j].restricciones[2] = 0;
 		i--;
 	}
 	return;
 }
 
-void restringHorizontal(int i, int j, bool bidireccionalTambien=false) {
+void restringHorizontal(int i, int j) {
 	int iAnterior=i, jAnterior=j; //Me guardo los valores anteriores por que voy a tener q restaurarlos
 	int ancho=g.size(), alto=g[i].size(); //Obtendo el ancho y alto del la matriz
 	j++;
 	while(j<alto && g[i][j].tipo != 0) { //Aca voy desde el lugar importante hacia abajo
 		g[i][j].restricciones[0] = 0;
-		if (bidireccionalTambien)
-			g[i][j].restricciones[2] = 0;
+		g[i][j].restricciones[2] = 0;
 		j++;
 	}
 	j = jAnterior-1;
 	while(j>=0 && g[i][j].tipo != 0) { //Aca voy desde el lugar importante hacia arriba
 		g[i][j].restricciones[0] = 0;
-		if (bidireccionalTambien)
-			g[i][j].restricciones[2] = 0;
+		g[i][j].restricciones[2] = 0;
 		j--;
 	}
 	return;
 }
 
 void restringirCasillasPorImportante(int i, int j) {
-	/*	Basicamente lo que hace esto es recorrer todas las casillas desde la casilla importante
-	hacia las casillas izquierda, derecha, arriba y abajo para marcar las restricciones.
-	Se termina de recorrer las casillas cuando toque el borde o cuando me choque con una pared.	*/
-	restringVertical(i, j);
-	restringHorizontal(i, j);
+	int iAnterior=i, jAnterior=j; //Me guardo los valores anteriores por que voy a tener q restaurarlos
+	int ancho=g.size(), alto=g[i].size(); //Obtendo el ancho y alto del la matriz
+	j++;
+	while(j<alto && g[i][j].tipo != 0) { //Aca voy desde el lugar importante hacia abajo
+		g[i][j].restricciones[1] = 0;
+		j++;
+	}
+	j = jAnterior-1;
+	while(j>=0 && g[i][j].tipo != 0) { //Aca voy desde el lugar importante hacia arriba
+		g[i][j].restricciones[1] = 0;
+		j--;
+	}
+	j = jAnterior;
+	i++;
+	while (i<ancho && g[i][j].tipo != 0) { //Aca voy desde el lugar importante hacia la derecho
+		g[i][j].restricciones[0] = 0;
+		i++;
+	}
+	i = iAnterior;
+	i--;
+	while(i>=0 && g[i][j].tipo != 0) { //Aca voy desde el lugar importante hacia la izquierda
+		g[i][j].restricciones[0] = 0;
+		i--;
+	}
 	return;
 }
 
@@ -267,7 +282,7 @@ void backtrack() {
 			vector< vector <int> >cache;
 			for (int i = 0; i < g.size(); ++i)
 				cache.push_back(g[i][casillaActual->j].restricciones);
-			restringVertical(casillaActual->i, casillaActual->j, true);
+			restringVertical(casillaActual->i, casillaActual->j);
 			//LUEGO TRAZO EL LASER QUE GENERA EL SENSOR QUE ACABO DE PONER
 			laserHorizontal(casillaActual->i, casillaActual->j, "PONER");
 			//ACTUALIZO MI COSTO ACTUAL PARA HACER LA PODA2
@@ -291,7 +306,7 @@ void backtrack() {
 			vector< vector <int> >cache;			
 			for (int i = 0; i < g[casillaActual->i].size(); ++i)
 				cache.push_back(g[casillaActual->i][i].restricciones);
-			restringHorizontal(casillaActual->i, casillaActual->j, true);
+			restringHorizontal(casillaActual->i, casillaActual->j);
 			//LUEGO TRAZO EL LASER QUE GENERA EL SENSOR QUE ACABO DE PONER
 			laserVertical(casillaActual->i, casillaActual->j, "PONER"); 
 			//ACTUALIZO MI COSTO ACTUAL PARA HACER LA PODA
@@ -323,6 +338,7 @@ void backtrack() {
 void ej3() {
 	queue<Casilla*> casillasLibresEnLimpio; //RESTAURAR EL CASILLEROlIBRE POR UNO QUE ESTE EN LIMPIO.
 	casillasLibres = casillasLibresEnLimpio;
+	mostrar(g, "restricciones");
 	for (int i = 0; i < g.size(); ++i) {
 		for (int j = 0; j < g[i].size(); ++j) { //Por cada casilla 
 			if (g[i][j].tipo == 2)
@@ -331,6 +347,8 @@ void ej3() {
 				casillasLibres.push(&(g[i][j]));
 		}
 	}
+	mostrar(g, "restricciones");
+
 	// mostrar(g, "restricciones");	
 	// mostrar(g, "restricciones");
 
