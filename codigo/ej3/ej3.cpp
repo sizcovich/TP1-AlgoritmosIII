@@ -1,5 +1,6 @@
 #include <string>
 #include <cstdio>
+#include <chrono>
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -40,6 +41,7 @@ Grilla gMejor;
 long int mejorCosto;
 long int costoActual=0;
 int cantSensores=0;
+int mejorCantSensores=0;
 
 void mostrar(Grilla g, string parametro) {
 	for (int i = 0; i < g.size(); ++i) {
@@ -241,6 +243,7 @@ void backtrack() {
 			if (costoActual < mejorCosto) {
 				mejorCosto = costoActual;
 				gMejor = g;	
+				mejorCantSensores = cantSensores;
 			}
 		}
 		return;
@@ -338,7 +341,6 @@ void backtrack() {
 void ej3() {
 	queue<Casilla*> casillasLibresEnLimpio; //RESTAURAR EL CASILLEROlIBRE POR UNO QUE ESTE EN LIMPIO.
 	casillasLibres = casillasLibresEnLimpio;
-	mostrar(g, "restricciones");
 	for (int i = 0; i < g.size(); ++i) {
 		for (int j = 0; j < g[i].size(); ++j) { //Por cada casilla 
 			if (g[i][j].tipo == 2)
@@ -347,12 +349,7 @@ void ej3() {
 				casillasLibres.push(&(g[i][j]));
 		}
 	}
-	mostrar(g, "restricciones");
 
-	// mostrar(g, "restricciones");	
-	// mostrar(g, "restricciones");
-
-	// mostrar("casillasLibres");
 	backtrack();
 	return;
 }
@@ -383,30 +380,38 @@ int main() {
 				g[i].push_back(c);
 			}
 		}
+		auto t1 = chrono::high_resolution_clock::now();
+
 		ej3();
+
+		auto t2 = chrono::high_resolution_clock::now();
+		auto x = chrono::duration_cast<std::chrono::nanoseconds>(t2-t1).count();
+
+		cerr << n+m << " " << x << endl;
 
 		if (mejorCosto == n*m*6000)
 			cout << "-1";
 		else {
-			mostrar(gMejor, "laser");
-			mostrar(gMejor, "restricciones");
-			cout << cantSensores << " " << mejorCosto;
+			// mostrar(gMejor, "laser");
+			// mostrar(gMejor, "restricciones");
+			cout << mejorCantSensores << " " << mejorCosto;
 			cout << endl;
 			for (int i = 0; i < gMejor.size(); ++i) {
 				for(int j = 0; j < gMejor[i].size(); ++j) {
 					if (gMejor[i][j].ocupado) {
-						if (gMejor[i][j].tipoSensor == 1) {
-							cout << "bidireccional (" << i << "," << j << ")";
-							cout << endl;
-						}
-						if (gMejor[i][j].tipoSensor == 2) {
-							cout << "horizontal (" << i << "," << j << ")";
-							cout << endl;
-						}
-						if (gMejor[i][j].tipoSensor == 3) {
-							cout << "vertical (" << i << "," << j << ")";
-							cout << endl;
-						}
+						cout << gMejor[i][j].tipoSensor << " " << i << " " << j << endl;
+						// if (gMejor[i][j].tipoSensor == 1) {
+						// 	cout << "bidireccional (" << i << "," << j << ")";
+						// 	cout << endl;
+						// }
+						// if (gMejor[i][j].tipoSensor == 2) {
+						// 	cout << "horizontal (" << i << "," << j << ")";
+						// 	cout << endl;
+						// }
+						// if (gMejor[i][j].tipoSensor == 3) {
+						// 	cout << "vertical (" << i << "," << j << ")";
+						// 	cout << endl;
+						// }
 					}
 				}
 			}
