@@ -19,14 +19,16 @@ struct Casilla {
 	// Si hay un sensor ahi.
 	int tipoSensor;
 	// 1: bidireccional, 2: horizontal, 3: vertical.
-	int restricciones;
-	//1: horizontal, 2: vertical, 3: ambos.
+	vector<int> restricciones;
+	//0: horizontal, 1: vertical, 2: bidireccional.
 	int i, j;
 	Casilla () {
 		laser = 0;
 		ocupado = false;
 		tipoSensor = -1;
-		restricciones = 0;
+		restricciones.push_back(1);
+		restricciones.push_back(1);
+		restricciones.push_back(1);		
 		i = 0;
 		j = 0;
 	}
@@ -57,9 +59,9 @@ void mostrar(Grilla g, string parametro) {
 			}
 			if (parametro=="restricciones") {
 				if (g[i][j].ocupado)
-					cout << "X" << " ";
+					cout << "[X,X,X]" << " ";
 				else
-					cout << g[i][j].restricciones << " ";
+					printf("[%i,%i,%i] ", g[i][j].restricciones[0], g[i][j].restricciones[1], g[i][j].restricciones[2]);
 			}
 		}
 		cout << endl;
@@ -165,43 +167,42 @@ void laserHorizontal(int i, int j, string sacarOPoner) {
 	return;
 }
 
-void restringVertical(int i, int j) {
+void restringVertical(int i, int j, bool bidireccionalTambien=false) {
 	int iAnterior=i, jAnterior=j; //Me guardo los valores anteriores por que voy a tener q restaurarlos
 	int ancho=g.size(), alto=g[i].size(); //Obtendo el ancho y alto del la matriz
+	i++;
 	while (i<ancho && g[i][j].tipo != 0) { //Aca voy desde el lugar importante hacia la derecho
-		if (g[i][j].restricciones == 2 || g[i][j].restricciones == 3)
-			g[i][j].restricciones = 3;
-		else
-			g[i][j].restricciones = 1;
+		g[i][j].restricciones[1] = 0;
+		if (bidireccionalTambien)
+			g[i][j].restricciones[2] = 0;
 		i++;
 	}
 	i = iAnterior;
+	i--;
 	while(i>=0 && g[i][j].tipo != 0) { //Aca voy desde el lugar importante hacia la izquierda
-		if (g[i][j].restricciones == 2 || g[i][j].restricciones == 3)
-			g[i][j].restricciones = 3;
-		else
-			g[i][j].restricciones = 1;
+		g[i][j].restricciones[1] = 0;
+		if (bidireccionalTambien)
+			g[i][j].restricciones[2] = 0;
 		i--;
 	}
 	return;
 }
 
-void restringHorizontal(int i, int j) {
+void restringHorizontal(int i, int j, bool bidireccionalTambien=false) {
 	int iAnterior=i, jAnterior=j; //Me guardo los valores anteriores por que voy a tener q restaurarlos
 	int ancho=g.size(), alto=g[i].size(); //Obtendo el ancho y alto del la matriz
+	j++;
 	while(j<alto && g[i][j].tipo != 0) { //Aca voy desde el lugar importante hacia abajo
-		if (g[i][j].restricciones == 1 || g[i][j].restricciones == 3)
-			g[i][j].restricciones = 3;
-		else
-			g[i][j].restricciones = 2;
+		g[i][j].restricciones[0] = 0;
+		if (bidireccionalTambien)
+			g[i][j].restricciones[2] = 0;
 		j++;
 	}
-	j = jAnterior;
+	j = jAnterior-1;
 	while(j>=0 && g[i][j].tipo != 0) { //Aca voy desde el lugar importante hacia arriba
-		if (g[i][j].restricciones == 1 || g[i][j].restricciones == 3)
-			g[i][j].restricciones = 3;
-		else
-			g[i][j].restricciones = 2;
+		g[i][j].restricciones[0] = 0;
+		if (bidireccionalTambien)
+			g[i][j].restricciones[2] = 0;
 		j--;
 	}
 	return;
@@ -237,71 +238,75 @@ void backtrack() {
 		return;
 	} else {
 		//LLAMADA A BACKTRACKING CON BIDIRECCIONAL
-		casillaActual->ocupado = true;
-		casillaActual->tipoSensor = 1;
-		casillaActual->laser = 3;
-		//LUEGO TRAZO EL LASER QUE GENERA EL SENSOR QUE ACABO DE PONER 
-		laserVertical(casillaActual->i, casillaActual->j, "PONER");
-		laserHorizontal(casillaActual->i, casillaActual->j, "PONER");
-		//ACTUALIZO MI COSTO ACTUAL PARA HACER LA PODA
-		costoActual = costoActual + 6000;
-		cantSensores++;
-		//HAGO LA LLAMADA RECURSIVA, SI DEVUELVE CERO ES POR QUE LLEGUE A UNA SOLUCION
-		backtrack();
-		cantSensores--;
-		costoActual = costoActual - 6000;
-		//COMO NO DEVOLVIO CERO, ENTONCES RESTAURO EL TRAZADO DE LASER DE LAS CASILLAS QUE AFECTA EL SENSOR QUE PUSE
-		laserVertical(casillaActual->i, casillaActual->j, "SACAR");
-		laserHorizontal(casillaActual->i, casillaActual->j, "SACAR");
+		if (casillaActual->restricciones[2]){ //LLAMADA A BACKTRACKING CON BIDIRECCIONAL
+			//LA ACCION DE ASIGNARLE A LA CASILLA LA INFORMACION QUE DICE QUE HAY UN SENSOR
+			casillaActual->ocupado = true;
+			casillaActual->tipoSensor = 1;
+			casillaActual->laser = 3;
+			//LUEGO TRAZO EL LASER QUE GENERA EL SENSOR QUE ACABO DE PONER 
+			laserVertical(casillaActual->i, casillaActual->j, "PONER");
+			laserHorizontal(casillaActual->i, casillaActual->j, "PONER");
+			//ACTUALIZO MI COSTO ACTUAL PARA HACER LA PODA
+			costoActual = costoActual + 6000;
+			cantSensores++;
+			//HAGO LA LLAMADA RECURSIVA, SI DEVUELVE CERO ES POR QUE LLEGUE A UNA SOLUCION
+			backtrack();
+			cantSensores--;
+			costoActual = costoActual - 6000;
+			//COMO NO DEVOLVIO CERO, ENTONCES RESTAURO EL TRAZADO DE LASER DE LAS CASILLAS QUE AFECTA EL SENSOR QUE PUSE
+			laserVertical(casillaActual->i, casillaActual->j, "SACAR");
+			laserHorizontal(casillaActual->i, casillaActual->j, "SACAR");
+		}
 		//LLAMADA A BACKTRACKING CON UNIDIRECCIONAL
-		if (casillaActual->restricciones != 3) {
-			if (casillaActual->restricciones != 1){ //LLAMADA A BACKTRACKING CON HORIZONTAL
-				//LA ACCION DE ASIGNARLE A LA CASILLA LA INFORMACION QUE DICE QUE HAY UN SENSOR
-				casillaActual->ocupado = true;
-				casillaActual->tipoSensor = 2;
-				casillaActual->laser = 1;
-				//LUEGO ME GUARDO EL ESTADO ANTERIOR DE LAS CASILLAS QUE VOY A RESTRINGIR
-				vector<Casilla> cache;
-				for (int i = 0; i < g[casillaActual->i].size(); ++i)
-					cache.push_back(g[casillaActual->i][i]);
-				restringVertical(casillaActual->i, casillaActual->j);
-				//LUEGO TRAZO EL LASER QUE GENERA EL SENSOR QUE ACABO DE PONER
-				laserHorizontal(casillaActual->i, casillaActual->j, "PONER");
-				//ACTUALIZO MI COSTO ACTUAL PARA HACER LA PODA2
-				costoActual = costoActual + 4000;
-				cantSensores++;
-				backtrack();
-				cantSensores--;
-				costoActual = costoActual - 4000;
-				//COMO NO DEVOLVIO CERO, ENTONCES RESTAURO EL TRAZADO DE LASER DE LAS CASILLAS QUE AFECTA EL SENSOR QUE PUSE
-				laserHorizontal(casillaActual->i, casillaActual->j, "SACAR");
-				//RESTAURO TAMBIEN LAS RESTRICCIONES DE LAS OTRAS CASILLAS.
-				for (int i = 0; i < cache.size(); ++i)
-					g[casillaActual->i][i] = cache[i];
+		if (casillaActual->restricciones[0]){ //LLAMADA A BACKTRACKING CON HORIZONTAL
+			//LA ACCION DE ASIGNARLE A LA CASILLA LA INFORMACION QUE DICE QUE HAY UN SENSOR
+			casillaActual->ocupado = true;
+			casillaActual->tipoSensor = 2;
+			casillaActual->laser = 1;
+			//LUEGO ME GUARDO EL ESTADO ANTERIOR DE LAS CASILLAS QUE VOY A RESTRINGIR
+			vector< vector <int> >cache;
+			for (int i = 0; i < g.size(); ++i)
+				cache.push_back(g[i][casillaActual->j].restricciones);
+			restringVertical(casillaActual->i, casillaActual->j, true);
+			//LUEGO TRAZO EL LASER QUE GENERA EL SENSOR QUE ACABO DE PONER
+			laserHorizontal(casillaActual->i, casillaActual->j, "PONER");
+			//ACTUALIZO MI COSTO ACTUAL PARA HACER LA PODA2
+			costoActual = costoActual + 4000;
+			cantSensores++;
+			backtrack();
+			cantSensores--;
+			costoActual = costoActual - 4000;
+			//COMO NO DEVOLVIO CERO, ENTONCES RESTAURO EL TRAZADO DE LASER DE LAS CASILLAS QUE AFECTA EL SENSOR QUE PUSE
+			laserHorizontal(casillaActual->i, casillaActual->j, "SACAR");
+			//RESTAURO TAMBIEN LAS RESTRICCIONES DE LAS OTRAS CASILLAS.
+			for (int i = 0; i < cache.size(); ++i)
+				g[i][casillaActual->j].restricciones = cache[i];
+		}
+		if (casillaActual->restricciones[1]){ //LLAMADA A BACKTRACKING CON VERTICAL
+			//LA ACCION DE ASIGNARLE A LA CASILLA LA INFORMACION QUE DICE QUE HAY UN SENSOR
+			casillaActual->ocupado = true;
+			casillaActual->tipoSensor = 3;
+			casillaActual->laser = 2;
+			//LUEGO ME GUARDO EL ESTADO ANTERIOR DE LAS CASILLAS QUE VOY A RESTRINGIR
+			vector< vector <int> >cache;			
+			for (int i = 0; i < g[casillaActual->i].size(); ++i)
+				cache.push_back(g[casillaActual->i][i].restricciones);
+			restringHorizontal(casillaActual->i, casillaActual->j, true);
+			//LUEGO TRAZO EL LASER QUE GENERA EL SENSOR QUE ACABO DE PONER
+			laserVertical(casillaActual->i, casillaActual->j, "PONER"); 
+			//ACTUALIZO MI COSTO ACTUAL PARA HACER LA PODA
+			costoActual = costoActual + 4000;
+			cantSensores++;
+			//HAGO LA LLAMADA RECURSIVA, SI DEVUELVE CERO ES POR QUE LLEGUE A UNA SOLUCION
+			backtrack();
+			cantSensores--;
+			costoActual = costoActual - 4000;
+			//COMO NO DEVOLVIO CERO, ENTONCES RESTAURO EL TRAZADO DE LASER DE LAS CASILLAS QUE AFECTA EL SENSOR QUE PUSE
+			laserVertical(casillaActual->i, casillaActual->j, "SACAR");
+			//RESTAURO TAMBIEN LAS RESTRICCIONES DE LAS OTRAS CASILLAS.
+			for (int i = 0; i < cache.size(); ++i)
+				g[casillaActual->i][i].restricciones = cache[i];
 
-			}
-			if (casillaActual->restricciones != 2){ //LLAMADA A BACKTRACKING CON VERTICAL
-				//LA ACCION DE ASIGNARLE A LA CASILLA LA INFORMACION QUE DICE QUE HAY UN SENSOR
-				casillaActual->ocupado = true;
-				casillaActual->tipoSensor = 3;
-				casillaActual->laser = 2;
-				//LUEGO ME GUARDO EL ESTADO ANTERIOR DE LAS CASILLAS QUE VOY A RESTRINGIR
-				vector<Casilla> cache = g[casillaActual->i];
-				restringHorizontal(casillaActual->i, casillaActual->j);
-				//LUEGO TRAZO EL LASER QUE GENERA EL SENSOR QUE ACABO DE PONER
-				laserVertical(casillaActual->i, casillaActual->j, "PONER"); 
-				//ACTUALIZO MI COSTO ACTUAL PARA HACER LA PODA
-				costoActual = costoActual + 4000;
-				cantSensores++;
-				//HAGO LA LLAMADA RECURSIVA, SI DEVUELVE CERO ES POR QUE LLEGUE A UNA SOLUCION
-				backtrack();
-				cantSensores--;
-				costoActual = costoActual - 4000;
-				//COMO NO DEVOLVIO CERO, ENTONCES RESTAURO EL TRAZADO DE LASER DE LAS CASILLAS QUE AFECTA EL SENSOR QUE PUSE
-				laserVertical(casillaActual->i, casillaActual->j, "SACAR");
-				//RESTAURO TAMBIEN LAS RESTRICCIONES DE LAS OTRAS CASILLAS.
-				g[casillaActual->i] = cache;
-			}
 		}
 
 		//LLAMADA A BACKTRACKING CON VACIO
@@ -320,13 +325,15 @@ void ej3() {
 	casillasLibres = casillasLibresEnLimpio;
 	for (int i = 0; i < g.size(); ++i) {
 		for (int j = 0; j < g[i].size(); ++j) { //Por cada casilla 
-			// if (g[i][j].tipo == 2)
-			// 	restringirCasillasPorImportante(i, j); //Restringo sus casillas horizontales y verticales.
+			if (g[i][j].tipo == 2)
+				restringirCasillasPorImportante(i, j); //Restringo sus casillas horizontales y verticales.
 			if (g[i][j].tipo == 1) 
 				casillasLibres.push(&(g[i][j]));
 		}
 	}
-	// mostrar("tipo");
+	// mostrar(g, "restricciones");	
+	// mostrar(g, "restricciones");
+
 	// mostrar("casillasLibres");
 	backtrack();
 	return;
@@ -359,44 +366,6 @@ int main() {
 			}
 		}
 		ej3();
-		// cout << false << endl;
-
-		// laserHorizontal(0, 4, "PONER");
-		// laserHorizontal(1, 2, "PONER");
-		// laserVertical(1, 2, "PONER");
-		// laserHorizontal(2, 1, "PONER");
-		// laserHorizontal(3, 1, "PONER");
-		// laserHorizontal(4, 3, "PONER");
-		// laserVertical(4, 3, "PONER");
-		// laserVertical(2, 5, "PONER");
-		// laserVertical(2, 6, "PONER");
-
-		// laserVertical(7, 0, "PONER");
-		// laserHorizontal(7, 0, "PONER");
-		// laserVertical(6, 4, "PONER");
-		// laserHorizontal(6, 4, "PONER");
-
-		// mostrar("tipo");
-
-		// laserHorizontal(0, 4, "SACAR");
-		// laserHorizontal(1, 2, "SACAR");
-		// laserVertical(1, 2, "SACAR");
-		// laserHorizontal(2, 1, "SACAR");
-		// laserHorizontal(3, 1, "SACAR");
-		// laserHorizontal(4, 3, "SACAR");
-		// laserVertical(4, 3, "SACAR");
-		// laserVertical(2, 5, "SACAR");
-		// laserVertical(2, 6, "SACAR");
-
-		// laserVertical(7, 0, "SACAR");
-		// laserHorizontal(7, 0, "SACAR");
-		// laserVertical(6, 4, "SACAR");
-		// laserHorizontal(6, 4, "SACAR");
-
-		// mostrar("laser");
-
-		// cout << chequearSolucion() << endl;
-
 
 		if (mejorCosto == n*m*6000)
 			cout << "-1";
