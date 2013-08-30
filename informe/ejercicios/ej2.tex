@@ -17,10 +17,10 @@ En lo que sigue, presentaremos dos ejemplos sobre cómo debería comportarse nue
 {\large{\textbf{Ejemplos:}}}\newline
 
 \begin{figure}[H] %[h] Aqui [b] para button [t] para top
-\includegraphics[width=80pt]{../imgs/leyendaejemploej2.jpg}
 \begin{center}
 \includegraphics[width=450pt]{../imgs/ejemplosej2.jpg}
 \end{center}
+\includegraphics[width=80pt]{../imgs/leyendaejemploej2.jpg}
 \end{figure}
 En el ejemplo \textbf{1)}, decidimos mostrar un caso en el que no se solapara ningún curso. En esta ocasión, puede observarse que, dado que hay una solución óptima, ésta es única.\newline
 
@@ -60,40 +60,9 @@ esta es condición suficiente ya que por O1 el valor de incio de un curso es men
 
 \subsection{Demostración de correctitud}
 
-Veamos que efectivamente nuestro algoritmo encuentra una solución óptima. 
+Veamos que, efectivamente, nuestro algoritmo encuentra una solución óptima. Para ello, definamos $S$, solución que maximiza la cantidad de cursos que no se solapan en el ciclo. Supongamos, por el absurdo, que existe una solución $S'$ cuya cantidad de intervalos es mayor que la de $S$.\\ Si hubiera intervalos en $S' - S$ que no se solaparan con ninguno de $S$, entonces éstos deberían estar en $S$ dado que es la solusión que maximiza la cantidad de cursos que no se solapan. De este modo, llegamos a un absurdo proveniente de suponer que existe una mejor solución al problema.
 
-Sea $S$ una solución optima de problema. supongamos por el absurdo que no lo es, entonces existe una solución $S'$ que tiene una cantidad de intervalos mayor que $S$.\\ Si los intervalos de $S' - S$ no se solapan con ningún intervalo de $S$ entonces el algoritmo los úbiera seleccionado, ya que siempre toma todos los intervalos que no están solapados con los que ya tomó y llegamos a un absurdo, que provino de suponer que hay una mejor solucion.
-
-\par{En el caso en que los intervalos $S' - S$ se solapen con intervalos de $S$ debe existir al menos $n-1$ intervalo dentro de $S$ que pueda ser reemplazado por $n$ o más intervalos que esten en $S'$. llamemos $V$ a estos intervalos y $W$ al conjunto de intervalos por el que lo puedo intercambiar, notese que $#V < #W$ ya que si no fuera asi no podriamos decir que hay una mejor solucion, Entonces por la formula que vimos, debe existir un intervalo $w \in W$ tal que para algún intervalo de $v \in V$ se cumpla que $w_{f} > v_{i} \land v_{f} > w_{i}$ lo cual quiere decir que el fin de ese intervalo $w$ está antes que el fin del intervalo $v$, pero si esto fuera asi, entonces el algoritmo úbiera seleccionado primero el intervalo $w$ ya que siempre toma los intervalos que terminan antes de los que ya seleccionó, con lo cual llegamos a un absurdo, que provino de suponer que existia una mejor solucion.}
-
-% Primero veamos el invariante de nuesta solucion:
-% \begin{itemize}
-% \item Sea S una solucion, cumple que el i-esimo curso tiene la fecha de finalizacion mas proxima posible\footnote{Con "posible" nos referimos a que no se solapa con ningun curso que tenga menor fecha de finalizacion.} al anterior, es decir, al (i-1)-esimo curso. Estando siempre el curso que primero finaliza como solucion.
-% \end{itemize}
-
-% Sea C un conjunto de cursos tal que:
-% \begin{itemize}
-% \item Ningun curso se solapa, la solucion es C. Esto es trivial, ya que mas cursos de los que hay no pueden  haber.
-% \item Existen dos cursos que se solapan. Sea $i$ y $j$ dichos cursos. Sin perder generalidad supongamos que la fecha de terminacion de $j$ es mayor o igual que la de $i$. Quiero ver que, si S es la solucion que contiene a $i$ y S' es la solucion que contiene a $j$ $\Rightarrow$ $|$S'$|$ $\leq$ $|$S$|$. 
-%   Esto se cumple porque S' contiene a $j$ que termina luego que $i$, por lo que por lo menos todos los cursos de S' desde el $j$ estan contenidos en S y, ademas, si  $j$ comienza antes que $i$ se que la cantidad de cursos de S' antes de $j$ estan antes de $i$ en S 
-
-% \begin{figure}[H] %[h] Aqui [b] para button [t] para top
-% \begin{center}
-% \includegraphics[width=322pt]{../imgs/demo21.jpg}
-% \end{center}
-% \end{figure}
-
-% o si $j$ empieza luego de $i$ yo se que no termina ningun otro curso entre el comienzo de $i$ y $j$, porque de terminar ubiese elejido ese en S  (ya que elijo siempre el que termina antes), 
-
-% \begin{figure}[H] %[h] Aqui [b] para button [t] para top
-% \begin{center}
-% \includegraphics[width=322pt]{../imgs/demo22.jpg}
-% \end{center}
-% \end{figure}
-
-% \end{itemize}
-
-% por lo tanto, $|$S'$| \leq |$S$|$. 
+\par{En el caso en el que los intervalos $S' - S$ se solaparan con intervalos de $S$, deberían existir al menos $n-1$ intervalos (que llamamos $V$) en $S$ que puedan ser reemplazados por $n$ o más intervalos (que llamamos $W$) en $S'$. Sabemos que $#V < #W$ ya que, caso contrario, no podríamos decir que existe una mejor solución. Luego, debe existir un intervalo $w \in W$ tal que para algún intervalo $v \in V$ se cumpla que $f_{w} > i_{v} \land f_{v} > i_{w}$. Esto quiere decir que $f_{w} < f_{v}$, pero si esto fuera así, el algoritmo hubiera seleccionado primero el intervalo $w$ ya que siempre toma los intervalos que terminan antes de los que ya seleccionó. De esta manera, llegamos a un absurdo que provino de suponer que existía una mejor solución al problema.}
 
 
 \subsection{Complejidad del algoritmo}
