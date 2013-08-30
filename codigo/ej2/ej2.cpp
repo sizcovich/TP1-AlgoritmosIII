@@ -17,18 +17,18 @@ using namespace std;
 
 typedef pair<int,int> Curso;
 
-bool customLess (Curso i,Curso j)
-{ return (i.second < j.second); }
+bool customLess (pair<Curso,int> i,pair<Curso,int> j)
+{ return ((i.first).second < (j.first).second); }
 
-vector<Curso> filtrarSolapamientos(vector<Curso>& cs)
+vector<pair<Curso,int> > filtrarSolapamientos(vector<pair<Curso,int> >& cs)
 {
-    vector<Curso> res;
+    vector<pair<Curso,int> > res;
     res.reserve(cs.size()); //Sirve para reservar espacio y que agregar luego sea O(1)
     res.push_back(cs[0]);
     int ult = 0;
     for(int i=1;i<cs.size();++i)
     {
-        if (cs[i].first >= res[ult].second) //VEO SI EL INICIO DE UN CURSO ES DESPUES DEL TERMINO DEL ANTERIOR (DEL ANTERIOR AGREGADO).
+        if (cs[i].first.first >= res[ult].first.second) //VEO SI EL INICIO DE UN CURSO ES DESPUES DEL TERMINO DEL ANTERIOR (DEL ANTERIOR AGREGADO).
             {res.push_back(cs[i]);
             ++ult;}
     }
@@ -36,16 +36,16 @@ vector<Curso> filtrarSolapamientos(vector<Curso>& cs)
 }
 
 
-vector<int> ej2(vector<Curso> cs) {
+vector<int> ej2(vector<pair<Curso,int> > cs) {
 	vector<int> res;
 	res.reserve(cs.size()); //Sirve para reservar espacio y que agregar luego sea O(1)
  	sort(cs.begin(), cs.end(),customLess); //ORDENA SEGUN LA SEGUNDA TUPLA
-	vector<Curso> salida = filtrarSolapamientos(cs); //Quita los cursos que se solapan de izquierda a derecha
+	vector<pair<Curso,int> > salida;
+	salida = filtrarSolapamientos(cs); //Quita los cursos que se solapan de izquierda a derecha
 
 	//PREPARO LA SALIDA
 	res.push_back(salida.size());
 	for(int i=0;i<salida.size();++i){
-        res.push_back(salida[i].first);
         res.push_back(salida[i].second);
 	}
 
@@ -57,7 +57,7 @@ int main() {
 	while (termino != '#') {
 		int c,ci,cf;
 		int cantCursos;
-		vector<Curso> cs;
+		vector<pair<Curso,int> > cs;
 
 		cin >> cantCursos;
 
@@ -66,7 +66,8 @@ int main() {
 		{
 			cin >> ci;
 			cin >> cf;
-			cs.push_back(pair<int,int>(int(ci), int(cf)));
+			Curso cur (ci, cf);
+			cs.push_back(make_pair(cur, i++));
 		}
 
 		vector<int> res;
