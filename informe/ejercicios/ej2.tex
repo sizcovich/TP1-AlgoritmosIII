@@ -92,6 +92,22 @@ Finalmente, la complejidad es: $\mathcal{O}(1)+\mathcal{O}(n)+\mathcal{O}(n\ log
 
 \subsection{Instancias posibles}
 
+Para verificar la correctitud de nuestro programa, dispusimos variar estratégicamente las instancias de entrada al ejecutarlo.
+\begin{itemize}
+\item En primer lugar, ejecutamos el programa ingresando cursos donde ninguno se solapa entre si. Esto es para ver que el resultado devuelve todos los cursos ingresados.\newline
+\textbf{Parámetro de entrada:}
+\textbf{Parámetro de salida:}\newline
+\item Por otra parte, probamos el programa cuando no se ingresa ningun curso, en otras palabras, el caso vacio. Lo interesante de esto es ver que nuestro algoritmo funciona en dicho caso borde.\newline
+\textbf{Parámetro de entrada:}
+\textbf{Parámetro de salida:}\newline
+\item Otro caso interesante, es ver cuando todos los cursos finalizan al mismo tiempo, es decir, todos tienen la misma fecha de finalizacion. Esto es interesante ya que nuestro algoritmo ordena por fecha de finalizacion, entonces cualquiera tiene chance de ser solucion, por lo tanto, esta bueno ver cual elige de todos. \newline
+\textbf{Parámetro de entrada:}
+\textbf{Parámetro de salida:}\newline
+\item Por ultimo, esta el caso que existe un curso (por lo menos) que se solapa. Este seria el caso mas interesante y comun en el problema. \newline
+\textbf{Parámetro de entrada:}
+\textbf{Parámetro de salida:}\newline
+\end{itemize}
+
 
 
 \subsection{Testing}
