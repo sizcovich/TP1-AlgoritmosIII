@@ -18,12 +18,60 @@ En el primer caso el costo total es de \$44000 y la segunda solucion tiene un co
 
 \subsection{Resolución coloquial}
 
+Para resolver este ejercicio usamos, como recomendacion de la catedra en el enunciado, la técnica de backtracking que consiste en probar todas las posibles combinaciones de soluciones dentro del problema hasta llegar a las validas y guardar así la mejor de ellas usando en casa paso, criterios de parada que nos permitan deducir si las soluciones parcialmente obtenidas son candidatas a mejores soluciones o si son soluciones validas.
+
+El modelo de nuestro problema mapea las el piso, las paredes y los lugares importantes del museo en casillas dentro de una matriz.
+
+Para resolver el problema recorremos la matriz secuencialmente y cada paso tomamos una decision sobre el casillero actual, siento estas colocar un sensor o dejar el casillero sin ningun sensor, esta genera un arbol de decisiones en el cual cada una de sus ramas representan un escenario diferente en la distribucion de sensores en la matriz que representa nuestra modelo, de esta manera nos garantizamos obtener todas las posibles combinaciones de configuraciones de la matriz.
+
 \subsection{Demostración de correctitud}
+
+Sea $C$ el conjunto de configuraciones posibles de la matriz, si en cada paso puedo probar 4 configuraciones diferentes para cada casillero disponible, y si mi matriz mide $n*m$, entonces por combinatoria tengo $4^{n*m}$ configuraciones finales posilbes de la matriz, como nuestro algoritmo hace esencialmente eso (excepto por las podas y criterios de terminacion que no representan soluciones validas) podemos decir que este encuentra todas las posibles configuraciones de la matriz.
+
+Sea $s$ una solucion optima al problema, ya que $s$ representa una configuracion particular de la matriz entonces como $C$ representa el conjunto de todas las posibles soluciones del problema y la solucion optima, si es que existe alguna solucion, está dentro de ese conjunto, entonces nuestro algoritmo deberia encontrarla y devolverla.
+
+Es correcto por que usa backtracking.-
 
 \subsection{Complejidad del algoritmo}
 
+Pseudocódigo:
+
+\begin{algorithm}[H]
+	\SetAlgoLined
+	\caption{Algoritmo de Backtracking}
+	\KwIn{Matriz grilla}
+	\KwOut{int cantidadCamiones, listaDeSensores}
+	
+	
+
+	\lIf{$ps = \emptyset$}{\textbf{devolver} 0, $ListaVacia$}\\
+	
+	Camiones $ca \leftarrow$ \{Camion $cNuevo(0)\}$\\
+	cantidadDeCamiones := 1\\
+	\For{Paquete p $\in$ $ps$}{
+		Camion $c$ := camionMenosCargado($ca$)\\
+		\eIf{peso($p$)+capacidad($c$) $\leq$  limite}{
+			capacidad($c$) $+=$ peso($p$)
+		}{
+			$ca \leftarrow$ Camion $cNuevo(0)$\\
+			capacidad($cNuevo$) $=$ peso($p$)\\
+			cantidadDeCamiones + 1;
+		}
+	}
+	\textbf{devolver} cantidadDeCamiones, $ca$
+\end{algorithm}
+
+
+4^n
+
 \subsection{Código fuente}
+
+
 
 \subsection{Instancias posibles}
 
+
+
 \subsection{Testing}
+
+
