@@ -84,28 +84,33 @@ int main() {
 		int posicion = 1;
 
 		cin >> cantCursos;
-		
-		vector< pair<Curso,int> > apariciones; //Guarda el orden de llegada (aparicion) de los cursos 
-		
-        cs.reserve(cantCursos); //Sirve para reservar espacio y que agregar luego sea O(1)
-        apariciones.reserve(cantCursos);
-		for (int i = 0; i < cantCursos; ++i)
+		if (cantCursos > 0)
 		{
-			cin >> ci;
-			cin >> cf;
-			cs.push_back(pair<int,int>(int(ci), int(cf)));
-			pair<Curso,int> val(pair<int,int>(int(ci), int(cf)),posicion);
-			apariciones.push_back(val);
-			++posicion;
+			
+			vector< pair<Curso,int> > apariciones; //Guarda el orden de llegada (aparicion) de los cursos 
+			
+			cs.reserve(cantCursos); //Sirve para reservar espacio y que agregar luego sea O(1)
+			apariciones.reserve(cantCursos);
+			for (int i = 0; i < cantCursos; ++i)
+			{
+				cin >> ci;
+				cin >> cf;
+				cs.push_back(pair<int,int>(int(ci), int(cf)));
+				pair<Curso,int> val(pair<int,int>(int(ci), int(cf)),posicion);
+				apariciones.push_back(val);
+				++posicion;
+			}
+
+			vector<int> res;
+
+			res = ej2(cs,apariciones);
+
+			for (int i = 0; i < res.size(); ++i)
+				cout << res[i] << " ";
+			cout<<endl;
+		}else{
+			cout<<"0"<<endl;
 		}
-
-		vector<int> res;
-
-		res = ej2(cs,apariciones);
-
-		for (int i = 0; i < res.size(); ++i)
-			cout << res[i] << " ";
-        cout<<endl;
 		termino = (cin >> ws).peek();
 	}
 	return 0;
