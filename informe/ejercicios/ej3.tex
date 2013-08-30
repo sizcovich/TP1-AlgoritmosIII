@@ -39,38 +39,44 @@ Pseudocódigo:
 \begin{algorithm}[H]
 	\SetAlgoLined
 	\caption{Algoritmo de Backtracking}
-	\KwIn{Matriz grilla}
-	\KwOut{int cantidadCamiones, listaDeSensores}
+	\KwIn{Matriz $grilla$}
+	\KwOut{lista sensores}
 	
-	
+	Lista $casillasLibres\ \leftarrow$ := ObtenerPosicionesLibres(grilla)\\
 
-	\lIf{$ps = \emptyset$}{\textbf{devolver} 0, $ListaVacia$}\\
-	
-	Camiones $ca \leftarrow$ \{Camion $cNuevo(0)\}$\\
-	cantidadDeCamiones := 1\\
-	\For{Paquete p $\in$ $ps$}{
-		Camion $c$ := camionMenosCargado($ca$)\\
-		\eIf{peso($p$)+capacidad($c$) $\leq$  limite}{
-			capacidad($c$) $+=$ peso($p$)
-		}{
-			$ca \leftarrow$ Camion $cNuevo(0)$\\
-			capacidad($cNuevo$) $=$ peso($p$)\\
-			cantidadDeCamiones + 1;
+	\For{Posicion $p \in grilla$}{
+		\If{p es importante}{
+			RestringirPorImportantes(p)\\
 		}
 	}
-	\textbf{devolver} cantidadDeCamiones, $ca$
+
+	sensores := backtrack($grilla$, $casillasLibres$)\\
+
+	\textbf{devolver} sensores
 \end{algorithm}
 
+\begin{algorithm}[H]
+	\SetAlgoLined
+	\caption{backtrack}
+	\KwIn{Matriz $grilla$}
+	\KwOut{lista sensores}
+	
+	Lista $casillasLibres\ \leftarrow$ := ObtenerPosicionesLibres(grilla)\\
 
-4^n
+	\For{Posicion $p \in grilla$}{
+		\If{p es importante}{
+			RestringirPorImportantes(p)\\
+		}
+	}
+
+	sensores := backtrack($grilla$, $casillasLibres$)\\
+	
+	\textbf{devolver} sensores
+\end{algorithm}
 
 \subsection{Código fuente}
 
-
-
 \subsection{Instancias posibles}
-
-
 
 \subsection{Testing}
 
