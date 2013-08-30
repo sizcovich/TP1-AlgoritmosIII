@@ -150,13 +150,25 @@ while(!ca.empty()){
 \subsection{Instancias posibles}
 Para verificar la correctitud de nuestro programa, dispusimos variar estratégicamente las instancias de entrada al ejecutarlo.
 \begin{itemize}
-\item En primer lugar, ejecutamos el programa ingresando paquetes cuyos pesos fueran equivalentes al límite de los camiones. De este modo, nos aseguramos de no estar cometiendo errores de cotas. El resultado obtenido fue el esperado: una cantidad de camiones equivalente a la cantidad de paquetes ingresados cuyos pesos correspondían exactamente al de cada paquete.
-
-\item Por otra parte, probamos no ingresar ningún paquete para corroborar que la salida estuviera comprendida por una cantidad de camiones nula y una lista vacía.
-
-\item Por último, quisimos comprobar qué ocurría al tener dos camiones con la misma carga y que ésta fuera la menor. Pudimos constatar que el algoritmo elige el último camión cargado.
+\item En primer lugar, ejecutamos el programa ingresando paquetes cuyos pesos fueran equivalentes al límite de los camiones. De este modo, nos aseguramos de no estar cometiendo errores de cotas. El resultado obtenido fue el esperado: una cantidad de camiones equivalente a la cantidad de paquetes ingresados cuyos pesos correspondían exactamente al de cada paquete.\newline
+\textbf{Parámetro de entrada:}
+\textbf{Parámetro de salida:}\newline
+\item Por otra parte, probamos no ingresar ningún paquete para corroborar que la salida estuviera comprendida por una cantidad de camiones nula y una lista vacía.\newline
+\textbf{Parámetro de entrada:}
+\textbf{Parámetro de salida:}\newline
+\item Por último, quisimos comprobar qué ocurría al tener dos camiones con la misma carga y que ésta fuera la menor. Pudimos constatar que el algoritmo elige el último camión cargado.\newline
+\textbf{Parámetro de entrada:}
+\textbf{Parámetro de salida:}\newline
 \end{itemize}
 
-De este modo, logramos abarcar los casos límite en los que la implementación pudiera haber ocasionado algún problema. Dado que los resultados obtenidos fueron los esperados, determinamos que para todas las instancias válidas posibles de entrada nuestra implementación resulta correcta.
+De este modo, logramos abarcar los casos límite en los que la implementación pudiera haber encontrado algún problema. Dado que los resultados obtenidos fueron los esperados, determinamos que para todas las instancias válidas posibles de entrada nuestra implementación resulta correcta.
 
 \subsection{Testing}
+
+Para realizar las pruebas de complejidad, generamos instancias aleatorias de pesos de cajas alterando la cantidad de las mismas pero manteniendo estático el peso máximo de carga de los camiones. Estas instancias fueron generadas en $Matlab$ con la función \textin{randn} de forma tal a poder acotarlas por la capacidad de carga de los camiones. De este modo, logramos medir las pruebas de nuestro algoritmo para comprobar que la complejidad correspondiera con la mencionada anteriormente.
+
+%\begin{figure}[H] %[h] Aqui [b] para button [t] para top
+%\begin{center}
+%\includegraphics[width=300pt]{../imgs/complejidadEj1.jpg}
+%\end{center}
+%\end{figure}
