@@ -34,6 +34,7 @@ struct Casilla {
 		j = 0;
 	}
 };
+bool haySolucion;
 typedef vector< vector <Casilla> > Grilla;
 queue<Casilla*> casillasLibres;
 Grilla g;
@@ -42,6 +43,7 @@ long int mejorCosto;
 long int costoActual=0;
 int cantSensores=0;
 int mejorCantSensores=0;
+
 
 void mostrar(Grilla g, string parametro) {
 	for (int i = 0; i < g.size(); ++i) {
@@ -236,11 +238,12 @@ void restringirCasillasPorImportante(int i, int j) {
 
 void backtrack() {
 	//SI NO TENGO MAS CASILLAS QUE ASIGNAR ENTONCES QUEIRE DECIR QUE TERMINE Y DEBERIA SER UNA SOLUCION
-	if (costoActual >= mejorCosto)
+	if (costoActual >= (mejorCosto-4000))
 		return;
 	if (casillasLibres.empty()) {
 		if (chequearSolucion()) { //CHEQUEO SI ES UNA SOLUCION
 			if (costoActual < mejorCosto) {
+				haySolucion = true;
 				mejorCosto = costoActual;
 				gMejor = g;	
 				mejorCantSensores = cantSensores;
@@ -358,6 +361,7 @@ int main() {
 	// stdin = freopen("./ej3.in", "r", stdin);
 	char termino = ' ';
 	while (termino != '#') {
+		haySolucion = false;
 		int n, m;
 		Grilla gEnLimpio; //A LA PRIMERA VUELTA ESTA TODO BIEN, PERO CUANDO SE EJECUTA POR SEGUNDA VEZ, HAY INFORMACION EN LA GRILLA DE LA VEZ ANTERIOR
 		g = gEnLimpio; //ENTONCES CREO UNA GRILLA EN LIMPIO Y LA REEMPLAZO
@@ -389,7 +393,7 @@ int main() {
 
 		cerr << n+m << " " << x << endl;
 
-		if (mejorCosto == n*m*6000)
+		if (mejorCosto == n*m*6000 && haySolucion)
 			cout << "-1";
 		else {
 			// mostrar(gMejor, "laser");

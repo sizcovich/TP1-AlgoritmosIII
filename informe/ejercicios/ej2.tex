@@ -42,9 +42,6 @@ Sea $S$ una solución optima de problema. supongamos por el absurdo que no lo es
 
 \par{En el caso en que los intervalos $S' - S$ se solapen con intervalos de $S$ debe existir al menos $n-1$ intervalo dentro de $S$ que pueda ser reemplazado por $n$ o más intervalos que esten en $S'$. llamemos $V$ a estos intervalos y $W$ al conjunto de intervalos por el que lo puedo intercambiar, notese que $#V < #W$ ya que si no fuera asi no podriamos decir que hay una mejor solucion, Entonces por la formula que vimos, debe existir un intervalo $w \in W$ tal que para algún intervalo de $v \in V$ se cumpla que $w_{f} > v_{i} \land v_{f} > w_{i}$ lo cual quiere decir que el fin de ese intervalo $w$ está antes que el fin del intervalo $v$, pero si esto fuera asi, entonces el algoritmo úbiera seleccionado primero el intervalo $w$ ya que siempre toma los intervalos que terminan antes de los que ya seleccionó, con lo cual llegamos a un absurdo, que provino de suponer que existia una mejor solucion.}
 
-
-
-
 % Primero veamos el invariante de nuesta solucion:
 % \begin{itemize}
 % \item Sea S una solucion, cumple que el i-esimo curso tiene la fecha de finalizacion mas proxima posible\footnote{Con "posible" nos referimos a que no se solapa con ningun curso que tenga menor fecha de finalizacion.} al anterior, es decir, al (i-1)-esimo curso. Estando siempre el curso que primero finaliza como solucion.
