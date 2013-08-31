@@ -41,8 +41,6 @@ pair<int,vector<int> > algoritmoDePascual(int limite, int cantPaquetes, Paquetes
 	for (int i = 0; i < cantPaquetes; ++i)
 		ca.pop();
 
-
-
 	int cantCamiones = 0; //contador de camiones
 
 	if (ps.empty()) //Si NO HAY PAQUETES, entonces devuelve el resultado vacio
