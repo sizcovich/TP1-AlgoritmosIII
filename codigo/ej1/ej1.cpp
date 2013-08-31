@@ -25,11 +25,15 @@ typedef int Paquete;
 typedef pair<int,int> Camion; //El camion se define por su orden y su capacidad
 typedef vector<Paquete> Paquetes;
 
+bool comparation(Camion& c1,Camion& c2)
+{
+	return (c1.second<c2.second);
+}
 
-pair<int,vector<int> > algoritmoDePascual(int limite, int cantPaquetes, Paquetes ps) {
+pair<int,vector<int> > algoritmoDePascual(int limite, int cantPaquetes, Paquetes& ps) {
 	vector<int> vectorCamionesOrdenados(cantPaquetes);
 	pair<int,vector<int> > res;
-	priority_queue<Camion, vector<Camion>, greater<Camion> > ca;
+	priority_queue<Camion, vector<Camion>, greater<Camion> > ca; 
 
 	Camion tmp;
 	for (int i = 0; i < cantPaquetes; ++i)
@@ -44,27 +48,27 @@ pair<int,vector<int> > algoritmoDePascual(int limite, int cantPaquetes, Paquetes
 	if (ps.empty()) //Si NO HAY PAQUETES, entonces devuelve el resultado vacio
 		return make_pair(0, vector<int>());
 	else { //Si hay paquetes, agrego el primer paquete al heap.
-		ca.push(make_pair(cantCamiones, ps[0])); 
+		ca.push(make_pair(ps[0],cantCamiones)); 
 		cantCamiones++;
 	}
 
     for (int i=1;i<cantPaquetes;++i)
     {
         Camion c = ca.top();
-        if ((ps[i]+c.second) <= limite)
+        if ((ps[i]+c.first) <= limite)
         {
-            c.second += ps[i];
+            c.first += ps[i];
             ca.pop(); //elimina el camion menos cargado y en la siguiente linea lo vuelve a agregar
             ca.push(c);
         }else{
-            ca.push(make_pair(cantCamiones, ps[i])); //agrega un nuevo camion
+            ca.push(make_pair(ps[i],cantCamiones)); //agrega un nuevo camion
             ++cantCamiones;
         }
     }
     //Guardo los resultados en el vector         
 	while(!ca.empty()){
 		Camion c = ca.top();
-		vectorCamionesOrdenados[c.first] = c.second;
+		vectorCamionesOrdenados[c.second] = c.first;
 		ca.pop();
 	}
 	vectorCamionesOrdenados.resize(cantCamiones);

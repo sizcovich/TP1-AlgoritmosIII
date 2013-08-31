@@ -150,15 +150,18 @@ while(!ca.empty()){
 \subsection{Instancias posibles}
 Para verificar la correctitud de nuestro programa, dispusimos variar estratégicamente las instancias de entrada al ejecutarlo.
 \begin{itemize}
-\item En primer lugar, ejecutamos el programa ingresando paquetes cuyos pesos fueran equivalentes al límite de los camiones. De este modo, nos aseguramos de no estar cometiendo errores de cotas. El resultado obtenido fue el esperado: una cantidad de camiones equivalente a la cantidad de paquetes ingresados cuyos pesos correspondían exactamente al de cada paquete.\newline
-\textbf{Parámetro de entrada:}
-\textbf{Parámetro de salida:}\newline
+\item En primer lugar, ejecutamos el programa ingresando paquetes cuyos pesos fueran igual al límite de los camiones. De este modo, nos aseguramos de no estar cometiendo errores de cotas. El resultado obtenido fue el esperado: una cantidad de camiones equivalente a la cantidad de paquetes ingresados cuyos pesos correspondían exactamente al de cada paquete.\newline
+
+\textbf{Parámetro de entrada:} $$10\ \ 3\ \ 10\ \ 10\ \ 10$$
+\textbf{Parámetro de salida:} $$3\ \ 10\ \ 10\ \ 10$$\newline
 \item Por otra parte, probamos no ingresar ningún paquete para corroborar que la salida estuviera comprendida por una cantidad de camiones nula y una lista vacía.\newline
-\textbf{Parámetro de entrada:}
-\textbf{Parámetro de salida:}\newline
-\item Por último, quisimos comprobar qué ocurría al tener dos camiones con la misma carga y que ésta fuera la menor. Pudimos constatar que el algoritmo elige el último camión cargado.\newline
-\textbf{Parámetro de entrada:}
-\textbf{Parámetro de salida:}\newline
+
+\textbf{Parámetro de entrada:} $$0\ \ 0$$
+\textbf{Parámetro de salida:} $$0$$\newline
+\item Tambien, quisimos comprobar qué ocurría al tener dos o mas camiones con la misma carga, para asi ver el orden de salida. Pudimos constatar que el orden de salida es el correcto, es decir, no importa la carga de los camiones, retorna por orden de carga. \newline
+
+\textbf{Parámetro de entrada:} $$4\ \ 3\ \ 2\ \ 3\ \ 2$$
+\textbf{Parámetro de salida:} $$3\ \ 3\ \ 4\ \ 3$$\newline
 \end{itemize}
 
 De este modo, logramos abarcar los casos límite en los que la implementación pudiera haber encontrado algún problema. Dado que los resultados obtenidos fueron los esperados, determinamos que para todas las instancias válidas posibles de entrada nuestra implementación resulta correcta.
