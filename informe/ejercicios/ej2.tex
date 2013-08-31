@@ -47,6 +47,24 @@ $$3\ \ 1\ \ 2\ \ 2\ \ 7\ \ 5\ \ 8$$
 $$3$$
 
 \subsection{Resolución coloquial}
+Al analizar el problema a resolver, nos percatamos de que el algoritmo de maximización de intervalos no solapados corresponde a un $algoritmo\ goloso$. Dicho algoritmo consiste en la construcción de una solución seleccionando, en cada paso, la mejor alternativa sin considerar las implicancias de ésta.\newline Por otro lado, dicha técnica de diseño algorítmico resulta fácil de implementar, suele ser eficiente y permite construir soluciones razonables.\newline
+
+\begin{algorithm}[H]
+	\SetAlgoLined
+	\caption{Algoritmo de Maximización de intervalos no solapados}
+	\KwIn{Entero cantidadDeCursos, Cursos cs}
+	\KwOut{listaDeCursos}
+	cs = ordenarPorFin(cs)\\
+	Cursos res = $Nil$
+	\For{Curso c $\in$ $cs$}{
+		\eIf{noSeSolapa(c,res)}{
+			res \leftarrow c\\
+		}{}
+	}
+	\textbf{devolver} ordenar(res)
+\end{algorithm}
+
+donde $Cursos$ es un conjunto conteniendo la información (fecha de inicio y de fin) de los cursos del ciclo.
 
 O1: Los dias de inicio son menores a los dias de finalizacion de cada curso\\
 
@@ -60,10 +78,16 @@ esta es condición suficiente ya que por O1 el valor de incio de un curso es men
 
 \subsection{Demostración de correctitud}
 
-Veamos que, efectivamente, nuestro algoritmo encuentra una solución óptima $S$. Supongamos, por el absurdo, que existe una solución $S'$ cuya cantidad de intervalos es mayor que la de $S$.\\ Si hubiera intervalos en $S' - S$ que no se solaparan con ninguno de $S$, entonces éstos deberían estar en $S$ dado que es la solución que maximiza la cantidad de cursos que no se solapan. De este modo, llegamos a un absurdo proveniente de suponer que existe una mejor solución al problema.
+Veamos que, efectivamente, nuestro algoritmo encuentra una solución óptima $S$ cuya cantidad de intervalos es $k$. Para ello, vamos a suponer que tenemos la salida ordenada por la fecha de fin de cada intervalo. Supongamos que existe una solución óptima $S'$ cuya cantidad de intervalos es $n$ con $n \geq k$, dicha solución se encuentra ordenada del mismo modo que $S$.\\ Sea $S_{1}$ y $S'_{1}$ los primeros intervalos de ambas soluciones. En el caso en el que $f_{S_{1}} \leq f_{S'_{1}}$, se puede reemplazar $S'_{1}$ por $S_{1}$ pues, si $S'_{2}$ no se solapa con $S'_{1}$, tampoco se solapará con $S_{1}$. El caso $f_{S'_{1}} \leq f_{S_{1}}$ no puede ocurrir pues nuestro algoritmo selecciona el intervalo cuya fecha de fin sea la menor.\\
+Por otra parte, si consideramos $S_{2}$ y $S'_{2}$ y por el mismo criterio utilizado anteriormente, si $f_{S_{2}} \leq f_{S'_{2}}$, se puede reemplazar $S'_{2}$ por $S_{2}$ pues, si $S'_{1}$ no se solapa con $S'_{2}$, tampoco se solapará con $S_{2}$. Este mismo razonamiento puede extenderse, con los mismos criterios, hasta $S_{k}$.\\
+Tal como mencionado, los intervalos de nuestra solución terminan igual o antes que los de la solución óptima, en particular, el último de ellos. Veamos ahora, qué relación existe entre $k$ y $n$. Para ello, analicemos las diferentes opciones:
+\begin{itemize}
+\item \textbf{$k = n$:} En este caso, la solución proporcionada por nuestro algoritmo tiene la misma cantidad de intervalos que la óptima. Luego, es óptimo.
+\item \textbf{$k > n$:} Esta situación no es posible dado que $n$ es la cantidad de intervalos de la solución óptima.
+\item \textbf{$k < n$:} En este caso, existe un intervalo en $S'_{k+1}$ cuya fecha de fin es mayor a la fecha de fin de $S_{k}$ dado que éste reemplazó a $S'_{k}$. Pero esto resulta absurdo pues este intervalo debería estar también en $S$ como lo estipula nuestro algoritmo.
+\end{itemize}
 
-\par{En el caso en el que los intervalos $S' - S$ se solaparan con intervalos de $S$, deberían existir al menos $n-1$ intervalos (que llamamos $V$) en $S$ que puedan ser reemplazados por $n$ o más intervalos (que llamamos $W$) en $S'$. Sabemos que $\#V < \#W$ ya que, caso contrario, no podríamos decir que existe una mejor solución. Luego, debe existir un intervalo $w \in W$ tal que para algún intervalo $v \in V$ se cumpla que $f_{w} > i_{v} \land f_{v} > i_{w}$. Esto quiere decir que $f_{w} < f_{v}$, pero si esto fuera así, el algoritmo hubiera seleccionado primero el intervalo $w$ ya que siempre toma los intervalos que terminan antes de los que ya seleccionó. De esta manera, llegamos a un absurdo que provino de suponer que existía una mejor solución al problema.}
-
+Luego, podemos concluir que $k = n$, siendo, la solución de nuestro algoritmo, la óptima al problema. 
 
 \subsection{Complejidad del algoritmo}
 
