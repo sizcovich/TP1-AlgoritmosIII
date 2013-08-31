@@ -42,7 +42,7 @@ Pseudocódigo:
 	\KwIn{Matriz $grilla$}
 	\KwOut{lista sensores}
 	
-	Lista $casillasLibres\ \leftarrow$ := ObtenerPosicionesLibres(grilla)\\
+	Lista $casillasLibres\ \leftarrow$ ObtenerPosicionesLibres(grilla)\\
 
 	\For{Posicion $p \in grilla$}{
 		\If{p es importante}{
@@ -58,20 +58,33 @@ Pseudocódigo:
 \begin{algorithm}[H]
 	\SetAlgoLined
 	\caption{backtrack}
-	\KwIn{Matriz $grilla$}
-	\KwOut{lista sensores}
+	\KwIn{Matriz $grilla$, Lista $casillasLibres$}
+	\KwOut{}
 	
-	Lista $casillasLibres\ \leftarrow$ := ObtenerPosicionesLibres(grilla)\\
+	Lista $casillaActual$ := Proxima casilla libre en casillasLibres\\
 
-	\For{Posicion $p \in grilla$}{
-		\If{p es importante}{
-			RestringirPorImportantes(p)\\
-		}
+	\If{Puedo poner un sensor bidireccional en $casillaActual$}{
+		Restringir por laser bidireccional\\
+		Saco casillaActual de casillasLibres\\
+		backtrack($grilla$, $casillasLibres$)\\
+	}
+	\If{Puedo poner un sensor vertical en $casillaActual$}{
+		Restringir por laser vertical\\
+		Restringir casilleros horizontales\\
+		Saco casillaActual de casillasLibres\\
+		backtrack($grilla$, $casillasLibres$)\\
+	}
+	\If{Puedo poner un sensor horizontal en $casillaActual$}{
+		Restringir por laser horizontal\\
+		Restringir casilleros verticales\\
+		Saco casillaActual de casillasLibres\\
+		backtrack($grilla$, $casillasLibres$)\\
 	}
 
-	sensores := backtrack($grilla$, $casillasLibres$)\\
-	
-	\textbf{devolver} sensores
+	Dejo el casillero en blanco\\
+	backtrack($grilla$, $casillasLibres$)\\
+
+	\textbf{devolver} ContarSensores($grilla$)
 \end{algorithm}
 
 \subsection{Código fuente}
