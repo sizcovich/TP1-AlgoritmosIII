@@ -62,7 +62,7 @@ $$3\ \ 80\ \ 75\ \ 82$$
 \subsection{Resolución coloquial}
 Al analizar el problema a resolver, nos percatamos de que el algoritmo de Pascual corresponde a un $algoritmo\ goloso$. Dicho algoritmo consiste en la construcción de una solución seleccionando, en cada paso, la mejor alternativa sin considerar las implicancias de ésta.\newline Por otro lado, dicha técnica de diseño algorítmico resulta fácil de implementar, suele ser eficiente y permite construir soluciones razonables.\newline
 \newline
-En el caso del algoritmo de Pascual, el algoritmo goloso consiste en tomar cada instancia de la entrada y ubicarla en el lugar más conveniente en ese momento determinado. Esto significa que, dada la $i-ésima$ caja ingresada en un mismo día, ésta es ubicada en el camión que menor cargado se encuentra en ese momento.\newline
+En el caso del algoritmo de Pascual, el algoritmo goloso consiste en tomar cada instancia de la entrada y ubicarla en el lugar más conveniente en ese momento determinado. Esto significa que, dada la $i$-ésima caja ingresada en un mismo día, ésta es ubicada en el camión se encuentra menos cargado en ese momento.\newline
 
 El pseudocódigo ideado para resolver el problema es el siguiente:\newline
 
@@ -109,11 +109,11 @@ Para adaptar el problema de Pascual a la cola de prioridad, decidimos que cada e
 
 Para el análisis de complejidad de nuestro algoritmo, llamamos $n$ a la cantidad de paquetes que ingresan como parámetro de entrada.\newline
 \newline
-Debido a que el algoritmo realizado consiste en una serie de operaciones básicas, comparaciones y asignaciones (cuyas complejidades son lineales), la complejidad del mismo puede determinarse a partir de los ciclos que éste realiza.\newline
+Debido a que el algoritmo realizado consiste en una serie de operaciones básicas, comparaciones y asignaciones (cuyas complejidades son constantes), la complejidad del mismo puede determinarse a partir de los ciclos que éste realiza.\newline
 \newline
 Nuestro algoritmo fue implementado sobre una cola de mínima prioridad, luego, la extracción del camión menos cargado se realiza en $\mathcal{O}(log\ n)$\footnote{http://www.cplusplus.com/reference/queue/priority\_queue/} gracias a la función \textbf{pop()} provista por $stl$.\newline
 \newline
-Por otro lado, la inserción de un nuevo camión (\textbf{push()}) se realiza en $\mathcal{O}(log\ n)$ + $\mathcal{O}(1)$ = $\mathcal{O}(log\ n)$\footnotemark[1]. Esto se debe a que la cola de prioridad está implementada sobre un vector cuyo tamaño es equivalente a la cantidad de paquetes (correspondiente al peor caso, e.g. $Ejemplo\ 2$). Para lograr esto, debimos agregar un camión por cada paquete a la cola de prioridad y luego retirarlos uno por uno ($\mathcal{O}(n)$).\newline
+Por otro lado, la inserción de un nuevo camión (\textbf{push()}) se realiza en $\mathcal{O}(log\ n)$ + $\mathcal{O}(1)$ = $\mathcal{O}(log\ n)$\footnotemark[1]. Esto se debe a que la cola de prioridad está implementada sobre un vector cuyo tamaño es equivalente a la cantidad de paquetes (correspondiente al peor caso, e.g. $Ejemplo\ 2$). Para lograr esto, debimos agregar un camión por cada paquete a la cola de prioridad y luego retirarlos uno por uno para forzar la asignación de memoria al contenedor de la cola de prioridad y asi evitar que al agregar un nuevo elemento se tenga que pedir un nuevo espacio en memoria mas grande y no sea constante. ($\mathcal{O}(n)$).\newline
 \newline
 El ciclo del código recorre los paquetes ingresados como parámetro. Debido a que los pasos que realiza el mismo constan de un condicional cuyos resultados consisten en asignaciones y operaciones simples, y la función $push()$ y $pop()$ ($\mathcal{O}(log\ n)$), la ejecución del mismo tiene un orden de $\mathcal{O}(n\ log\ n)$.\newline
 \newline
