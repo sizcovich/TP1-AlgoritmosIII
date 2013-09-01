@@ -239,7 +239,7 @@ void restringirCasillasPorImportante(int i, int j) {
 
 void backtrack() {
 	//SI NO TENGO MAS CASILLAS QUE ASIGNAR ENTONCES QUEIRE DECIR QUE TERMINE Y DEBERIA SER UNA SOLUCION
-	if (costoActual >= (mejorCosto-4000))
+	if (costoActual >= mejorCosto)
 		return;
 	if (casillasLibres.empty()) {
 		if (chequearSolucion()) { //CHEQUEO SI ES UNA SOLUCION
@@ -423,6 +423,7 @@ int main() {
 			}
 		}
 		termino = (cin >> ws).peek();
+		cout << endl;
 	}
 	return 0;
 }
