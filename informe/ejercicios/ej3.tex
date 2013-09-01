@@ -90,6 +90,60 @@ Pseudocódigo:
 \subsection{Código fuente}
 
 \subsection{Instancias posibles}
+Para verificar la correctitud de nuestro programa, dispusimos variar estratégicamente las instancias de entrada al ejecutarlo.
+\begin{itemize}
+\item En primer lugar, ejecutamos el programa ingresando un único espacio libre el cual contenía un lugar importante. La idea de esto es comprobar que nuestro algoritmo devuelve -1 en el caso de que no haya solución ya que el espacio especial no podia ser cubierto por 2 laser's.\newline
+
+\textbf{Parámetro de entrada:} 
+$$3\ \ 3$$
+$$0\ \ 0\ \ 0$$
+$$0\ \ 2\ \ 0$$
+$$0\ \ 0\ \ 0$$
+\textbf{Parámetro de salida:} $$4\ \ 1\ \ 2\ \ 3\ \ 4$$\newline
+\item Por otra parte, probamos el programa cuando todo el museo es una pared y no contiene ni espacios libres ni espacios importantes, en otras palabras, el caso vacio. Lo interesante de esto es ver que nuestro algoritmo funciona en dicho caso borde.\newline
+
+\textbf{Parámetro de entrada:} 
+$$3\ \ 3$$
+$$0\ \ 0\ \ 0$$
+$$0\ \ 0\ \ 0$$
+$$0\ \ 0\ \ 0$$
+\textbf{Parámetro de salida:} $$ 0 $$\newline
+\item Un caso interesante, es ver cuando todos los espacios estan libres. La idea de esto es comprobar que el algoritmo nos da la solucion mas barata al problema\newline
+
+\textbf{Parámetro de entrada:} 
+$$3\ \ 3$$
+$$1\ \ 1\ \ 1$$
+$$1\ \ 1\ \ 1$$
+$$1\ \ 1\ \ 1$$
+\textbf{Parámetro de salida:} $$ 0 $$\newline
+
+\item Otro caso interesante, es ver cuando todos los espacios son importantes. Este es un caso particular en el cual no existe solución ya que no podrian pasar dos laser's por el mismo punto especial sin que uno de estos toque a otro laser\newline
+
+\textbf{Parámetro de entrada:} 
+$$3\ \ 3$$
+$$2\ \ 2\ \ 2$$
+$$2\ \ 2\ \ 2$$
+$$2\ \ 2\ \ 2$$
+\textbf{Parámetro de salida:} $$ 1\ \ 1 $$\newline
+
+\item Otro caso interesante, es ir alternando piso y pared.
+\textbf{Parámetro de entrada:} 
+$$3\ \ 3$$
+$$1\ \ 0\ \ 1$$
+$$0\ \ 1\ \ 0$$
+$$1\ \ 0\ \ 1$$
+\textbf{Parámetro de salida:} $$ 0 $$\newline
+
+
+\item Por ultimo, esta el caso en el que tenemos los 3 tipos de casilleros, este seria el caso mas comun del problema. \newline
+
+\textbf{Parámetro de entrada:} 
+$$3\ \ 3$$
+$$1\ \ 1\ \ 1$$
+$$1\ \ 2\ \ 0$$
+$$0\ \ 0\ \ 1$$
+\textbf{Parámetro de salida:} $$3\ \ 1\ \ 2\ \ 3$$\newline
+\end{itemize}
 
 \subsection{Testing}
 

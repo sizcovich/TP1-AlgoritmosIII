@@ -94,6 +94,7 @@ bool chequearSolucion() {
 					return false;
 		}
 	}
+		
 	return true;
 }
 
@@ -371,7 +372,8 @@ int main() {
 		mejorCosto = n*m*6000; //NECESITO TENER UN COSTO MAXIMO PARA IR MEJORANDOLO EN CADA SOLUCION, EL INICIAL ES EL MAXIMO QUE SE PODRIA OBTENER.
 		cantSensores = 0;
 		costoActual = 0;
-
+		mejorCantSensores = 0;
+		
 		vector<Casilla> filaC;
 		Casilla c;
 
@@ -393,8 +395,8 @@ int main() {
 
 		cerr << n+m << " " << x << endl;
 
-		if (mejorCosto == n*m*6000 && haySolucion)
-			cout << "-1";
+		if (mejorCosto == n*m*6000 && !haySolucion)
+			cout << "-1" << endl;
 		else {
 			// mostrar(gMejor, "laser");
 			// mostrar(gMejor, "restricciones");
