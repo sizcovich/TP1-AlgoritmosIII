@@ -63,12 +63,12 @@ donde $Cursos$ es un conjunto conteniendo la información (fecha de inicio y de 
 
 \subsection{Demostración de correctitud}
 
-Veamos que, efectivamente, nuestro algoritmo encuentra una solución óptima $S$ cuya cantidad de intervalos es $k$. Para ello, vamos a suponer que tenemos la salida ordenada por la fecha de fin de cada intervalo. Supongamos que existe una solución óptima $S'$ cuya cantidad de intervalos es $n$ con $n \geq k$, dicha solución se encuentra ordenada del mismo modo que $S$.\\ Sean $S_{1}$ y $S'_{1}$ los primeros intervalos de ambas soluciones. En el caso en el que $f_{S_{1}} \leq f_{S'_{1}}$, se puede reemplazar $S'_{1}$ por $S_{1}$ pues, si $S'_{2}$ no se solapa con $S'_{1}$, tampoco lo hará con $S_{1}$. El caso $f_{S'_{1}} < f_{S_{1}}$ no puede ocurrir pues nuestro algoritmo selecciona el intervalo cuya fecha de fin es la menor.\\
+Veamos que, efectivamente, nuestro algoritmo encuentra una solución óptima $S$ cuya cantidad de intervalos es $k$. Para ello, vamos a suponer que tenemos la salida ordenada por la fecha de fin de cada intervalo. Supongamos que existe una solución óptima $S'$ cuya cantidad de intervalos es $n$, dicha solución se encuentra ordenada del mismo modo que $S$.\\ Sean $S_{1}$ y $S'_{1}$ los primeros intervalos de ambas soluciones. En el caso en el que $f_{S_{1}} \leq f_{S'_{1}}$, se puede reemplazar $S'_{1}$ por $S_{1}$ pues, si $S'_{2}$ no se solapa con $S'_{1}$, tampoco lo hará con $S_{1}$. El caso $f_{S'_{1}} < f_{S_{1}}$ no puede ocurrir pues nuestro algoritmo selecciona el intervalo cuya fecha de fin es la menor.\\
 Por otra parte, si consideramos $S_{2}$ y $S'_{2}$ y por el mismo criterio utilizado anteriormente, si $f_{S_{2}} \leq f_{S'_{2}}$, se puede reemplazar $S'_{2}$ por $S_{2}$ pues, si $S'_{1}$ no se solapa con $S'_{2}$, tampoco se solapará con $S_{2}$. Este mismo razonamiento puede extenderse, con el mismo principio, hasta $S_{k}$.\\
 Tal como mencionado, los intervalos de nuestra solución terminan igual o antes que los de la solución óptima, en particular, el último de ellos. Veamos ahora, qué relación existe entre $k$ y $n$. Para ello, analicemos las diferentes posibilidades:
 \begin{itemize}
 \item \textbf{$k = n$:} En este caso, la solución proporcionada por nuestro algoritmo tiene la misma cantidad de intervalos que la óptima. Luego, es óptimo.
-\item \textbf{$k > n$:} Esta situación no es posible dado que $n$ es la cantidad de intervalos de la solución óptima.
+\item \textbf{$k > n$:} Esta situación no es posible dado que $n$ es la cantidad de intervalos de la solución óptima por lo que $k \leq n$.
 \item \textbf{$k < n$:} En este caso, existe un intervalo en $S'_{k+1}$ cuya fecha de fin es mayor a la fecha de fin de $S_{k}$ dado que éste reemplazó a $S'_{k}$. Pero esto resulta absurdo pues este intervalo debería estar también en $S$ como lo estipula nuestro algoritmo.
 \end{itemize}
 
