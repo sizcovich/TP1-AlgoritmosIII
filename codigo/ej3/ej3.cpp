@@ -242,8 +242,6 @@ void backtrack() {
 	if (costoActual > (mejorCosto-2000))
 		return;
 	if (casillasLibres.empty()) {
-		if (costoActual < mejorCosto && chequearSolucion())
-			cout << "costo actual: " << costoActual << " mejor costo: " << mejorCosto << endl;
 		if (chequearSolucion()) { //CHEQUEO SI ES UNA SOLUCION
 			if (costoActual < mejorCosto) {
 				haySolucion = true;
