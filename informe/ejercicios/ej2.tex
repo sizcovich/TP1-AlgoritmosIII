@@ -103,13 +103,14 @@ Finalmente, la complejidad es: $\mathcal{O}(1)+\mathcal{O}(n)+\mathcal{O}(n\ log
 
 Para verificar la correctitud de nuestro programa, dispusimos variar estratégicamente las instancias de entrada al ejecutarlo.
 \begin{itemize}
-\item En primer lugar, ejecutamos el programa ingresando cursos que no se solapan entre sí. De este modo, se logra verificar que los cursos de la entrada coincidan con los de la salida. En este mismo caso, decidimos que podía ser interesante considerar el caso de cursos cuya fecha de inicio fuera igual a la fecha de fin para comprobar que las cotas del programa estuvieran definidas correctamente.\newline
-\textbf{Parámetro de entrada:} $$4\ \ 1\ \ 3\ \ 3\ \ 5\ \ 7\ \ 9\ \ 10\ \ 11$$
-\textbf{Parámetro de salida:} $$4\ \ 1\ \ 2\ \ 3\ \ 4$$\newline
+\item En primer lugar, ejecutamos el programa ingresando cursos que no se solapan entre sí. De este modo, se logra verificar que los cursos de la entrada coincidan con los de la salida.\newline
+\textbf{Parámetro de entrada:} $$3\ \ 0\ \ 1\ \ 3\ \ 5\ \ 6\ \ 9$$
+\textbf{Parámetro de salida:} $$3\ \ 1\ \ 2\ \ 3$$\newline
+
 
 \begin{figure}[H] %[h] Aqui [b] para button [t] para top
 \begin{center}
-\includegraphics[width=450pt]{../imgs/instancia1.jpg}
+\includegraphics[width=450pt]{../imgs/instancia4.jpg}
 \end{center}
 \caption{Instancia posible 1.}
 \end{figure}
@@ -136,13 +137,13 @@ Para verificar la correctitud de nuestro programa, dispusimos variar estratégic
 \caption{Instancia posible 3.}
 \end{figure}
 
-\item Por último, consideramos interesante considerar el caso en el que existe al menos un curso que se solapa. Dicho caso sería el más común en el problema a resolver.\newline
-\textbf{Parámetro de entrada:}  $$3\ \ 0\ \ 1\ \ 3\ \ 5\ \ 6\ \ 9$$
-\textbf{Parámetro de salida:}  $$3\ \ 1\ \ 2\ \ 3$$ \newline
+\item Por último, consideramos interesante considerar el caso en el que existe al menos un curso que se solapa. Dicho caso sería el más común en el problema a resolver. En este mismo caso, decidimos que podía ser interesante considerar el caso de cursos cuya fecha de inicio fuera igual a la fecha de fin para comprobar que las cotas del programa estuvieran definidas correctamente.\newline
+\textbf{Parámetro de entrada:}  $$4\ \ 0\ \ 3\ \ 3\ \ 5\ \ 7\ \ 10\ \ 8\ \ 9$$
+\textbf{Parámetro de salida:}  $$2\ \ 1\ \ 4$$ \newline
 
 \begin{figure}[H] %[h] Aqui [b] para button [t] para top
 \begin{center}
-\includegraphics[width=450pt]{../imgs/instancia4.jpg}
+\includegraphics[width=450pt]{../imgs/instancia1.jpg}
 \end{center}
 \caption{Instancia posible 4.}
 \end{figure}
