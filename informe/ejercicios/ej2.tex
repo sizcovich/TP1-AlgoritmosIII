@@ -42,6 +42,8 @@ En el ejemplo \textbf{3)}, preferimos mostrar un caso en el que se solaparan tod
 \textbf{Formato de salida:} $$3$$
 
 \subsection{Resolución coloquial}
+Resolvimos el problema ordenando los cursos por fecha de fin y tomando siemrpe el menor curso (en términos de finalización) y agregandolo a la solucion siempre y cuando no se solape con los cursos que ya agregue como solucion.
+
 Al analizar el problema a resolver, nos percatamos de que el algoritmo de maximización de intervalos no solapados corresponde a un $algoritmo\ goloso$. El pseudocódigo que describe el algoritmo es el siguiente:\newline
 
 
@@ -174,7 +176,5 @@ Para verificar la correctitud de nuestro programa, dispusimos variar estratégic
 \end{figure}
 
 \end{itemize}
-
-
 
 \subsection{Testing}
