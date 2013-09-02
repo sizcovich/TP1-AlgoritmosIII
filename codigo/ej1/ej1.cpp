@@ -1,5 +1,6 @@
 #include <string>
 #include <cstdio>
+#include <chrono>
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -90,7 +91,14 @@ int main() {
 			ps.push_back(p);
 		}
 		pair<int,vector<int> > res;
+
+		auto t1 = chrono::high_resolution_clock::now();
 		res = algoritmoDePascual(limite, cantPaquetes, ps);
+		auto t2 = chrono::high_resolution_clock::now();
+		auto x = chrono::duration_cast<std::chrono::nanoseconds>(t2-t1).count();
+		cerr << cantPaquetes << " " << x << endl;
+
+		
 		res.second.resize(res.first);
 		cout << res.first << " ";
 		for (int i = 0; i < res.first; ++i)

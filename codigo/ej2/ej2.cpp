@@ -1,5 +1,6 @@
 #include <string>
 #include <cstdio>
+#include <chrono>
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -68,8 +69,7 @@ void filtrarSolapamientos()
 
 
 vector<int> ej2() {
-	vector<bool> sLimpio;
-	seleccionados = sLimpio;
+	seleccionados.clear();
 	cantSeleccionados = 0;
 	vector<int> res;
 	if (cs.size() == 0) {
@@ -105,14 +105,22 @@ int main() {
 	while (termino != '#') {
 		int ci,cf;
 		int cantCursos;
-		Cursos csLimpio; cs = csLimpio;
+		cs.clear();
 		cin >> cantCursos;
 		for (int i = 0; i < cantCursos; ++i) {
 			cin >> ci;
 			cin >> cf;
 			cs.push_back(make_pair(i, make_pair(ci, cf)));
 		}
+
+
+		auto t1 = chrono::high_resolution_clock::now();
 		vector<int> res = ej2();
+		auto t2 = chrono::high_resolution_clock::now();
+		auto x = chrono::duration_cast<std::chrono::nanoseconds>(t2-t1).count();
+		cerr << cantCursos << " " << x << endl;
+
+		
 		for (int i = 0; i < res.size(); ++i)
 			cout << res[i] << " ";
 		cout << endl;
