@@ -46,17 +46,32 @@ Al analizar el problema a resolver, nos percatamos de que el algoritmo de maximi
 
 \begin{algorithm}[H]
 	\SetAlgoLined
-	\caption{Algoritmo de Maximización de intervalos no solapados}
-	\KwIn{Entero cantidadDeCursos, Cursos cs}
+	\caption{Algoritmo de Maxima cantidad de intervalos no solapados}
+	\KwIn{Cursos $CS$}
 	\KwOut{listaDeCursos}
-	cs = ordenarPorFin(cs)\\
-	Cursos res = $Nil$
-	\For{Curso c $\in$ $cs$}{
-		\eIf{noSeSolapa(c,res)}{
-			res \leftarrow c\\
-		}{}
+	\eIf{\#CS == 0}{
+		\textbf{devolver} $ListaVacia$\\
+	}{
+		$CS$ = OrdenarPorFin($CS$)\\
+		Lista res = filtrarSolapamientos($CS$)\\
+		\textbf{devolver} \#res ++ ordenar(res)\\
 	}
-	\textbf{devolver} ordenar(res)
+\end{algorithm}
+
+\begin{algorithm}[H]
+	\SetAlgoLined
+	\caption{filtrarSolapamientos}
+	\KwIn{Cursos $CS$}
+	\KwOut{listaDeCursos}
+	Curso $anterior$ = Primer curso de $CS$\\
+	Lista $res$\\
+	\For{Curso $c$ en $CS$}{
+		\If{$c$ no se solapa con $anterior$}{
+			$anterior$ := $c$\\
+			$res \leftarrow c$
+		}
+	}
+	\textbf{devolver} $res$\\	
 \end{algorithm}
 
 donde $Cursos$ es un conjunto conteniendo la información (fecha de inicio y de fin) de los cursos del ciclo. $ordenarPorFin$ es un algoritmo que toma los cursos y los ordena de acuerdo a su fecha de finalización. Por último, $noSeSolapa$ es un algoritmo que verifica que la fecha de inicio del intervalo que se quiere agregar no se superponga con la fecha de fin del agregado precedentemente.
