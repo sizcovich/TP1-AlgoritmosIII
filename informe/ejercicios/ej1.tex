@@ -1,7 +1,10 @@
 \subsection{Problema a resolver}
 El siguiente ejercicio consiste en hallar una manera de implementar un sistema proporcionado respetando una cota determinada de orden de complejidad.\\
+\newline
 El problema se sitúa en un centro de distribución de correo que recibe paquetes todos los días cuyo destino final es la sede central de la empresa. Para el transporte de los mismos, éstos son cargados a camiones de igual capacidad. El encargado de logística, Pascual, tiene un sistema que utiliza desde hace años para agilizar la carga de los camiones asegurando el uso de una baja cantidad de los mismos para el envío de paquetes al final del día. Dicho sistema consiste en tomar los paquetes y ubicarlos en algún camión que ya tenga paquetes dentro, eligiendo, entre éstos, el que menos peso tenga cargado hasta ese momento. Si el peso del paquete permite que éste sea cargado en ese camión, se lo ubica allí, sino, se lo incluye en un nuevo camión.\newline
+\newline
 El problema a resolver se basa en escribir un algoritmo que tome los pesos de los paquetes que hay que acomodar e indique cuántos camiones se van a utilizar y cuánto peso se cargará en cada uno de ellos al final del día considerando el sistema de Pascual. Para esto, se respeta el orden de llegada de los paquetes a medida que ingresan. \newline
+\newline
 Las consideraciones a tener en cuenta son que los camiones tienen todos la misma capacidad de carga, que la cantidad disponible de los mismos alcanza para transportar todos los paquetes y que el peso de un paquete no supera la capacidad de carga de un camión. Del mismo modo, el tamaño de los paquetes no es tenido en cuenta, sino que se los identifica por su peso. Además, es importante aclarar que las cargas son valores enteros positivos.\newline
 \newline
 \textbf {Formatos de entrada y salida:}\newline
@@ -106,6 +109,7 @@ Dado que el algoritmo presentado en la sección anterior puede ser fácilmente r
 Una cola de prioridad consiste en una estructura de datos en la que sus elementos son atendidos según la prioridad que éstos tengan asociada. Dicha estructura se caracteriza por admitir inserciones de nuevos elementos y la consulta y eliminación del elemento de mínima prioridad.\newline
 Las colas de prioridad suelen ser útiles para resolver algoritmos golosos ya que éstos suelen tener una iteración principal, y una de las tareas a realizar en cada una de dichas iteraciones es seleccionar un elemento de entre varios que minimiza un cierto criterio de optimalidad local.\newline
 Para adaptar el problema de Pascual a la cola de prioridad, decidimos que cada elemento debía representar la carga correspondiente a un camión determinado en la instancia dada junto con el orden de creación del mismo.\newline
+\newline
 Para el análisis de complejidad de nuestro algoritmo, llamamos $n$ a la cantidad de paquetes que ingresan como parámetro de entrada.\newline
 \newline
 Debido a que el algoritmo realizado consiste en una serie de operaciones básicas, comparaciones y asignaciones (cuyas complejidades son constantes), la complejidad del mismo puede determinarse a partir de los ciclos que éste realiza.\newline
@@ -134,11 +138,7 @@ if ((ps[i]+c.second) <= limite){
 }
 \end{verbatim}
 \caption{Pasos que se realizan al ingresar un nuevo paquete.}
-\end{center}
-\end{figure}
 
-\begin{figure}[H]
-\begin{center}
 \begin{verbatim}
 while(!ca.empty()){
 	Camion c = ca.top();
@@ -171,7 +171,7 @@ De este modo, logramos abarcar los casos límite en los que la implementación p
 
 \subsection{Testing}
 
-Para realizar las pruebas de complejidad, generamos instancias aleatorias de pesos de cajas alterando la cantidad de las mismas pero manteniendo estático el peso máximo de carga de los camiones. Estas instancias fueron generadas en $Matlab$ con la función \textin{randn} de forma tal a poder acotarlas por la capacidad de carga de los camiones. De este modo, logramos medir las pruebas de nuestro algoritmo para comprobar que la complejidad correspondiera con la mencionada anteriormente.
+Para realizar las pruebas de complejidad, generamos instancias aleatorias de pesos de cajas alterando la cantidad de las mismas pero manteniendo estático el peso máximo de carga de los camiones en 120$Kg$. Estas instancias fueron generadas en $C++$ con la función $rand()$ de forma tal a poder acotarlas por la capacidad de carga de los camiones. La cantidad de cajas generadas se comprendió entre 5000 y 100000, agregando de a 5000 en cada iteración. De este modo, logramos medir las pruebas de nuestro algoritmo para comprobar que la complejidad correspondiera con la mencionada anteriormente.
 
 %\begin{figure}[H] %[h] Aqui [b] para button [t] para top
 %\begin{center}
