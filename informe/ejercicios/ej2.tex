@@ -1,5 +1,5 @@
 \subsection{Problema a resolver}
-El siguiente ejercicio consiste en exponer un algoritmo capaz de devolver, dado un conjunto de intervalos, el subconjunto máximo de los que no se solapan entre sí. Luego, el algoritmo debe poder tomar las fechas ofrecidas por los profesores del programa de Profesores Visitantes de la FCEyN para sus cursos e indicar qué cursos deberían elegirse para maximizar la cantidad de éstos en el ciclo. Cada intervalo corresponde a la fecha en que un profesor dictará su curso. El primer elemento del intervalo corresponde a la fecha de inicio y el segundo a la fecha de fin, siendo siempre la de fin mayor o igual a la de inicio. Para la simplificación del manejo de los datos, éstos se representan con números enteros positivos.\newline
+El siguiente ejercicio consiste en exponer un algoritmo capaz de devolver, dado un conjunto de intervalos, el subconjunto máximo de los que no se solapan entre sí. Esto significa que, dado un intervalo $C$, $$\forall v_{1}, v_{2} \in C, v_{1} \neq v_{2}\ | \ (f_{v_{1}} < i_{v_{1}}) \vee (f_{v_{2}} < i_{v_{1}}).$$ Luego, el algoritmo debe poder tomar las fechas ofrecidas por los profesores del programa de Profesores Visitantes de la FCEyN para sus cursos e indicar qué cursos deberían elegirse para maximizar la cantidad de éstos en el ciclo. Cada intervalo corresponde a la fecha en que un profesor dictará su curso. El primer elemento del intervalo corresponde a la fecha de inicio y el segundo a la fecha de fin, siendo siempre la de fin mayor o igual a la de inicio. Para la simplificación del manejo de los datos, éstos se representan con números enteros positivos.\newline
 \newline
 \textbf {Formatos de entrada y salida:}\newline
 \newline
@@ -44,8 +44,13 @@ En lo que sigue, presentaremos dos ejemplos sobre cómo debería comportarse nue
 
 
 \subsection{Resolución coloquial}
-Decidimos resolver el problema ordenando los cursos de acuerdo a la fecha de finalización de los mismos por orden creciente. De este modo, se recorrió cada intervalo correspondiente a cada curso y, cuando el $i-ésimo$ no se solapaba con el anterior, se lo agregaba a la solución.\newline
 
+%Para desambiguar el algoritmo realizado, decidimos definir un modelo formal del siguiente modo:\newline
+%Sea $v$ un curso representado por un intervalo entre su fecha de inicio $i_{v}$ y su fecha de fin $f_{v}$. Sea C un conjunto de curso. La solución %se obtiene encontrando un conjunto maximo de elementos cuyos intervalos no se solapen, esto significa: 
+%\par{$$\forall v^{1}, v^{2} \in C, v^{1} \neq v^{2}\ | \ (v^{1}_{f} < v^{1}_{i}) \vee (v^{2}_{f} < v^{1}_{i})$$} 
+%esta es condición suficiente ya que el valor de incio de un curso es menor al valor de fin del mismo curso para todos los cursos.
+
+Decidimos resolver el problema ordenando los cursos de acuerdo a la fecha de finalización de los mismos por orden creciente. De este modo, se recorrió cada intervalo correspondiente a cada curso y, cuando el $i-ésimo$ no se solapaba con el anterior, se lo agregaba a la solución.\newline
 Al analizar el problema a resolver, nos percatamos de que el algoritmo de maximización de intervalos no solapados corresponde a un $algoritmo\ goloso$. El pseudocódigo que describe el algoritmo es el siguiente:\newline
 
 
@@ -72,7 +77,7 @@ Al analizar el problema a resolver, nos percatamos de que el algoritmo de maximi
 	\KwOut{listaDeCursos}
 	Curso $anterior$ = Primer curso de $CS$\\
 	\For{Curso $c$ en $CS$}{
-		\If{$c$ no se solapa con $anterior$}{
+		\If{$c$ noSeSolapa con $anterior$}{
 			$anterior$ := $c$\\
 			$seleccionado_{c.indice} := true$
 		}
@@ -80,13 +85,7 @@ Al analizar el problema a resolver, nos percatamos de que el algoritmo de maximi
 	\textbf{devolver} $res$\\	
 \end{algorithm}
 
-donde $Cursos$ es una secuencia conteniendo la información (fecha de inicio y de fin) de los cursos del ciclo. $ordenarPorFin$ es un algoritmo que toma los cursos y los ordena de acuerdo a su fecha de finalización. "no se solapa" verifica que la fecha de inicio del intervalo que se quiere agregar no se superponga con la fecha de fin del agregado precedentemente. filtrar recorre la lista de $seleccionados$ y se queda con aquellos que son $true$.\\
-Una observacion que hicimos:\\
-
-\textbf{Modelo formal:}\\
-Sea $v$ un intervalo, este intervalo está representado por dos valores: $v_{i}$ es el inicio del intervalo y $v_{f}$ es el fin del intervalo. Sea C un conjunto de intervalos. Nuestro modelo del problema mapea a los cursos como intervalos, donde el dia de incio es el valor $v_{i}$ y el dia de finalizacion del curso es $v_{f}$, la solucion se obtiene encontrando un conjunto maximo de elementos cuyos intervalos no se solapen, esto significa: 
-\par{$$\forall v^{1}, v^{2} \in C, v^{1} \neq v^{2}\ | \ (v^{1}_{f} < v^{1}_{i}) \vee (v^{2}_{f} < v^{1}_{i})$$} 
-esta es condición suficiente ya que el valor de incio de un curso es menor al valor de fin del mismo curso para todos los cursos.
+donde $Cursos$ es una secuencia conteniendo la información (fecha de inicio y de fin) de los cursos del ciclo, $ordenarPorFin$ es un algoritmo que toma los cursos y los ordena de acuerdo a su fecha de finalización y $noSeSolapa$ verifica que la fecha de inicio del intervalo que se quiere agregar no se superponga con la fecha de fin del agregado precedentemente. Por otro lado, $filtrar$ recorre la lista de $seleccionados$ y se queda con aquellos cuyo valor es $true$.
 
 \subsection{Demostración de correctitud}
 
