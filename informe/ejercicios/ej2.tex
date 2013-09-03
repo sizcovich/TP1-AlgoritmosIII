@@ -45,47 +45,41 @@ En lo que sigue, presentaremos dos ejemplos sobre cómo debería comportarse nue
 
 \subsection{Resolución coloquial}
 
-%Para desambiguar el algoritmo realizado, decidimos definir un modelo formal del siguiente modo:\newline
-%Sea $v$ un curso representado por un intervalo entre su fecha de inicio $i_{v}$ y su fecha de fin $f_{v}$. Sea C un conjunto de curso. La solución %se obtiene encontrando un conjunto maximo de elementos cuyos intervalos no se solapen, esto significa: 
-%\par{$$\forall v^{1}, v^{2} \in C, v^{1} \neq v^{2}\ | \ (v^{1}_{f} < v^{1}_{i}) \vee (v^{2}_{f} < v^{1}_{i})$$} 
-%esta es condición suficiente ya que el valor de incio de un curso es menor al valor de fin del mismo curso para todos los cursos.
-
-Decidimos resolver el problema ordenando los cursos de acuerdo a la fecha de finalización de los mismos por orden creciente. De este modo, se recorrió cada intervalo correspondiente a cada curso y, cuando el $i-ésimo$ no se solapaba con el anterior, se lo agregaba a la solución.\newline
+Decidimos resolver el problema ordenando los cursos de acuerdo a la fecha de finalización de los mismos por orden creciente. De este modo, se recorrió cada intervalo correspondiente a cada curso y, cuando el $i-ésimo$ no se solapaba con el $i-ésimo\ -\ 1$, se lo agregaba a la solución.\newline
 Al analizar el problema a resolver, nos percatamos de que el algoritmo de maximización de intervalos no solapados corresponde a un $algoritmo\ goloso$. El pseudocódigo que describe el algoritmo es el siguiente:\newline
 
-
 \begin{algorithm}[H]
-    \SetAlgoLined
-    \caption{MaximaCantidadDeIntervalosNoSolapados}
-    \KwIn{Cursos $CS$}
-    \KwOut{listaDeCursos}
-    Lista $seleccionados$ = lista de booleanos que representan si un curso fue elegido
-    \eIf{\#CS == 0}{
-        \textbf{devolver} $ListaVacia$\\
-    }{
-        $CS$ = OrdenarPorFin($CS$)\\
-        filtrarSolapamientos($CS$, $seleccionados$)\\
-        Lista $res$ = filtrar($seleccionado$)\\
-        \textbf{devolver} \#res ++ res\\
-    }
+	\SetAlgoLined
+	\caption{MaximaCantidadDeIntervalosNoSolapados}
+	\KwIn{Cursos $CS$}
+	\KwOut{listaDeCursos}
+	Lista $seleccionados$ = lista de booleanos que representan si un curso fue elegido\\ %esto no es claro!!!!!!!!! **************
+	\eIf{\#CS == 0}{
+		\textbf{devolver} $ListaVacia$\\
+	}{
+		$CS$ = OrdenarPorFin($CS$)\\
+		filtrarSolapamientos($CS$, $seleccionados$)\\
+		Lista $res$ = filtrar($seleccionado$)\\
+		\textbf{devolver} \#res ++res\\ %esto no tiene sentido 
+	}
 \end{algorithm}
 
 \begin{algorithm}[H]
-    \SetAlgoLined
-    \caption{filtrarSolapamientos}
-    \KwIn{Cursos $CS$}
-    \KwOut{listaDeCursos}
-    Curso $anterior$ = Primer curso de $CS$\\
-    \For{Curso $c$ en $CS$}{
-        \If{$c$ no se solapa con $anterior$}{
-            $anterior$ := $c$\\
-            $seleccionado_{c.indice} := true$
-        }
-    }
-    \textbf{devolver} $res$\\   
+	\SetAlgoLined
+	\caption{filtrarSolapamientos}
+	\KwIn{Cursos $CS$}
+	\KwOut{listaDeCursos}
+	Curso $anterior$ = Primer curso de $CS$\\
+	\For{Curso $c$ en $CS$}{
+		\If{$c$ noSeSolapa con $anterior$}{
+			$anterior$ := $c$\\
+			$seleccionado_{c.indice} := true$\\
+		}
+	}
+	\textbf{devolver} $res$\\	
 \end{algorithm}
 
-donde $Cursos$ es una secuencia conteniendo la información (fecha de inicio y de fin) de los cursos del ciclo. $ordenarPorFin$ es un algoritmo que toma los cursos y los ordena de acuerdo a su fecha de finalización. "no se solapa" verifica que la fecha de inicio del intervalo que se quiere agregar no se superponga con la fecha de fin del agregado precedentemente. filtrar recorre la lista de $seleccionados$ y se queda con aquellos que son $true$.\\
+donde $Cursos$ es una secuencia conteniendo la información (fecha de inicio y de fin) de los cursos del ciclo, $ordenarPorFin$ es un algoritmo que toma los cursos y los ordena de acuerdo a su fecha de finalización y $noSeSolapa$ verifica que la fecha de inicio del intervalo que se quiere agregar no se superponga con la fecha de fin del agregado precedentemente. Por otro lado, $filtrar$ recorre la lista de $seleccionados$ y se queda con aquellos cuyo valor es $true$.
 
 \subsection{Demostración de correctitud}
 
@@ -106,14 +100,14 @@ Luego, podemos concluir que $k = n$, siendo, la solución de nuestro algoritmo, 
 
 \subsection{Complejidad del algoritmo}
 
-Sea $n$ la cantidad de cursos. La complejidad de nuestro algoritmo es $\mathcal{O}(n\ log\ n)$, antes de ver el porque de esto tengamos en cuenta algunos aspectos:
-\begin{enumerate}
+Sea $n$ la cantidad de cursos del ciclo del programa de Profesores Visitantes de la FCEyN. Para analizar la complejidad de nuestro algoritmo, debemos tener en cuenta lo que sigue:
+\begin{itemize}
 \item La complejidad del algoritmo \textbf{Sort} es $\mathcal{O}(n\ log\ n)$\footnote{http://en.cppreference.com/w/cpp/algorithm/sort}.
 \item La complejidad del \textbf{constructor} que utilizamos sobre la estructura \textbf{vector} es $\mathcal{O}(1)$\footnote{http://en.cppreference.com/w/cpp/container/vector/vector}.
-\item La complejidad del algoritmo \textbf{push$\_$back} sobre la estructura \textbf{vector} es $\mathcal{O}(1)$ amortizado. \footnote{http://en.cppreference.com/w/cpp/container/vector/push$\_$back}. 
-\item La complejidad del algoritmo \textbf{size} sobre la estructura \textbf{vector} es O(1)\footnote{http://en.cppreference.com/w/cpp/container/vector/size}.
-\item La complejidad de la funcion \textbf{filtrarSolapamientos} recorre todos los cursos y en cada paso pregunta si se solapan, esto es constante ya que ver si se solapan se logra con comparaciones de enteros, y luego de ser asi, cambia una variable en un vector ya definido y se asigna una variable (todo esto en tiempo constante). Recorrer el for tiene un costo de complejidad lineal en el peor caso y no crece ya que lo que se hace adentro es constante.
-\end{enumerate}
+\item La complejidad del algoritmo \textbf{push$\_$back} sobre la estructura \textbf{vector} es $\mathcal{O}(1)$ amortizado \footnote{http://en.cppreference.com/w/cpp/container/vector/push$\_$back}. 
+\item La complejidad del algoritmo \textbf{size} sobre la estructura \textbf{vector} es $\mathcal{O}(1)$\footnote{http://en.cppreference.com/w/cpp/container/vector/size}.
+\item La complejidad de la función \textbf{filtrarSolapamientos} recorre todos los cursos y, en cada paso, pregunta si se solapa el actual con el anterior., esto es constante ya que ver si se solapan se logra con comparaciones de enteros, y luego de ser asi, cambia una variable en un vector ya definido y se asigna una variable (todo esto en tiempo constante). Recorrer el for tiene un costo de complejidad lineal en el peor caso y no crece ya que lo que se hace adentro es constante.
+\end{itemize}
 
 Luego, al comienzo del algoritmo se ordena la lista de cursos, eso se hace con la función \textbf{sort} que tiene una complejidad de O($n*log\ n$) y luego se aplica \textbf{filtrarSolapamientos} que tiene una complejidad lineal, finalmente se devuelve el resultado, con lo cual la complejidad final es O($n*log\ n$) + O($n$) lo cual esta acotado asintóticamente por O($n*log\ n$), que es lo que queriamos ver.
 
