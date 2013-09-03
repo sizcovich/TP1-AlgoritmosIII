@@ -20,7 +20,7 @@ $$k\ c_{1}\ c_{2}\ ...\ c_{n}$$
 
 donde \textbf{$k$} es la cantidad de camiones utilizados y \textbf{$c_{1}$, ..., $c_{k}$} es el peso que se cargó en cada uno de los \textbf{$k$} camiones al final del día.\newline
 
-En lo que sigue, presentaremos dos ejemplos sobre el sistema impulsado por Pascual:
+En lo que sigue, presentaremos dos ejemplos del sistema impulsado por Pascual:
 \begin{itemize}
 \item {\large{\textbf{Ejemplo 1:}}}\newline
 
@@ -62,7 +62,7 @@ $$3\ \ 80\ \ 75\ \ 82$$
 \subsection{Resolución coloquial}
 Al analizar el problema a resolver, nos percatamos de que el algoritmo de Pascual corresponde a un $algoritmo\ goloso$. Dicho algoritmo consiste en la construcción de una solución seleccionando, en cada paso, la mejor alternativa sin considerar las implicancias de ésta.\newline Por otro lado, dicha técnica de diseño algorítmico resulta fácil de implementar, suele ser eficiente y permite construir soluciones razonables.\newline
 \newline
-En el caso del algoritmo de Pascual, el algoritmo goloso consiste en tomar cada instancia de la entrada y ubicarla en el lugar más conveniente en ese momento determinado. Esto significa que, dada la $i$-ésima caja ingresada en un mismo día, ésta es ubicada en el camión se encuentra menos cargado en ese momento.\newline
+En el caso del algoritmo de Pascual, el algoritmo goloso consiste en tomar cada instancia de la entrada y ubicarla en el lugar más conveniente en el momento determinado. Esto significa que, dada la $i$-ésima caja ingresada en un mismo día, ésta es ubicada en el camión que se encuentra menos cargado en ese momento.\newline
 
 El pseudocódigo ideado para resolver el problema es el siguiente:\newline
 
@@ -106,7 +106,6 @@ Dado que el algoritmo presentado en la sección anterior puede ser fácilmente r
 Una cola de prioridad consiste en una estructura de datos en la que sus elementos son atendidos según la prioridad que éstos tengan asociada. Dicha estructura se caracteriza por admitir inserciones de nuevos elementos y la consulta y eliminación del elemento de mínima prioridad.\newline
 Las colas de prioridad suelen ser útiles para resolver algoritmos golosos ya que éstos suelen tener una iteración principal, y una de las tareas a realizar en cada una de dichas iteraciones es seleccionar un elemento de entre varios que minimiza un cierto criterio de optimalidad local.\newline
 Para adaptar el problema de Pascual a la cola de prioridad, decidimos que cada elemento debía representar la carga correspondiente a un camión determinado en la instancia dada junto con el orden de creación del mismo.\newline
-
 Para el análisis de complejidad de nuestro algoritmo, llamamos $n$ a la cantidad de paquetes que ingresan como parámetro de entrada.\newline
 \newline
 Debido a que el algoritmo realizado consiste en una serie de operaciones básicas, comparaciones y asignaciones (cuyas complejidades son constantes), la complejidad del mismo puede determinarse a partir de los ciclos que éste realiza.\newline
