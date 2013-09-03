@@ -55,37 +55,37 @@ Al analizar el problema a resolver, nos percatamos de que el algoritmo de maximi
 
 
 \begin{algorithm}[H]
-	\SetAlgoLined
-	\caption{MaximaCantidadDeIntervalosNoSolapados}
-	\KwIn{Cursos $CS$}
-	\KwOut{listaDeCursos}
-	Lista $seleccionados$ = lista de booleanos que representan si un curso fue elegido
-	\eIf{\#CS == 0}{
-		\textbf{devolver} $ListaVacia$\\
-	}{
-		$CS$ = OrdenarPorFin($CS$)\\
-		filtrarSolapamientos($CS$, $seleccionados$)\\
-		Lista $res$ = filtrar($seleccionado$)\\
-		\textbf{devolver} \#res ++ res\\
-	}
+    \SetAlgoLined
+    \caption{MaximaCantidadDeIntervalosNoSolapados}
+    \KwIn{Cursos $CS$}
+    \KwOut{listaDeCursos}
+    Lista $seleccionados$ = lista de booleanos que representan si un curso fue elegido
+    \eIf{\#CS == 0}{
+        \textbf{devolver} $ListaVacia$\\
+    }{
+        $CS$ = OrdenarPorFin($CS$)\\
+        filtrarSolapamientos($CS$, $seleccionados$)\\
+        Lista $res$ = filtrar($seleccionado$)\\
+        \textbf{devolver} \#res ++ res\\
+    }
 \end{algorithm}
 
 \begin{algorithm}[H]
-	\SetAlgoLined
-	\caption{filtrarSolapamientos}
-	\KwIn{Cursos $CS$}
-	\KwOut{listaDeCursos}
-	Curso $anterior$ = Primer curso de $CS$\\
-	\For{Curso $c$ en $CS$}{
-		\If{$c$ noSeSolapa con $anterior$}{
-			$anterior$ := $c$\\
-			$seleccionado_{c.indice} := true$
-		}
-	}
-	\textbf{devolver} $res$\\	
+    \SetAlgoLined
+    \caption{filtrarSolapamientos}
+    \KwIn{Cursos $CS$}
+    \KwOut{listaDeCursos}
+    Curso $anterior$ = Primer curso de $CS$\\
+    \For{Curso $c$ en $CS$}{
+        \If{$c$ no se solapa con $anterior$}{
+            $anterior$ := $c$\\
+            $seleccionado_{c.indice} := true$
+        }
+    }
+    \textbf{devolver} $res$\\   
 \end{algorithm}
 
-donde $Cursos$ es una secuencia conteniendo la información (fecha de inicio y de fin) de los cursos del ciclo, $ordenarPorFin$ es un algoritmo que toma los cursos y los ordena de acuerdo a su fecha de finalización y $noSeSolapa$ verifica que la fecha de inicio del intervalo que se quiere agregar no se superponga con la fecha de fin del agregado precedentemente. Por otro lado, $filtrar$ recorre la lista de $seleccionados$ y se queda con aquellos cuyo valor es $true$.
+donde $Cursos$ es una secuencia conteniendo la información (fecha de inicio y de fin) de los cursos del ciclo. $ordenarPorFin$ es un algoritmo que toma los cursos y los ordena de acuerdo a su fecha de finalización. "no se solapa" verifica que la fecha de inicio del intervalo que se quiere agregar no se superponga con la fecha de fin del agregado precedentemente. filtrar recorre la lista de $seleccionados$ y se queda con aquellos que son $true$.\\
 
 \subsection{Demostración de correctitud}
 
