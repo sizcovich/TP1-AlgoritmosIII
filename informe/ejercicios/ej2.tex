@@ -54,12 +54,14 @@ Al analizar el problema a resolver, nos percatamos de que el algoritmo de maximi
 	\caption{MaximaCantidadDeIntervalosNoSolapados}
 	\KwIn{Cursos $CS$}
 	\KwOut{listaDeCursos}
+	Lista $seleccionados$ = lista de booleanos que representan si un curso fue elegido
 	\eIf{\#CS == 0}{
 		\textbf{devolver} $ListaVacia$\\
 	}{
 		$CS$ = OrdenarPorFin($CS$)\\
-		Lista res = filtrarSolapamientos($CS$)\\
-		\textbf{devolver} \#res ++ ordenar(res)\\
+		filtrarSolapamientos($CS$, $seleccionados$)\\
+		Lista $res$ = filtrar($seleccionado$)\\
+		\textbf{devolver} \#res ++ res\\
 	}
 \end{algorithm}
 
@@ -69,24 +71,22 @@ Al analizar el problema a resolver, nos percatamos de que el algoritmo de maximi
 	\KwIn{Cursos $CS$}
 	\KwOut{listaDeCursos}
 	Curso $anterior$ = Primer curso de $CS$\\
-	Lista $res$\\
 	\For{Curso $c$ en $CS$}{
 		\If{$c$ no se solapa con $anterior$}{
 			$anterior$ := $c$\\
-			$res \leftarrow c$
+			$seleccionado_{c.indice} := true$
 		}
 	}
 	\textbf{devolver} $res$\\	
 \end{algorithm}
 
-donde $Cursos$ es una secuencia conteniendo la información (fecha de inicio y de fin) de los cursos del ciclo. $ordenarPorFin$ es un algoritmo que toma los cursos y los ordena de acuerdo a su fecha de finalización. Por último, "no se solapa" verifica que la fecha de inicio del intervalo que se quiere agregar no se superponga con la fecha de fin del agregado precedentemente\\
+donde $Cursos$ es una secuencia conteniendo la información (fecha de inicio y de fin) de los cursos del ciclo. $ordenarPorFin$ es un algoritmo que toma los cursos y los ordena de acuerdo a su fecha de finalización. "no se solapa" verifica que la fecha de inicio del intervalo que se quiere agregar no se superponga con la fecha de fin del agregado precedentemente. filtrar recorre la lista de $seleccionados$ y se queda con aquellos que son $true$.\\
 Una observacion que hicimos:\\
-O1: Los dias de inicio son menores a los dias de finalizacion de cada curso.\\
 
 \textbf{Modelo formal:}\\
 Sea $v$ un intervalo, este intervalo está representado por dos valores: $v_{i}$ es el inicio del intervalo y $v_{f}$ es el fin del intervalo. Sea C un conjunto de intervalos. Nuestro modelo del problema mapea a los cursos como intervalos, donde el dia de incio es el valor $v_{i}$ y el dia de finalizacion del curso es $v_{f}$, la solucion se obtiene encontrando un conjunto maximo de elementos cuyos intervalos no se solapen, esto significa: 
 \par{$$\forall v^{1}, v^{2} \in C, v^{1} \neq v^{2}\ | \ (v^{1}_{f} < v^{1}_{i}) \vee (v^{2}_{f} < v^{1}_{i})$$} 
-esta es condición suficiente ya que por O1 el valor de incio de un curso es menor al valor de fin del mismo curso para todos los cursos.
+esta es condición suficiente ya que el valor de incio de un curso es menor al valor de fin del mismo curso para todos los cursos.
 
 \subsection{Demostración de correctitud}
 
@@ -107,28 +107,55 @@ Sea $n$ la cantidad de cursos. La complejidad de nuestro algoritmo es $\mathcal{
 \begin{enumerate}
 \item La complejidad del algoritmo \textbf{Sort} es $\mathcal{O}(n\ log\ n)$\footnote{http://en.cppreference.com/w/cpp/algorithm/sort}.
 \item La complejidad del \textbf{constructor} que utilizamos sobre la estructura \textbf{vector} es $\mathcal{O}(1)$\footnote{http://en.cppreference.com/w/cpp/container/vector/vector}.
-\item La complejidad del algoritmo \textbf{push$\_$back} sobre la estructura \textbf{vector} es O(1) amortizado pero cuando se ultiliza previamente la funcion $reserve(n)$ agregar los primeros n elementos es O(1)\footnote{http://en.cppreference.com/w/cpp/container/vector/push$\_$back}. 
+\item La complejidad del algoritmo \textbf{push$\_$back} sobre la estructura \textbf{vector} es O(1) amortizado. \footnote{http://en.cppreference.com/w/cpp/container/vector/push$\_$back}. 
 \item La complejidad del algoritmo \textbf{size} sobre la estructura \textbf{vector} es O(1)\footnote{http://en.cppreference.com/w/cpp/container/vector/size}.
 \item La complejidad de la funcion \textbf{filtrarSolapamientos} recorre todos los cursos y en cada paso pregunta si se solapan, esto es constante ya que ver si se solapan se logra con comparaciones de enteros, y luego de ser asi, cambia una variable en un vector ya definido y se asigna una variable (todo esto en tiempo constante). Recorrer el for tiene un costo de complejidad lineal en el peor caso y no crece ya que lo que se hace adentro es constante.
 \end{enumerate}
-% Teniendo en cuenta lo anterior el siguiente grafico muestra el codigo y al costado la complejidad de cada operacion.
 
-
-
-
-% \begin{figure}[H] %[h] Aqui [b] para button [t] para top
-% \begin{center}
-% \includegraphics[width=0.7\textwidth]{../imgs/comple2.jpg}
-% \end{center}
-% \end{figure}
-
-% Finalmente, la complejidad es: $\mathcal{O}(1)+\mathcal{O}(n)+\mathcal{O}(n\ log\ n)+\mathcal{O}(n)+\mathcal{O}(1)+\mathcal{O}(n)*\mathcal{O}(1)*\mathcal{O}(1)$ = \textbf{\mathcal{O}(n\ log\ n)}
+Luego, al comienzo del algoritmo se ordena la lista de cursos, eso se hace con la función \textbf{sort} que tiene una complejidad de O($n*log\ n$) y luego se aplica \textbf{filtrarSolapamientos} que tiene una complejidad lineal, finalmente se devuelve el resultado, con lo cual la complejidad final es O($n*log\ n$) + O($n$) lo cual esta acotado asintóticamente por O($n*log\ n$), que es lo que queriamos ver.
 
 \subsection{Código fuente}
 
+\begin{figure}[H]
+\begin{center}
+\begin{verbatim}
+if (cs.size() == 0) {
+	res.push_back(0);
+	return res;
+} else {
+	for (int i = 0; i < cs.size(); ++i)
+		seleccionados.push_back(false);
+	sort(cs.begin(), cs.end(),customLess);
+	filtrarSolapamientos();
+	res.push_back(cantSeleccionados);
+	for (int i = 0; i < seleccionados.size(); ++i)
+		if (seleccionados[i])
+			res.push_back(i+1);
+	return res;
+}
+\end{verbatim}
+\caption{Codigo de ejercicio 1}
+\end{center}
+\end{figure}
+
+\begin{figure}[H]
+\begin{center}
+\begin{verbatim}
+for(int i = 1; i < cs.size(); ++i) {
+	if (cs[i].second.first > anterior.second.second) {
+   		anterior = cs[i];
+   		seleccionados[cs[i].first] = true;
+   		cantSeleccionados++;
+   	}
+}
+\end{verbatim}
+\caption{Codigo de filtrarSolapamientos}
+\end{center}
+\end{figure}
 
 
-\subsection{Instancias posibles}
+
+\{Instancias posibles}
 
 Para verificar la correctitud de nuestro programa, dispusimos variar estratégicamente las instancias de entrada al ejecutarlo.
 \begin{itemize}

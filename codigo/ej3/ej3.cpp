@@ -83,7 +83,7 @@ void mostrar(Grilla g, string parametro) {
 	cout << endl;
 }
 
-bool chequearSolucion() {
+bool chequearSolucion() { //O(n*m)
 	for (int i = 0; i < g.size(); ++i) {
 		for (int j = 0; j < g[i].size(); ++j) { //Por cada casilla 
 			if (g[i][j].tipo == 1)  //Si es piso
@@ -98,7 +98,7 @@ bool chequearSolucion() {
 	return true;
 }
 
-void laserVertical(int i, int j, string sacarOPoner) {
+void laserVertical(int i, int j, string sacarOPoner) { //O(m)
 	int iAnterior=i, jAnterior=j; //Me guardo los valores anteriores por que voy a tener q restaurarlos
 	int ancho=g.size(); //Obtengo el ancho y alto del la matriz
 	while (i<ancho && g[i][j].tipo != 0) { //Aca voy desde el lugar importante hacia la derecho
@@ -135,7 +135,7 @@ void laserVertical(int i, int j, string sacarOPoner) {
 	return;
 }
 
-void laserHorizontal(int i, int j, string sacarOPoner) {
+void laserHorizontal(int i, int j, string sacarOPoner) { //O(n)
 	int iAnterior=i, jAnterior=j; //Me guardo los valores anteriores por que voy a tener q restaurarlos
 	int alto=g[i].size(); //Obtendo el ancho y alto del la matriz
 	while(j<alto && g[i][j].tipo != 0) { //Aca voy desde el lugar importante hacia abajo
@@ -172,7 +172,7 @@ void laserHorizontal(int i, int j, string sacarOPoner) {
 	return;
 }
 
-void restringVertical(int i, int j) {
+void restringVertical(int i, int j) { //O(m)
 	int iAnterior=i, jAnterior=j; //Me guardo los valores anteriores por que voy a tener q restaurarlos
 	int ancho=g.size(), alto=g[i].size(); //Obtendo el ancho y alto del la matriz
 	i++;
@@ -191,7 +191,7 @@ void restringVertical(int i, int j) {
 	return;
 }
 
-void restringHorizontal(int i, int j) {
+void restringHorizontal(int i, int j) { //O(n)
 	int iAnterior=i, jAnterior=j; //Me guardo los valores anteriores por que voy a tener q restaurarlos
 	int ancho=g.size(), alto=g[i].size(); //Obtendo el ancho y alto del la matriz
 	j++;
@@ -209,7 +209,7 @@ void restringHorizontal(int i, int j) {
 	return;
 }
 
-void restringirCasillasPorImportante(int i, int j) {
+void restringirCasillasPorImportante(int i, int j) { //O(n+m)
 	int iAnterior=i, jAnterior=j; //Me guardo los valores anteriores por que voy a tener q restaurarlos
 	int ancho=g.size(), alto=g[i].size(); //Obtendo el ancho y alto del la matriz
 	j++;
@@ -344,8 +344,8 @@ void backtrack() {
 
 void ej3() {
 	queue<Casilla*> casillasLibresEnLimpio; //RESTAURAR EL CASILLEROlIBRE POR UNO QUE ESTE EN LIMPIO.
-	casillasLibres = casillasLibresEnLimpio;
-	for (int i = 0; i < g.size(); ++i) {
+	casillasLibres = casillasLibresEnLimpio; //O(n+m)
+	for (int i = 0; i < g.size(); ++i) {//O(n*m)
 		for (int j = 0; j < g[i].size(); ++j) { //Por cada casilla 
 			if (g[i][j].tipo == 2)
 				restringirCasillasPorImportante(i, j); //Restringo sus casillas horizontales y verticales.

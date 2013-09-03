@@ -93,9 +93,13 @@ int main() {
 		pair<int,vector<int> > res;
 
 		auto t1 = chrono::high_resolution_clock::now();
+		for (int i = 0; i < 10; ++i)
+		{
 		res = algoritmoDePascual(limite, cantPaquetes, ps);
+		}
 		auto t2 = chrono::high_resolution_clock::now();
 		auto x = chrono::duration_cast<std::chrono::nanoseconds>(t2-t1).count();
+		x = x/10;
 		cerr << cantPaquetes << " " << x << endl;
 
 		

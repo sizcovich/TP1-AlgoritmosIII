@@ -1,9 +1,8 @@
 \subsection{Problema a resolver}
 
-El siguiente ejercicio se da en el contexto de un museo donde se requiere, por cuestiones de seguridad, colocar sensores de forma tal que todo el piso del museo esté cubierto por los láser que emiten, existen dos tipos de sensores, lo direccionales (que emiten señales horizontales o verticales) y los bidireccionales (que emiten señales hacia ambos lados) y su valor es \$4000 y \$6000 respectivamente. Se pide también que un sensor no este apuntando hacia otro por que esto podría provocar que algún sensor deje de funcionar y no es lo deseado, además se pide que en ciertos lugares, definidos como "importantes", haya dos láser pasando simultáneamente. El objetivo entonces es encontrar la forma de colocar estos sensores de forma tal que el suelo quede completamente cubierto y que los lugares importantes queden con ambos láser pasando por el y además que el costo total de los sensores sea mínimo, también hay que tener en cuenta que en el museo puede haber paredes que interfieran en los láser de los sensores.
+El siguiente ejercicio se da en el contexto de un museo donde se requiere, por cuestiones de seguridad, colocar sensores de forma tal que todo el piso del museo esté cubierto por los láser que estos emiten, existen dos tipos de sensores, lo direccionales (que emiten señales horizontales o verticales) y los bidireccionales (que emiten señales hacia ambos lados) y sus valores son \$4000 y \$6000 respectivamente. Se pide también que un sensor no apunte hacia otro por que esto podría provocar que deje de funcionar, además se pide que en ciertos lugares, definidos como "importantes", haya dos láser pasando simultáneamente. El objetivo entonces es encontrar la forma de colocar los sensores de forma tal que el suelo quede completamente cubierto y que los lugares importantes queden con un laser horizontal y vertical pasando por el y además que el costo total de los sensores utilizados sea mínimo, también hay que tener en cuenta que en el museo puede haber paredes que interfieran en los láser de los sensores.
 
 Un ejemplo de este problema es el que está provisto por la cátedra
-
 
 \begin{figure}[H]
 	\begin{center}
@@ -12,25 +11,23 @@ Un ejemplo de este problema es el que está provisto por la cátedra
 \caption{Un ejemplo y dos soluciones distintas.}
 \end{figure}
 
-En el ejemplo de la Figura 1 el museo se ve representado por una cuadricula donde donde los cuadrados blancos representan el suelo, los cuadrados negros representan las paredes y los cuadrados que tienen un rombo dentro representan los lugares importantes, a continuación de la imagen se muestran dos posibles soluciones al problema, en las cuales las cruces rojas representan los sensores bidireccionales, y las lineas rojas gruesas representan los sensores horizontales y verticales, desde estos sensores se extienden lineas rojas que representan el área que cubren estos sensores.
+En el ejemplo de la Figura 1 el museo se ve representado por una cuadricula donde donde los cuadrados blancos representan el suelo, los cuadrados negros representan las paredes y los cuadrados que tienen un rombo dentro representan los lugares importantes, a continuación de la imagen se muestran dos posibles soluciones al problema, en las cuales las cruces rojas representan los sensores bidireccionales, y las lineas rojas gruesas representan los sensores horizontales y verticales, desde estos se extienden lineas rojas que representan el área que cubren estos sensores con lasers.
 
 En el primer caso el costo total es de \$44000 y la segunda solución tiene un costo de \$42000
 
 \subsection{Resolución coloquial}
 
-Para resolver este ejercicio usamos, como recomendación de la cátedra en el enunciado, la técnica de backtracking que consiste en probar todas las posibles combinaciones de soluciones dentro del problema hasta llegar a las validas y guardar así la mejor de ellas usando en casa paso, criterios de parada que nos permitan deducir si las soluciones parcialmente obtenidas son candidatas a mejores soluciones o si son soluciones validas.
+Para resolver este ejercicio usamos, como recomendación de la cátedra en el enunciado, la técnica de backtracking que consiste en probar todas las posibles combinaciones de soluciones dentro del problema hasta llegar a las válidas y guardar así la mejor de ellas usando en cada paso, criterios de parada que nos permitan deducir si las soluciones parcialmente obtenidas son candidatas a mejores soluciones o si son soluciones válidas.
 
-El modelo de nuestro problema mapea las el piso, las paredes y los lugares importantes del museo en casillas dentro de una matriz.
+El modelo de nuestro problema mapea el piso, las paredes y los lugares importantes del museo en casillas dentro de una matriz, donde cada posicion de la matriz es una "baldosa" o "casillero" en el piso, donde cada uno de estos tiene información sobre si hay algun sensor puesto o si hay algún laser pasando por encima.
 
-Para resolver el problema recorremos la matriz secuencialmente y cada paso tomamos una decisión sobre el casillero actual, siento estas colocar un sensor o dejar el casillero sin ningún sensor, esta genera un árbol de decisiones en el cual cada una de sus ramas representan un escenario diferente en la distribución de sensores en la matriz que representa nuestra modelo, de esta manera nos garantizamos obtener todas las posibles combinaciones de configuraciones de la matriz.
+El problema se resuelve recorriendo la matriz secuencialmente y en cada paso tomando una decisión sobre el casillero actual, siento esta colocar un sensor o dejar el casillero sin ningún sensor, esto genera un árbol de decisiones en el cual cada una de sus ramas representan un escenario diferente en la distribución de sensores en la matriz que representa nuestra modelo, de esta manera nos garantizamos obtener todas las posibles combinaciones de configuraciones de la matriz. Finalmente, tomamos todas estas configuraciones, chequeamos cuales son soluciones correctas y nos quedamos con la que minimiza el costo de los ContarSensores.
 
 \subsection{Demostración de correctitud}
 
-Sea $C$ el conjunto de configuraciones posibles de la matriz, si en cada paso puedo probar 4 configuraciones diferentes para cada casillero disponible, y si mi matriz mide $n*m$, entonces por combinatoria tengo $4^{n*m}$ configuraciones finales posibles de la matriz, como nuestro algoritmo hace esencialmente eso (excepto por las podas y criterios de terminación que no representan soluciones validas) podemos decir que este encuentra todas las posibles configuraciones de la matriz.
+Sea $C$ el conjunto de configuraciones posibles de la matriz, si en cada paso puedo probar 4 opciones diferentes para cada casillero disponible, y si mi matriz mide $n*m$, entonces por combinatoria tengo $4^{n*m}$ configuraciones finales posibles de la matriz, como nuestro algoritmo hace esencialmente eso (excepto por las podas y criterios de terminación que no representan soluciones validas) podemos decir que este encuentra todas las posibles configuraciones de la matriz.
 
-Sea $s$ una solución óptima al problema, ya que $s$ representa una configuración particular de la matriz entonces como $C$ representa el conjunto de todas las posibles soluciones del problema y la solución óptima, si es que existe alguna solución, está dentro de ese conjunto, entonces nuestro algoritmo debería encontrarla y devolverla.
-
-Es correcto por que usa backtracking.-
+Como $C$ representa el conjunto de todas las posibles configuraciones del problema (en particular las que son solucion del problema) entonces la solución óptima, si es que existe alguna, está dentro de ese conjunto, y nuestro algoritmo debería encontrarla y devolverla.
 
 \subsection{Complejidad del algoritmo}
 
