@@ -39,11 +39,14 @@ Pseudocódigo:
 	\KwIn{Matriz $grilla$}
 	\KwOut{lista sensores}
 	
-	Lista $casillasLibres\ \leftarrow$ ObtenerPosicionesLibres(grilla)\\
+	Lista $casillasLibres$\\
 
 	\For{Posicion $p \in grilla$}{
-		\If{p es importante}{
-			RestringirPorImportantes(p)\\
+		\If{p esta libre}{
+			$casillasLibres \leftarrow p$\\
+		}
+		\If{$p$ es importante}{
+			\textbf{RestringirPorImportantes}(p)\\
 		}
 	}
 
@@ -85,6 +88,14 @@ Pseudocódigo:
 \end{algorithm}
 
 \subsection{Código fuente}
+
+\subsection{Complejidad del algoritmo}
+
+Veamos paso a paso la complejidad del algoritmo de backtracking:
+
+En la linea 1 se obtienen las posiciones libres de la grilla, esto se obtiene recorriendo secuencialmente todas las posiciones de la matriz y en cada paso pregunta si es una casilla libre o no, esta pregunta se hace en tiempo constante y recorrer todos los elementos tiene una complejidad de O($n*m$).
+
+
 
 \subsection{Instancias posibles}
 Para verificar la correctitud de nuestro programa, dispusimos variar estratégicamente las instancias de entrada al ejecutarlo.
