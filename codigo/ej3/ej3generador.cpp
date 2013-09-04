@@ -61,20 +61,6 @@ int main() {
 				cout << matriz[k] << " ";
 			}
 			cout << endl;
-			// for (int k = 0; k < i; k++)
-			// {
-			// 	for (int l = 0; l < j; l++)
-			// 	{
-			// 		cout << matriz[(i*k) + l] << " ";
-			// 	}
-			// 	cout << endl;
-			// }
-			
-			//~ b = rand() % 365;
-			//~ if (a >= b)
-				//~ cout << b << " " << a << " ";
-			//~ else
-				//~ cout << a << " " << b << " ";
 		}
 	}
 	cout << "#";
