@@ -53,15 +53,15 @@ vector<int> ej2() {
 		res.push_back(0);
 		return res;
 	} else {
-		for (int i = 0; i < cs.size(); ++i)
+		for(int i = 0; i < cs.size(); ++i)
 			seleccionados.push_back(false);
-		sort(cs.begin(), cs.end(),customLess);
-		filtrarSolapamientos();
-		res.push_back(cantSeleccionados);
-		for (int i = 0; i < seleccionados.size(); ++i)
-			if (seleccionados[i])
-				res.push_back(i+1);
-		return res;
+			sort(cs.begin(), cs.end(),customLess);
+			filtrarSolapamientos();
+			res.push_back(cantSeleccionados);
+			for (int i = 0; i < seleccionados.size(); ++i)
+				if (seleccionados[i])
+					res.push_back(i+1);
+					return res;
 	}
 }
 

@@ -136,7 +136,7 @@ if (cs.size() == 0) {
     return res;
 }
 \end{verbatim}
-\caption{}
+\caption{Ciclo que selecciona los intervalos correspondientes}
 \end{center}
 \end{figure}
 
@@ -155,7 +155,6 @@ for(int i = 1; i < cs.size(); ++i) {
 \end{center}
 \end{figure}
 
-
 \subsection{Instancias posibles}
 
 Para verificar la correctitud de nuestro programa, dispusimos variar estratégicamente las instancias de entrada al ejecutarlo.
@@ -172,12 +171,12 @@ Para verificar la correctitud de nuestro programa, dispusimos variar estratégic
 \caption{Instancia posible nº1.}
 \end{figure}
 
-\item Por otra parte, probamos el programa para la situación en la que no se ingresa ningún curso. Esto sería, por lo tanto, el caso vacío. Dado que este caso borde es muy significativo, nos pareció interesante mencionarlo.\newline
+\item Por otra parte, probamos el programa para la situación en la que no se ingresa ningún curso. Esto sería, por lo tanto, el caso vacío. Dado que este caso borde es muy significativo, nos pareció importante mencionarlo.\newline
 \textbf{Parámetro de entrada:} $$0$$
 \textbf{Parámetro de salida:} $$0$$ \newline
 
 
-\item Otro caso a considerar es en el que todos los cursos finalizan el mismo día (solapándose todos entre sí). Debido a que cualquiera de ellos es solución del problema pues es la máxima cantidad de intervalos que no se solapan, utilizamos esta instancia para verificar que nuestro algoritmo devolviera siempre el de menor fecha de finalización. \newline
+\item Otro caso a considerar es en el que todos los cursos finalizan el mismo día (solapándose todos entre sí). En este caso, cualquiera de ellos es solución del problema (pues es la máxima cantidad de intervalos que no se solapan) pero nuestro algoritmo retorna el primero que encuentra de acuerdo al orden que se les impuso mencionado previamente. \newline
 \textbf{Parámetro de entrada:}  $$3\ \ 1\ \ 5\ \ 3\ \ 5\ \ 2\ \ 5$$
 \textbf{Parámetro de salida:}  $$1\ \ 1$$\newline
 
@@ -189,7 +188,7 @@ Para verificar la correctitud de nuestro programa, dispusimos variar estratégic
 \end{figure}
 
 
-\item Por último, consideramos interesante considerar el caso en el que existe al menos un curso que se solapa. Dicho caso sería el más común en el problema a resolver. Este tipo de situaciones tienen más de una solución óptima. En esta oportunidad, hay dos salidas posibles que son solución del problema. Debido que nuestro algoritmo almacena, en primer lugar, los intervalos cuya fecha de fin es la más alta, dicho intervalo es el prioritario frente a cualquiera que se le solape. Del mismo modo, decidimos que podía ser interesante considerar el caso de cursos cuya fecha de inicio fuera igual a la fecha de fin para comprobar que las cotas del programa estuvieran definidas correctamente.\newline
+\item Por último, consideramos interesante develar el caso en el que existe al menos un curso que se solapa. Dicho caso sería el más común en el problema a resolver. Este tipo de situaciones tienen más de una solución óptima. En esta oportunidad, hay dos salidas posibles que son solución del problema. Debido a que nuestro algoritmo almacena, en primer lugar, los intervalos cuya fecha de fin es la más baja, dicho intervalo es el prioritario frente a cualquiera que se le solape.\newline
 \textbf{Parámetro de entrada:}  $$4\ \ 0\ \ 3\ \ 3\ \ 5\ \ 7\ \ 10\ \ 8\ \ 9$$
 \textbf{Parámetro de salida:}  $$2\ \ 1\ \ 4$$ \newline
 
@@ -203,3 +202,10 @@ Para verificar la correctitud de nuestro programa, dispusimos variar estratégic
 \end{itemize}
 
 \subsection{Testing}
+Para realizar las pruebas de complejidad, generamos instancias aleatorias de fechas de cursos alterando la cantidad de los mismos. Estas instancias fueron generadas en $C++$ con la función $rand()$ de forma tal a poder acotarlas por 365. Los intervalos se generaron del siguiente modo: a partir de dos números aleatorios entre 0 y 365, se tomó el menor y se lo posicionó como primer elemento del intervalo y al mayor como segundo. Este mismo proceso se realizó para una cantidad de 1000 a 100000 intervalos con los que se ejecutó el programa. De este modo, logramos medir las pruebas de nuestro algoritmo para comprobar que la complejidad correspondiera con la mencionada anteriormente.
+
+%\begin{figure}[H] %[h] Aqui [b] para button [t] para top
+%\begin{center}
+%\includegraphics[width=300pt]{../imgs/complejidadEj1.jpg}
+%\end{center}
+%\end{figure}
