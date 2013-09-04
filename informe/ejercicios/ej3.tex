@@ -2,6 +2,17 @@
 
 El siguiente ejercicio se da en el contexto de un museo donde se requiere, por cuestiones de seguridad, colocar sensores de forma tal que todo el piso esté cubierto por los lásers que estos emiten. Existen dos tipos de sensores: los direccionales (que emiten señales horizontales o verticales) y los bidireccionales (que emiten señales verticales y horizontales). Los precios de éstos son \$4000 y \$6000 respectivamente. Se pide, también, que un sensor no apunte hacia otro dado que esto podría dejarlos sin funcionar. Además, se pide que ciertos lugares, definidos como \textit{importantes}, sean atravesados por dos lásers simultáneamente. El objetivo del algoritmo a realizar consiste en encontrar una forma de colocar los sensores de manera que el suelo quede completamente cubierto y que los lugares \textit{importantes} estén atravesados por un láser horizontal y otro vertical utilizando el mínimo costo posible. Por otra parte, debe ser tenido en cuenta que el museo cuenta con paredes que pueden interferir los lásers de los sensores.\newline
 
+\newline
+\textbf {Formatos de entrada y salida:}\newline
+\newline
+La entrada del algoritmo contiene una instancia del problema. La primera línea indica las dimensiones $n$ y $m$ de la grilla. A esta línea le siguen $n$ líneas, cada una con $m$ valores separados por espacios, indicando el contenido de cada una de las $n$ x $m$ casillas de la grilla, donde un 0 representa una pared, un 1 representa un casillero libre común y un 2 representa un casillero libre importante.\newline
+
+En el caso en el que el problema no tenga solución, la salida deberá contener únicamente una línea con el valor -1. Caso contrario, la salida debe comenzar con dos números enteros: 
+$$S\ C$$ 
+donde $S$ es la cantidad de sensores utilizados y $C$ es el costo toal de la solución. Luego, para cada sensor utilizado, debe haber una línea con el siguiente formato: 
+$$t\ f\ c$$ 
+donde $t$ es el tipode sensor y $(f,c)$ son la fila y columna en donde éste se ubica (la esquina superior izquierda de la grilla es la posición (1,1) y la inferior derecha es la $(n,m)$). Para los sensores cuatridireccionales, $t$ debe valer 1, para los bidireccionales en forma horizontal $t$ debe valer 2 y en forma vertical 3.\newline
+\newline
 Un ejemplo de este problema es el que está provisto por la cátedra:
 
 \begin{figure}[H]
