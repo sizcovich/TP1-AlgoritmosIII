@@ -51,16 +51,24 @@ int main() {
 			
 			random_shuffle(matriz.begin(), matriz.end());
 			
-			cout << i << " " << j << endl;
 			
-			for (int k = 0; k < i; k++)
-			{
-				for (int l = 0; l < j; l++)
-				{
-					cout << matriz[i*k + l] << " ";
-				}
-				cout << endl;
+
+			cout << i << " " << j << endl;
+
+			for (int k = 0; k < matriz.size(); ++k) {
+				if (k % j == 0 && k!=0)
+					cout << endl;
+				cout << matriz[k] << " ";
 			}
+			cout << endl;
+			// for (int k = 0; k < i; k++)
+			// {
+			// 	for (int l = 0; l < j; l++)
+			// 	{
+			// 		cout << matriz[(i*k) + l] << " ";
+			// 	}
+			// 	cout << endl;
+			// }
 			
 			//~ b = rand() % 365;
 			//~ if (a >= b)
