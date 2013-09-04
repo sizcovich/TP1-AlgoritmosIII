@@ -49,15 +49,15 @@ En cambio, en el ejemplo que sigue preferimos mostrar un caso en el que algunos 
 
 \subsection{Resolución coloquial}
 
-Decidimos resolver el problema ordenando los cursos de acuerdo a la fecha de finalización de los mismos por orden creciente. De este modo, se recorrió cada intervalo correspondiente a cada curso y, cuando el $i-ésimo$ no se solapaba con el $i-ésimo\ -\ 1$, se lo agregaba a la solución.\newline
+Decidimos resolver el problema ordenando los cursos de acuerdo a la fecha de finalización de los mismos por orden creciente. De este modo, se recorrió cada intervalo correspondiente a cada curso y, cuando el $i$-ésimo no se solapaba con el $i$-ésimo-1, se lo agregaba a la solución.\newline
 Al analizar el problema a resolver, nos percatamos de que el algoritmo de maximización de intervalos no solapados corresponde a un $algoritmo\ goloso$. El pseudocódigo que describe el algoritmo es el siguiente:\newline
 
 \begin{algorithm}[H]
     \SetAlgoLined
-    \caption{MaximaCantidadDeIntervalosNoSolapados}
+    \caption{Algoritmo Maximizador de la Cantidad De Intervalos No Solapados}
     \KwIn{Cursos $CS$}
     \KwOut{listaDeCursos}
-    Lista $seleccionados$ = lista de booleanos que representan si un curso fue elegido
+    Lista $seleccionados$ = lista de booleanos que representan si un curso fue elegido\\
     \eIf{\#CS == 0}{
         \textbf{devolver} $ListaVacia$\\
     }{
@@ -70,14 +70,14 @@ Al analizar el problema a resolver, nos percatamos de que el algoritmo de maximi
 
 \begin{algorithm}[H]
     \SetAlgoLined
-    \caption{filtrarSolapamientos}
+    \caption{Algoritmo Filtrador de Solapamientos}
     \KwIn{Cursos $CS$}
     \KwOut{listaDeCursos}
     Curso $anterior$ = Primer curso de $CS$\\
     \For{Curso $c$ en $CS$}{
         \If{$c$ noSeSolapa con $anterior$}{
             $anterior$ := $c$\\
-            $seleccionado_{c.indice} := true$
+            $seleccionado_{c.indice} := true$\\
         }
     }
     \textbf{devolver} $res$\\   
