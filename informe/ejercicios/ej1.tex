@@ -3,9 +3,9 @@ El siguiente ejercicio consiste en hallar una manera de implementar un sistema p
 \newline
 El problema se sitúa en un centro de distribución de correo que recibe paquetes todos los días cuyo destino final es la sede central de la empresa. Para el transporte de los mismos, éstos son cargados a camiones de igual capacidad. El encargado de logística, Pascual, tiene un sistema que utiliza desde hace años para agilizar la carga de los camiones asegurando el uso de una baja cantidad de los mismos para el envío de paquetes al final del día. Dicho sistema consiste en tomar los paquetes y ubicarlos en algún camión que ya tenga paquetes dentro, eligiendo, entre éstos, el que menos peso tenga cargado hasta ese momento. Si el peso del paquete permite que éste sea cargado en ese camión, se lo ubica allí, sino, se lo incluye en un nuevo camión.\newline
 \newline
-El problema a resolver se basa en escribir un algoritmo que tome los pesos de los paquetes que hay que acomodar e indique cuántos camiones se van a utilizar y cuánto peso se cargará en cada uno de ellos al final del día considerando el sistema de Pascual. Para esto, se respeta el orden de llegada de los paquetes a medida que ingresan. \newline
+El problema a resolver se basa en escribir un algoritmo que tome los pesos de los paquetes que hay que acomodar e indique cuántos camiones se van a utilizar y cuánto peso se cargará en cada uno de ellos al final del día considerando el sistema de Pascual. Para esto, se respeta el orden de llegada de los paquetes.\newline
 \newline
-Las consideraciones a tener en cuenta son que los camiones tienen todos la misma capacidad de carga, que la cantidad disponible de los mismos alcanza para transportar todos los paquetes y que el peso de un paquete no supera la capacidad de carga de un camión. Del mismo modo, el tamaño de los paquetes no es tenido en cuenta, sino que se los identifica por su peso. Además, es importante aclarar que las cargas son valores enteros positivos.\newline
+Las consideraciones a tener en cuenta son que los camiones tienen todos la misma capacidad de carga, que la cantidad disponible de los mismos alcanza para transportar todos los paquetes y que el peso de un paquete no supera la capacidad de carga de un camión vacío. Del mismo modo, el tamaño de los paquetes no es tenido en cuenta, sino que se los identifica por su peso. Además, es importante aclarar que las cargas son valores enteros positivos.\newline
 \newline
 \textbf {Formatos de entrada y salida:}\newline
 \newline
@@ -27,7 +27,7 @@ En lo que sigue, presentaremos dos ejemplos del sistema impulsado por Pascual:
 \begin{itemize}
 \item {\large{\textbf{Ejemplo 1:}}}\newline
 
-En este ejemplo, decidimos develar un caso en el que fuera agregado un paquete a un camión ya cargado. Por otro lado, quisimos contrarrestarlo insertando un paquete con una carga que superaba la capacidad del camión creado anteriormente. Por último, nos pareció importante mostrar un caso en el que al agregar un nuevo paquete, si bien un nuevo camión había sido creado, éste era colocado en el camión cuya carga fuera la menor.\newline
+En este ejemplo, decidimos develar un caso en el que fuera agregado un paquete a un camión ya cargado. Por otro lado, quisimos contrarrestarlo insertando un paquete cuya carga no permitiera su agregado en el camión anterior. Por último, nos pareció importante mostrar un caso en el que, al agregar un nuevo paquete, si bien un nuevo camión había sido creado, éste era colocado en el camión cuya carga era la menor.\newline
 
 \textbf{Formato de entrada:}
 $$100\ \ 5\ \ 20\ \ 40\ \ 80\ \ 15\ \ 100$$
@@ -45,7 +45,7 @@ $$3\ \ 75\ \ 80\ \ 100$$
 
 \item {\large{\textbf{Ejemplo 2:}}}\newline
 
-En este ejemplo, quisimos mostrar lo que ocurría cuando cada paquete supera el 50\% de la carga disponible en un camión.\newline
+En este ejemplo, quisimos mostrar lo que ocurría cuando cada paquete supera el 50\% de la carga disponible de un camión.\newline
 
 \textbf{Formato de entrada:} 
 $$150\ \ 3\ \ 80\ \ 75\ \ 82$$
@@ -63,9 +63,9 @@ $$3\ \ 80\ \ 75\ \ 82$$
 
 \end{itemize}
 \subsection{Resolución coloquial}
-Al analizar el problema a resolver, nos percatamos de que el algoritmo de Pascual corresponde a un $algoritmo\ goloso$. Dicho algoritmo consiste en la construcción de una solución seleccionando, en cada paso, la mejor alternativa sin considerar las implicancias de ésta.\newline Por otro lado, dicha técnica de diseño algorítmico resulta fácil de implementar, suele ser eficiente y permite construir soluciones razonables.\newline
+Al analizar el problema a resolver, nos percatamos de que el algoritmo de Pascual corresponde a un $algoritmo\ goloso$. Dicho algoritmo consiste en la construcción de una solución seleccionando, en cada paso, la mejor alternativa sin considerar las implicancias de ésta. Dicha técnica de diseño algorítmico resulta fácil de implementar, suele ser eficiente y permite construir soluciones razonables.\newline
 \newline
-En el caso del algoritmo de Pascual, el algoritmo goloso consiste en tomar cada instancia de la entrada y ubicarla en el lugar más conveniente en el momento determinado. Esto significa que, dada la $i$-ésima caja ingresada en un mismo día, ésta es ubicada en el camión que se encuentra menos cargado en ese momento.\newline
+En el caso del algoritmo de Pascual, el $algoritmo\ goloso$ consiste en tomar cada instancia de la entrada y ubicarla en el lugar más conveniente en el momento que le corresponde de acuerdo a su orden de llegada. Esto significa que, dada la $i$-ésima caja ingresada en un mismo día, ésta es ubicada en el camión que se encuentra menos cargado en el momento de su inclusión.\newline
 
 El pseudocódigo ideado para resolver el problema es el siguiente:\newline
 
@@ -105,7 +105,7 @@ Por último, podemos observar que la cantidad de camiones que se utilizan al fin
 \subsection{Complejidad del algoritmo}
 
 Dado que el algoritmo presentado en la sección anterior puede ser fácilmente representado por una estructura de tipo $heap$, decidimos implementarlo sobre una cola de mínima prioridad para poder utilizar todas las funciones que nos provee $stl$ sobre ésta.\\
-
+%preguntar si se pone esta descripcion o si no es necesario
 Una cola de prioridad consiste en una estructura de datos en la que sus elementos son atendidos según la prioridad que éstos tengan asociada. Dicha estructura se caracteriza por admitir inserciones de nuevos elementos y la consulta y eliminación del elemento de mínima prioridad.\newline
 Las colas de prioridad suelen ser útiles para resolver algoritmos golosos ya que éstos suelen tener una iteración principal, y una de las tareas a realizar en cada una de dichas iteraciones es seleccionar un elemento de entre varios que minimiza un cierto criterio de optimalidad local.\newline
 Para adaptar el problema de Pascual a la cola de prioridad, decidimos que cada elemento debía representar la carga correspondiente a un camión determinado en la instancia dada junto con el orden de creación del mismo.\newline
@@ -128,13 +128,14 @@ Además del ciclo, el algoritmo llama a $top()$ ($\mathcal{O}(1)$\footnotemark[1
 \begin{center}
 \begin{verbatim}
 Camion c = ca.top();
-if ((ps[i]+c.second) <= limite){
-    c.second += ps[i];
-    ca.pop(); //elimina el camion menos cargado y en la siguiente linea lo vuelve a agregar
-    ca.push(c);
+if ((ps[i]+c.first) <= limite)
+{
+	c.first += ps[i];
+	ca.pop(); //elimina el camion menos cargado y en la siguiente linea lo vuelve a agregar
+	ca.push(c);
 }else{
-    ca.push(make_pair(cantCamiones, ps[i])); //agrega un nuevo camion
-    ++cantCamiones;
+	ca.push(make_pair(ps[i],cantCamiones)); //agrega un nuevo camion
+	++cantCamiones;
 }
 \end{verbatim}
 \caption{Pasos que se realizan al ingresar un nuevo paquete.}
@@ -142,7 +143,7 @@ if ((ps[i]+c.second) <= limite){
 \begin{verbatim}
 while(!ca.empty()){
 	Camion c = ca.top();
-	vectorCamionesOrdenados[c.first] = c.second;
+	vectorCamionesOrdenados[c.second] = c.first;
 	ca.pop();
 }
 \end{verbatim}
@@ -161,7 +162,7 @@ Para verificar la correctitud de nuestro programa, dispusimos variar estratégic
 
 \textbf{Parámetro de entrada:} $$0\ \ 0$$
 \textbf{Parámetro de salida:} $$0$$
-\item También, quisimos comprobar qué ocurría al tener dos o más camiones con la misma carga, con el fin de corroborar el orden de camiones de salida. Pudimos constatar que el orden de salida es el correcto, es decir que no importa la carga de los camiones sino que éstos son devueltos de acuerdo a su orden de creación.\newline
+\item También, quisimos visualizar el orden de salida de los camiones al tener dos o más de ellos con la misma carga. Pudimos constatar que el orden de salida es el correcto, es decir que no importa la carga de los camiones sino que éstos son devueltos de acuerdo a su orden de creación.\newline
 
 \textbf{Parámetro de entrada:} $$4\ \ 3\ \ 2\ \ 3\ \ 2$$
 \textbf{Parámetro de salida:} $$3\ \ 3\ \ 4\ \ 3$$
