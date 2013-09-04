@@ -94,7 +94,7 @@ int main() {
 
 		auto t1 = chrono::high_resolution_clock::now();
 		for (int i = 0; i < 10; ++i) {
-			ps.clear();
+			// ps.clear();
 			res = algoritmoDePascual(limite, cantPaquetes, ps);
 		}
 		auto t2 = chrono::high_resolution_clock::now();
