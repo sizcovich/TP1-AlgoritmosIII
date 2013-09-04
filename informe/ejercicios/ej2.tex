@@ -118,18 +118,18 @@ Luego, al comienzo del algoritmo se ordena la lista de cursos, eso se hace con l
 \begin{center}
 \begin{verbatim}
 if (cs.size() == 0) {
-	res.push_back(0);
-	return res;
+    res.push_back(0);
+    return res;
 } else {
-	for (int i = 0; i < cs.size(); ++i)
-		seleccionados.push_back(false);
-	sort(cs.begin(), cs.end(),customLess);
-	filtrarSolapamientos();
-	res.push_back(cantSeleccionados);
-	for (int i = 0; i < seleccionados.size(); ++i)
-		if (seleccionados[i])
-			res.push_back(i+1);
-	return res;
+    for (int i = 0; i < cs.size(); ++i)
+        seleccionados.push_back(false);
+    sort(cs.begin(), cs.end(),customLess);
+    filtrarSolapamientos();
+    res.push_back(cantSeleccionados);
+    for (int i = 0; i < seleccionados.size(); ++i)
+        if (seleccionados[i])
+            res.push_back(i+1);
+    return res;
 }
 \end{verbatim}
 \caption{Codigo de ejercicio 1}
@@ -140,11 +140,11 @@ if (cs.size() == 0) {
 \begin{center}
 \begin{verbatim}
 for(int i = 1; i < cs.size(); ++i) {
-	if (cs[i].second.first > anterior.second.second) {
-   		anterior = cs[i];
-   		seleccionados[cs[i].first] = true;
-   		cantSeleccionados++;
-   	}
+    if (cs[i].second.first > anterior.second.second) {
+        anterior = cs[i];
+        seleccionados[cs[i].first] = true;
+        cantSeleccionados++;
+    }
 }
 \end{verbatim}
 \caption{Codigo de filtrarSolapamientos}
