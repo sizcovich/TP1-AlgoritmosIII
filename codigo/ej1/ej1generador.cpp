@@ -11,7 +11,7 @@ using namespace std;
 
 int main() {
 	srand(time(NULL));
-	for (int i = 5000; i <= 100000 ; i=i+5000)
+	for (int i = 1000; i <= 100000 ; i=i+1000)
 	{
 		cout << 120 << " " << i << " " ;
 		for (int j = 0; j < i; j++)
