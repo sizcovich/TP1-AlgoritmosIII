@@ -1,8 +1,8 @@
 \subsection{Problema a resolver}
 
-El siguiente ejercicio se da en el contexto de un museo donde se requiere, por cuestiones de seguridad, colocar sensores de forma tal que todo el piso esté cubierto por los lásers que estos emiten. Existen dos tipos de sensores: los direccionales (que emiten señales horizontales o verticales) y los bidireccionales (que emiten señales verticales y horizontales). Los precios de éstos son \$4000 y \$6000 respectivamente. Se pide, también, que un sensor no apunte hacia otro dado que esto podría dejarlos sin funcionar. Además, se pide que ciertos lugares, definidos como \textit{importantes}, sean atravesados por dos lásers simultáneamente. El objetivo del algoritmo a realizar consiste en encontrar una forma de colocar los sensores de manera que el suelo quede completamente cubierto y que los lugares \textit{importantes} estén atravesados por un láser horizontal y otro vertical utilizando el mínimo costo posible. Por otra parte, debe ser tenido en cuenta que el museo cuenta con paredes que pueden interferir los lásers de los sensores.
+El siguiente ejercicio se da en el contexto de un museo donde se requiere, por cuestiones de seguridad, colocar sensores de forma tal que todo el piso esté cubierto por los lásers que estos emiten. Existen dos tipos de sensores: los direccionales (que emiten señales horizontales o verticales) y los bidireccionales (que emiten señales verticales y horizontales). Los precios de éstos son \$4000 y \$6000 respectivamente. Se pide, también, que un sensor no apunte hacia otro dado que esto podría dejarlos sin funcionar. Además, se pide que ciertos lugares, definidos como \textit{importantes}, sean atravesados por dos lásers simultáneamente. El objetivo del algoritmo a realizar consiste en encontrar una forma de colocar los sensores de manera que el suelo quede completamente cubierto y que los lugares \textit{importantes} estén atravesados por un láser horizontal y otro vertical utilizando el mínimo costo posible. Por otra parte, debe ser tenido en cuenta que el museo cuenta con paredes que pueden interferir los lásers de los sensores.\newline
 
-Un ejemplo de este problema es el que está provisto por la cátedra
+Un ejemplo de este problema es el que está provisto por la cátedra:
 
 \begin{figure}[H]
 	\begin{center}
@@ -13,14 +13,14 @@ Un ejemplo de este problema es el que está provisto por la cátedra
 
 En el ejemplo de la Figura 1 el museo se ve representado por una cuadricula donde donde los cuadrados blancos representan el suelo, los cuadrados negros representan las paredes y los cuadrados que tienen un rombo dentro representan los lugares importantes, a continuación de la imagen se muestran dos posibles soluciones al problema, en las cuales las cruces rojas representan los sensores bidireccionales, y las lineas rojas gruesas representan los sensores horizontales y verticales, desde estos se extienden lineas rojas que representan el área que cubren estos sensores con lasers.
 
-En el primer caso el costo total es de \$44000 y la segunda solución tiene un costo de \$42000
+En el primer caso el costo total es de \$44000 y la segunda solución tiene un costo de \$42000.
 
 \subsection{Resolución coloquial}
 
-Para resolver este ejercicio usamos, como recomendación de la cátedra en el enunciado, la técnica de backtracking que consiste en probar todas las posibles combinaciones de soluciones dentro del problema hasta llegar a las válidas y guardar así la mejor de ellas usando en cada paso, criterios de parada que nos permitan deducir si las soluciones parcialmente obtenidas son candidatas a mejores soluciones o si son soluciones válidas.
-
-El modelo de nuestro problema mapea el piso, las paredes y los lugares importantes del museo en casillas dentro de una matriz, donde cada posicion de la matriz es una "baldosa" o "casillero" en el piso, donde cada uno de estos tiene información sobre si hay algun sensor puesto o si hay algún laser pasando por encima.
-
+Para resolver el problema presentado decidimos utilizar la técnica de $backtracking$. Ésta consiste en evaluar las posibles combinaciones de soluciones del problema almacenándolas hasta llegar a la deseada. Para ello, definimos criterios de parada que nos permiten decidir si las soluciones parcialmente obtenidas son candidatas a soluciones válidas.\newline
+\newline
+El modelo de nuestro problema mapea el piso, las paredes y los lugares importantes del museo en casillas dentro de una matriz, donde cada posicion de la matriz es una "baldosa" o "casillero" en el piso, donde cada uno de estos tiene información sobre si hay algun sensor puesto o si hay algún laser pasando por encima.\newline
+\newline
 El problema se resuelve recorriendo la matriz secuencialmente y en cada paso tomando una decisión sobre el casillero actual, siento esta colocar un sensor o dejar el casillero sin ningún sensor, esto genera un árbol de decisiones en el cual cada una de sus ramas representan un escenario diferente en la distribución de sensores en la matriz que representa nuestra modelo, de esta manera nos garantizamos obtener todas las posibles combinaciones de configuraciones de la matriz. Finalmente, tomamos todas estas configuraciones, chequeamos cuales son soluciones correctas y nos quedamos con la que minimiza el costo de los ContarSensores.
 
 \subsection{Demostración de correctitud}
