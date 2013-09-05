@@ -1,55 +1,41 @@
 #include <string>
-#include <cstdio>
+#include <cstdlib>
+#include <ctime>
 #include <iostream>
 #include <vector>
 #include <algorithm>
 #include <queue>
 #include <functional>
+#include <random>
+#include <iterator>
 
 using namespace std;
 
+#define PORCENTAJE_PAREDES 20
+#define PORCENTAJE_IMPORTANTES 10
 
 int main() {
-	srand(time(NULL));
+	random_device rd;
+    mt19937 g(rd());
 	for (int i = 1; i <= 7 ; i++)
 	{
 		for (int j = 1; j <= 7; j++)
 		{
 			vector<int> matriz (i*j,1);
-			
-			int veinte = 50;
-			veinte = veinte * i * j;
-			veinte /= 100;
-			
-			if (veinte == 0)
-			{
-				veinte++;
-			}
-			
-			int a = rand() % veinte;
-			
-			for (int k = 0; k < a; k++)
-			{
+			float tam = i*j;
+
+			int limP = static_cast<int>((tam/100)*PORCENTAJE_PAREDES);
+			int limI = static_cast<int>((tam/100)*PORCENTAJE_IMPORTANTES);
+
+			cout << limP << " " << limI << endl;
+
+			for (int k = 0; k < limP; k++)
 				matriz[k] = 0;
-			}
 			
-			int quince = 40;
-			quince = quince * i * j;
-			quince /= 100;
-			
-			if (quince == 0)
-			{
-				quince++;
-			}
-			
-			int b = rand() % quince;
-			
-			for (int k = a; k < b+a; k++)
-			{
+			for (int k = limP; k < (limP+limI); k++)
 				matriz[k] = 2;
-			}
 			
-			random_shuffle(matriz.begin(), matriz.end());
+			shuffle(matriz.begin(), matriz.end(), g);
 			
 			
 
