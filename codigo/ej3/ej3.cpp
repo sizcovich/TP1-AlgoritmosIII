@@ -393,31 +393,17 @@ int main() {
 		auto t2 = chrono::high_resolution_clock::now();
 		auto x = chrono::duration_cast<std::chrono::nanoseconds>(t2-t1).count();
 
-		cerr << n+m << " " << x << endl;
+		cerr << n*m << " " << x << endl;
 
 		if (mejorCosto == n*m*6000 && !haySolucion)
 			cout << "-1" << endl;
 		else {
-			// mostrar(gMejor, "laser");
-			// mostrar(gMejor, "restricciones");
 			cout << mejorCantSensores << " " << mejorCosto;
 			cout << endl;
 			for (int i = 0; i < gMejor.size(); ++i) {
 				for(int j = 0; j < gMejor[i].size(); ++j) {
 					if (gMejor[i][j].ocupado) {
 						cout << gMejor[i][j].tipoSensor << " " << i << " " << j << endl;
-						// if (gMejor[i][j].tipoSensor == 1) {
-						// 	cout << "bidireccional (" << i << "," << j << ")";
-						// 	cout << endl;
-						// }
-						// if (gMejor[i][j].tipoSensor == 2) {
-						// 	cout << "horizontal (" << i << "," << j << ")";
-						// 	cout << endl;
-						// }
-						// if (gMejor[i][j].tipoSensor == 3) {
-						// 	cout << "vertical (" << i << "," << j << ")";
-						// 	cout << endl;
-						// }
 					}
 				}
 			}
