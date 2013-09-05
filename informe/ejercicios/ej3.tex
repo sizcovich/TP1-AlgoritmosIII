@@ -48,8 +48,9 @@ Pseudocódigo:
 	\SetAlgoLined
 	\caption{Algoritmo de Backtracking}
 	\KwIn{Matriz $grilla$}
-	\KwOut{lista sensores}
+	\KwOut{Lista sensores}
 	
+	Matriz $mejorGrilla$
 	Lista $casillasLibres$\\
 
 	\For{Posicion $p \in grilla$}{
@@ -61,7 +62,7 @@ Pseudocódigo:
 		}
 	}
 
-	sensores := backtrack($grilla$, $casillasLibres$)\\
+	sensores := backtrack($grilla$, $casillasLibres$, $mejorGrilla$)\\
 
 	\textbf{devolver} sensores
 \end{algorithm}
@@ -69,11 +70,27 @@ Pseudocódigo:
 \begin{algorithm}[H]
 	\SetAlgoLined
 	\caption{backtrack}
-	\KwIn{Matriz $grilla$, Lista $casillasLibres$}
-	\KwOut{}
-	
-	Lista $casillaActual$ := Proxima casilla libre en casillasLibres\\
+	\KwIn{Matriz $grilla$, Lista $casillasLibres$, Matriz $mejorGrilla$}
+	\KwOut{Lista sensores}
 
+    \If{$costoActual$ > $(mejorCostoObtenido - 2000)$}{
+        backtrack($grilla$, $casillasLibres$)\\
+	}
+	
+	\If{sensores esta vacio}{
+		\If{chequearSolucion($grilla$) \land $ (costoActual $ < $ mejorCostoObtenido)$}{
+			$mejorCostoObtenido$ := $costoActual$\\
+			$mejorGrilla$ := $grilla$
+		}
+    }
+
+	Casilla $casillaActual$ := Proxima casilla libre \in casillasLibres\\
+	
+	\If{$¬$sePuedeColocarUnSensor($casillaActual$)}{
+		$mejorCostoObtenido$ := $costoActual$\\
+		$mejorGrilla$ := $grilla$
+	}
+	
 	\If{Puedo poner un sensor bidireccional en $casillaActual$}{
 		Restringir por láser bidireccional\\
 		Saco casillaActual de casillasLibres\\
@@ -120,6 +137,13 @@ $$0\ \ 2\ \ 0$$
 $$0\ \ 0\ \ 0$$
 \textbf{Parámetro de salida:} $$-1$$\newline
 \item Por otra parte, probamos el programa para un museo conformado únicamente por paredes, en otras palabras, el caso vacío. Lo relevante de este caso es que nuestro algoritmo lo considera y otorga, como salida, que la solución es no colocar ningún láser.\newline
+
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[width=120pt]{../imgs/instanciaposible_ej3_in1.jpg}
+	\end{center}
+\caption{Entrada de la instancia posible 1}
+\end{figure}
 
 \textbf{Parámetro de entrada:} 
 $$3\ \ 3$$
