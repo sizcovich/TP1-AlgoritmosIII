@@ -108,7 +108,7 @@ Luego, podemos concluir que $k = n$, siendo, la solución de nuestro algoritmo, 
 Sea $n$ la cantidad de cursos del ciclo del programa de Profesores Visitantes de la FCEyN. Para analizar la complejidad de nuestro algoritmo, estudiémoslo por partes:
 \begin{itemize}
 \item En primer lugar, es necesario mencionar que la función \textbf{size} es $\mathcal{O}(1)$\footnote{http://en.cppreference.com/w/cpp/container/vector/size}. Por otra parte, las asignaciones, sumas, restas y otras operaciones básicas se realizan en $\mathcal{O}(1)$ debido a que operamos en un modelo uniforme.
-\item La función $filtrarSolapamientos$ contiene un ciclo principal que recorre todos los cursos evaluando que la fecha de inicio del elemento actual sea mayor a la fecha de fin del anterior ($\mathcal{O}(1)$), completando el arreglo $seleccionados$ de acuerdo al resultado obtenido por dicha comparación ($\mathcal{O}(1)$\footnote{http://en.cppreference.com/w/cpp/container/vector/operator\_at}). Dado que dichas operaciones se realizan para cada intervalo del ciclo, la complejidad resulta en $\mathcal{O}(n)$.\newline
+\item La función $filtrarSolapamientos$ contiene un ciclo principal que recorre todos los cursos evaluando que la fecha de inicio del elemento actual sea mayor a la fecha de fin del anterior ($\mathcal{O}(1)$), completando el arreglo $seleccionados$ de acuerdo al resultado obtenido por dicha comparación ($\mathcal{O}(1)$\footnote{http://en.cppreference.com/w/cpp/container/vector/operator\_at}). Dado que dichas operaciones se realizan para cada intervalo del ciclo, la complejidad resulta en $\mathcal{O}(n)$.
 \item La función principal 	compara el tamaño del conjunto de intervalos con 0. Si dicha comparación resulta verdadera, se aplica la función \textbf{push$\_$back} sobre la estructura \textbf{vector}, cuya complejidad es $\mathcal{O}(1)$\footnote{http://en.cppreference.com/w/cpp/container/vector/push$\_$back}. Por otro lado, si la comparación es falsa, se realiza \textbf{push$\_$back} sobre los $false$ de forma cíclica recorriendo todos los intervalos del ciclo, siendo esto $\mathcal{O}(n)$ * $\mathcal{O}(1)$ = $\mathcal{O}(n)$.
 \begin{itemize}
 \item Luego, se aplica la función \textbf{Sort} desde el primer intervalo del conjunto hasta el último, siendo su complejidad $\mathcal{O}(n\ log\ n)$\footnote{http://en.cppreference.com/w/cpp/algorithm/sort}.
@@ -118,8 +118,7 @@ Sea $n$ la cantidad de cursos del ciclo del programa de Profesores Visitantes de
 \end{itemize}
 \end{itemize}
 
-Dado que las complejidades dentro de la función se suman, 
-lo cual la complejidad final es O($n\ log\ n$) + O($n$) lo cual esta acotado asintóticamente por O($n\ log\ n$), que es lo que queriamos ver.
+Dado que las complejidades dentro de la función se suman entre ellas y las constantes pueden ser omitidas, la complejidad final va a quedar definida a partir del ciclo principal ($\mathcal{O}(n)$) y el ordenamiento inicial ($\mathcal{O}(n\ log\ n)$). Dado que ambas operaciones se realizan paralelamente, sus complejidades se suman, por lo que la complejidad final es ($\mathcal{O}(n\ log\ n)$) + $\mathcal{O}(n)$, que se encuentra acotada asintóticamente por $\mathcal{O}(n\ log\ n)$. Luego, la complejidad de nuestro algoritmo resulta menor a $\mathcal{O}(n^2)$, que fue lo requerido.
 
 \subsection{Código fuente}
 
