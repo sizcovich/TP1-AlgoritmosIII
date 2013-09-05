@@ -27,7 +27,7 @@ int main() {
 			int limP = static_cast<int>((tam/100)*PORCENTAJE_PAREDES);
 			int limI = static_cast<int>((tam/100)*PORCENTAJE_IMPORTANTES);
 
-			cout << limP << " " << limI << endl;
+			//cout << limP << " " << limI << endl;
 
 			for (int k = 0; k < limP; k++)
 				matriz[k] = 0;
