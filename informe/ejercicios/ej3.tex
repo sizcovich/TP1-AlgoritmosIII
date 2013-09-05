@@ -39,13 +39,35 @@ Podas reducen la cantidad se soluciones correctas o incorrectas: una vez que enc
 
 \subsection{Demostración de correctitud}
 
-nuestro algoritmo genera todas las combinaciones posibles en cada casillero. toma el primer elemento, ignorando el anterior intenta ubicar algun sensor o ninguno siempre  que no este en ningun caso de poda o que no rompa el enunciado. prueba todas las combinaciones, tiene 4 opciones en cada caso, reduciendo el problema en 1 ya que al haber tomado las 4 decisiones no vuelve sobre ella. cuando termina de probar todas las combinaciones, pregunta si es la mejor buscando el minimo, quedandose con uno y comparando e intercambiandose. veo que las podas no eliminan soluciones validas:
-- buscamos el costo minimo entonces descartamos una solucion por ya tener una valida. la solucion eliminada puede llegar a ser correcta pero no va a ser la minima.
+Para demostrar la correctitud de nuestro algoritmo desarrollaremos los siguientes tres items:
+\begin{itemize}
+\item Nuestro algoritmo genera todas las combinaciones posibles en cada casillero.
+\item Las podas utilizadas no alteran el resultado final.
+\item La solucion es optima, es decir, no existe otra cuyo costo sea menor.
+\end{itemize}
+
+\textbf{Nuestro algoritmo genera todas las combinaciones posibles en cada casillero.} \newline
+
+Esto lo realiza tomando el primer elemento (ignorando el anterior) e intentando ubicar algun sensor, o ninguno, siempre que este no se encuentre contemplado en las podas o que no rompa los casos especificados
+ por el enunciado. Como resultado, por cada elemento, puede generar 4 casos posibles: \newline
+ $sin$ $sensor$ \newline
+ con $sensor$ $bidireccional$ $horizontal$  \newline
+ con $sensor$ $bidireccional$ $vertical$  \newline
+ con $sensor$ $cuatridireccional$ \newline
+  Asi sucesivamente con cada cuadricula, logrando asi, generar todas las permutaciones factibles. 
+
+\textbf{Las podas utilizadas no alteran el resultado final} \newline
+
+
+\textbf{La solucion es optima, es decir, no existe otra cuyo costo sea menor} \newline
+
+
+nuestro algoritmo genera todas las combinaciones posibles en cada casillero. - buscamos el costo minimo entonces descartamos una solucion por ya tener una valida. la solucion eliminada puede llegar a ser correcta pero no va a ser la minima.
 - al poner un sensor sobre el casillero importante, se quita la posibilidad de poner otro cuyo laser lo atraviese, luego dicha casilla no va a ser atravesada por dos lasers.
 - no debe haber ningun laser pegandole al sensor sino se rompe y ademas podria cambiarse por una mejor solucion
 - si tengo un sensor horizontal o vertical restrinjo la linea hasta la pared.
 
-Sea $C$ el conjunto de configuraciones posibles de la matriz, si en cada paso puedo probar 4 opciones diferentes para cada casillero disponible, y si mi matriz mide $n*m$, entonces por combinatoria tengo $4^{n*m}$ configuraciones finales posibles de la matriz, como nuestro algoritmo hace esencialmente eso (excepto por las podas y criterios de terminación que no representan soluciones validas) podemos decir que este encuentra todas las posibles configuraciones de la matriz.
+Finalmente, sea $C$ el conjunto de configuraciones posibles de la matriz, si en cada paso puedo probar 4 opciones diferentes para cada casillero disponible, y si mi matriz mide $n*m$, entonces por combinatoria tengo $4^{n*m}$ configuraciones finales posibles de la matriz, como nuestro algoritmo hace esencialmente eso (excepto por las podas y criterios de terminación que no representan soluciones validas) podemos decir que este encuentra todas las posibles configuraciones de la matriz.
 
 Como $C$ representa el conjunto de todas las posibles configuraciones del problema (en particular las que son solucion del problema) entonces la solución óptima, si es que existe alguna, está dentro de ese conjunto, y nuestro algoritmo debería encontrarla y devolverla.
 
