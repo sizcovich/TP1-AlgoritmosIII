@@ -28,9 +28,9 @@ En el primer caso el costo total es de \$44000 y la segunda solución tiene un c
 
 \subsection{Resolución coloquial}
 
-Para resolver el problema presentado decidimos utilizar la técnica de $backtracking$. Ésta consiste en evaluar las posibles combinaciones de soluciones del problema almacenándolas hasta llegar a la deseada. Para ello, definimos criterios de parada que nos permiten decidir si las soluciones parcialmente obtenidas son candidatas a soluciones válidas.\newline
+Para resolver el problema presentado decidimos utilizar la técnica de $backtracking$. Ésta consiste en evaluar las posibles combinaciones de soluciones del problema almacenándolas hasta llegar a la deseada. Para ello, definimos criterios de parada que nos permitieron decidir si las soluciones parcialmente obtenidas eran candidatas a soluciones válidas.\newline
 \newline
-El modelo de nuestro problema mapea el piso, las paredes y los lugares importantes del museo en casillas dentro de una matriz, donde cada posicion de la matriz es una "baldosa" o "casillero" en el piso, donde cada uno de estos tiene información sobre si hay algun sensor puesto o si hay algún laser pasando por encima.\newline
+El modelo de nuestro problema mapea el piso, las paredes y los sitios importantes del museo a casillas dentro de una matriz, donde cada posicion de la matriz es una "baldosa" o "casillero" en el piso, donde cada uno de estos tiene información sobre si hay algun sensor puesto o si hay algún laser pasando por encima.\newline
 \newline
 El problema se resuelve recorriendo la matriz secuencialmente y en cada paso tomando una decisión sobre el casillero actual, siento esta colocar un sensor o dejar el casillero sin ningún sensor, esto genera un árbol de decisiones en el cual cada una de sus ramas representan un escenario diferente en la distribución de sensores en la matriz que representa nuestra modelo, de esta manera nos garantizamos obtener todas las posibles combinaciones de configuraciones de la matriz. Finalmente, tomamos todas estas configuraciones, chequeamos cuales son soluciones correctas y nos quedamos con la que minimiza el costo de los ContarSensores.
 
@@ -111,7 +111,7 @@ En la linea 1 se obtienen las posiciones libres de la grilla, esto se obtiene re
 \subsection{Instancias posibles}
 Para verificar la correctitud de nuestro programa, dispusimos variar estratégicamente las instancias de entrada al ejecutarlo.
 \begin{itemize}
-\item En primer lugar, ejecutamos el programa ingresando un único espacio libre el cual contenía un lugar importante. La idea de esto es comprobar que nuestro algoritmo devuelve -1 en el caso de que no haya solución ya que el espacio especial no podia ser cubierto por 2 láser's.\newline
+\item En primer lugar, ejecutamos el programa ingresando una única casilla libre, siendo ésta un lugar importante. Dicha prueba se realizó con el fin de verificar que nuestro algoritmo devolviera $-1$ dado que no existe la posibilidad de insertar 2 lásers en ese espacio, siendo este el requisito para los espacios importantes.\newline
 
 \textbf{Parámetro de entrada:} 
 $$3\ \ 3$$
@@ -119,7 +119,7 @@ $$0\ \ 0\ \ 0$$
 $$0\ \ 2\ \ 0$$
 $$0\ \ 0\ \ 0$$
 \textbf{Parámetro de salida:} $$-1$$\newline
-\item Por otra parte, probamos el programa cuando todo el museo es una pared y no contiene ni espacios libres ni espacios importantes, en otras palabras, el caso vacío. Lo interesante de esto es ver que nuestro algoritmo funciona en dicho caso borde y que devuelve que el problema tiene solución y que la solución es no colocar ningún láser.\newline
+\item Por otra parte, probamos el programa para un museo conformado únicamente por paredes, en otras palabras, el caso vacío. Lo relevante de este caso es que nuestro algoritmo lo considera y otorga, como salida, que la solución es no colocar ningún láser.\newline
 
 \textbf{Parámetro de entrada:} 
 $$3\ \ 3$$
@@ -127,7 +127,7 @@ $$0\ \ 0\ \ 0$$
 $$0\ \ 0\ \ 0$$
 $$0\ \ 0\ \ 0$$
 \textbf{Parámetro de salida:} $$0\ \ 0$$\newline
-\item Un caso interesante, es ver cuando todos los espacios están libres. La idea de esto es comprobar que el algoritmo nos da la solución mas barata al problema\newline
+\item Otro caso interesante es analizar la solución obtenida al tener todos espacios libres. La idea de dicho caso consiste en comprobar que el algoritmo devuelve la solución más económica del problema.\newline
 
 \textbf{Parámetro de entrada:} 
 $$3\ \ 3$$
@@ -141,7 +141,7 @@ $$2\ \ 1\ \ 2$$
 $$2\ \ 2\ \ 0$$
 \newline
 
-\item Otro caso interesante, es ver cuando todos los espacios son importantes. Este es un caso particular en el cual no existe solución ya que no podrían pasar dos láser's por el mismo punto especial sin que uno de estos toque a otro láser\newline
+\item Por otra parte, resulta importante corroborar la solución en el caso en el que todos los espacios son importantes. En este caso particular no existe solución ya que no podrían pasar dos lásers por el mismo casillero especial sin que uno de estos toque a otro láser.\newline
 
 \textbf{Parámetro de entrada:} 
 $$3\ \ 3$$
@@ -150,7 +150,7 @@ $$2\ \ 2\ \ 2$$
 $$2\ \ 2\ \ 2$$
 \textbf{Parámetro de salida:} $$-1$$\newline
 
-\item Otro caso interesante, es ir alternando entre piso y pared. Lo interesante de este caso es que no se puede aplicar ninguna poda.\newline
+\item Otra situación posible es en la que se encuentran alternados los casilleros de piso y pared. De este caso puede destacarse que no es posible aplicar ninguna de las podas mencionadas.\newline
 \textbf{Parámetro de entrada:} 
 $$3\ \ 3$$
 $$1\ \ 0\ \ 1$$
@@ -166,7 +166,7 @@ $$2\ \ 2\ \ 2$$
 \newline
 
 
-\item Por ultimo, esta el caso en el que tenemos los 3 tipos de casilleros, este seria el caso mas común del problema. \newline
+\item Por último, se encuentra el caso en el que coexisten los 3 tipos de casilleros, siendo éste el mas típico del problema. \newline
 
 \textbf{Parámetro de entrada:} 
 $$3\ \ 3$$
@@ -182,5 +182,5 @@ $$2\ \ 2\ \ 2$$
 \end{itemize}
 
 \subsection{Testing}
-
+Para realizar las pruebas de complejidad, generamos instancias aleatorias de pesos de cajas alterando la cantidad de las mismas pero manteniendo estático el peso máximo de carga de los camiones en 120 \unit{kg}. Estas instancias fueron generadas en $C++$ con la función $rand()$ de forma tal a poder acotarlas por la capacidad de carga de los camiones. La cantidad de cajas generadas se comprendió entre 5000 y 100000, agregando de a 5000 en cada iteración. De este modo, logramos medir las pruebas de nuestro algoritmo para comprobar que la complejidad correspondiera con la mencionada anteriormente.
 

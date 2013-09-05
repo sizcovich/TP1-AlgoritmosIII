@@ -75,7 +75,7 @@ Al analizar el problema a resolver, nos percatamos de que el algoritmo de maximi
     \KwOut{listaDeCursos}
     Curso $anterior$ = Primer curso de $CS$\\
     \For{Curso $c$ en $cs$}{
-        \If{$c\ noSeSolapaConAnterior$}{
+        \If{$c$ no se solapa con anterior}{
             $anterior$ := $c$\\
             $seleccionado_{c.indice} := true$\\
         }
@@ -84,7 +84,7 @@ Al analizar el problema a resolver, nos percatamos de que el algoritmo de maximi
 \end{algorithm}
 
 
-donde $Cursos$ es una secuencia conteniendo la información (fecha de inicio y de fin) de los cursos del ciclo, $ordenarPorFin$ es un algoritmo que toma los cursos y los ordena de acuerdo a su fecha de finalización y $noSeSolapaConAnterior$ verifica que la fecha de inicio del intervalo que se quiere agregar no se superponga con la fecha de fin del agregado precedentemente. Por otro lado, $filtrar$ recorre la lista de $seleccionados$ y se queda con aquellos cuyo valor es $true$.
+donde $Cursos$ es una secuencia conteniendo la información (fecha de inicio y de fin) de los cursos del ciclo, $ordenarPorFin$ es un algoritmo que toma los cursos y los ordena de acuerdo a su fecha de finalización y $no\ se\ solapa$ verifica que la fecha de inicio del intervalo que se quiere agregar no se superponga con la fecha de fin del agregado precedentemente. Por otro lado, $filtrar$ recorre la lista de $seleccionados$ y se queda con aquellos cuyo valor es $true$.
 
 \subsection{Demostración de correctitud}
 
@@ -105,11 +105,19 @@ Luego, podemos concluir que $k = n$, siendo, la solución de nuestro algoritmo, 
 
 \subsection{Complejidad del algoritmo}
 
-Sea $n$ la cantidad de cursos del ciclo del programa de Profesores Visitantes de la FCEyN. Para analizar la complejidad de nuestro algoritmo, debemos tener en cuenta lo que sigue:
+Sea $n$ la cantidad de cursos del ciclo del programa de Profesores Visitantes de la FCEyN. Para analizar la complejidad de nuestro algoritmo, estudiémoslo por partes:
 \begin{itemize}
-\item La complejidad del algoritmo \textbf{Sort} es $\mathcal{O}(n\ log\ n)$\footnote{http://en.cppreference.com/w/cpp/algorithm/sort}.
+\item La función $filtrarSolapamientos$ contiene un ciclo principal que recorre todos los cursos evaluando que la fecha de inicio del elemento actual sea mayor a la fecha de fin del anterior ($\mathcal{O}(1)$), completando el arreglo $seleccionados$ de acuerdo al resultado obtenido por dicha comparación ($\mathcal{O}(1)$). Dado que dichas operaciones se realizan para cada intervalo del ciclo, la complejidad resulta en $\mathcal{O}(n)$.\newline
+\item La función principal 	compara el tamaño del conjunto de intervalos con 0. Si dicha comparación resulta verdadera, se aplica la función \textbf{push$\_$back} sobre la estructura \textbf{vector}, cuya complejidad es $\mathcal{O}(1)$\footnote{http://en.cppreference.com/w/cpp/container/vector/push$\_$back}. Por otro lado, si la comparación es falsa, se realiza \textbf{push$\_$back} sobre los $false$ de forma cíclica recorriendo todos los intervalos del ciclo, siendo esto $\mathcal{O}(n)$ * $\mathcal{O}(1)$ = $\mathcal{O}(n)$.
+\item Luego, se aplica la función \textbf{Sort} desde el primer intervalo del conjunto hasta el último, siendo su complejidad $\mathcal{O}(n\ log\ n)$\footnote{http://en.cppreference.com/w/cpp/algorithm/sort}.
+\item Posteriormente, se aplica la función $filtrarSolapamientos$, mencionada previamente, cuya complejidad es ($\mathcal{O}(n)$).
+\item Luego, la función \textbf{push$\_$back} es aplicada nuevamente para $cantSeleccionados$, estando esta acotada por el tamaño de $seleccionados$, cuya complejidad es $\mathcal{O}(n)$.
+\item Por último, se evalúa dentro de un ciclo 	si $seleccionados$ en actual es verdadero, en cuyo caso se realiza \textbf{push$\_$back} sobre el que le sigue . Dicho ciclo 
+
+
+\item La complejidad del algoritmo \textbf{Sort} es .
 \item La complejidad del \textbf{constructor} que utilizamos sobre la estructura \textbf{vector} es $\mathcal{O}(1)$\footnote{http://en.cppreference.com/w/cpp/container/vector/vector}.
-\item La complejidad del algoritmo \textbf{push$\_$back} sobre la estructura \textbf{vector} es $\mathcal{O}(1)$ amortizado \footnote{http://en.cppreference.com/w/cpp/container/vector/push$\_$back}. 
+\item La complejidad del algoritmo . 
 \item La complejidad del algoritmo \textbf{size} sobre la estructura \textbf{vector} es $\mathcal{O}(1)$\footnote{http://en.cppreference.com/w/cpp/container/vector/size}.
 \item La complejidad de la función \textbf{filtrarSolapamientos} recorre todos los cursos y, en cada paso, pregunta si se solapa el actual con el anterior. Dicha comparación resulta constante dado que es de enteros, y luego de ser asi, cambia una variable en un vector ya definido y se asigna una variable (todo esto en tiempo constante). Recorrer el for tiene un costo de complejidad lineal en el peor caso y no crece ya que lo que se hace adentro es constante.
 \end{itemize}
