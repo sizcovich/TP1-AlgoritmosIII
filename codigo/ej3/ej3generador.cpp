@@ -17,7 +17,7 @@ int main() {
 		{
 			vector<int> matriz (i*j,1);
 			
-			int veinte = 20;
+			int veinte = 50;
 			veinte = veinte * i * j;
 			veinte /= 100;
 			
@@ -33,7 +33,7 @@ int main() {
 				matriz[k] = 0;
 			}
 			
-			int quince = 20;
+			int quince = 40;
 			quince = quince * i * j;
 			quince /= 100;
 			
