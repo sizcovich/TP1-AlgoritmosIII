@@ -6,7 +6,7 @@
 #include <algorithm>
 #include <queue>
 #include <functional>
-// #include <random>
+#include <random>
 #include <iterator>
 
 using namespace std;
@@ -15,8 +15,8 @@ using namespace std;
 #define PORCENTAJE_IMPORTANTES 10
 
 int main() {
-	// random_device rd;
-    // mt19937 g(rd());
+	random_device rd;
+    mt19937 g(rd());
 	vector<vector<int > > matriz;
 	vector<int> linea;
 
@@ -27,31 +27,23 @@ int main() {
 		{
 			vector<int> matriz (i*j,1);
 
-			// float tam = i*j;
+			float tam = i*j;
 
-			// int limP = static_cast<int>((tam/100)*PORCENTAJE_PAREDES);
-			// int limI = static_cast<int>((tam/100)*PORCENTAJE_IMPORTANTES);
+			int limP = static_cast<int>((tam/100)*PORCENTAJE_PAREDES);
+			int limI = static_cast<int>((tam/100)*PORCENTAJE_IMPORTANTES);
 
-			// //cout << limP << " " << limI << endl;
+			//cout << limP << " " << limI << endl;
 
-			// for (int k = 0; k < limP; k++)
-			// 	matriz[k] = 0;
+			for (int k = 0; k < limP; k++)
+				matriz[k] = 0;
 			
-			// for (int k = limP; k < (limP+limI); k++)
-			// 	matriz[k] = 2;
+			for (int k = limP; k < (limP+limI); k++)
+				matriz[k] = 2;
 			
-			// shuffle(matriz.begin(), matriz.end(), g);
+			shuffle(matriz.begin(), matriz.end(), g);
 
 			cout << i << " " << j << endl;
-			bool cero=false;
-			for (int k = 1; k < matriz.size(); ++k) {
-				if (k % j == 0) {
-					matriz[k] = cero; 
-					cero = !cero;					
-				} else {
-					matriz[k] = !matriz[k-1];
-				}
-			}
+
 			for (int k = 0; k < matriz.size(); ++k) {
 				if (k % j == 0 && k!=0)
 					cout << endl;
