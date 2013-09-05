@@ -117,6 +117,7 @@ El pseudocódigo que describe la solución a nuestro problema es el siguiente:
 
 \subsection{Demostración de correctitud}
 
+
 Para demostrar la correctitud de nuestro algoritmo desarrollaremos los siguientes tres items:
 \begin{itemize}
 \item Nuestro algoritmo genera todas las combinaciones posibles en cada casillero.
@@ -124,32 +125,40 @@ Para demostrar la correctitud de nuestro algoritmo desarrollaremos los siguiente
 \item La solucion es optima, es decir, no existe otra cuyo costo sea menor.
 \end{itemize}
 
+\newline
+
 \textbf{Nuestro algoritmo genera todas las combinaciones posibles en cada casillero.} \newline
 
 Esto lo realiza tomando el primer elemento (ignorando el anterior) e intentando ubicar algun sensor, o ninguno, siempre que este no se encuentre contemplado en las podas o que no rompa los casos especificados
- por el enunciado. Como resultado, por cada elemento, puede generar 4 casos posibles: \newline
- $sin$ $sensor$ \newline
- con $sensor$ $bidireccional$ $horizontal$  \newline
- con $sensor$ $bidireccional$ $vertical$  \newline
- con $sensor$ $cuatridireccional$ \newline
+ por el enunciado. Como resultado, por cada elemento, puede generar 4 casos posibles: 
+ \begin{itemize}
+ \item $sin$ $sensor$
+ \item con $sensor$ $bidireccional$ $horizontal$  
+ \item con $sensor$ $bidireccional$ $vertical$  
+ \item con $sensor$ $cuatridireccional$ 
+ \end{itemize}
   Asi sucesivamente con cada cuadricula, logrando asi, generar todas las permutaciones factibles. 
 
 \textbf{Las podas utilizadas no alteran el resultado final} \newline
 
+Las podas utilizadas son:
+\begin{itemize}
+\item Poda sobre el costo : Sea T el costo de la mejor solucion generada por el algoritmo en determinado momento. Si cualquier otra solucion parcial ya alcaza el costo T-2000 pueden pasar dos cosas, o que el costo final sea T-2000 
+o que el costo final sea mayor a T $($ya que menos es imposible dado que la diferencia que existe entre los sensores de de 2000 $)$. Luego nuestro algoritmo descarta aquellas soluciones parciales cuyos costos superen los T-2000
+asegurando no eliminar soluciones factibles.  
+\item Poda sobre casilleros importantes: Esta es trivial, ya que cualquier solucion que un casillero importante contenga un sensor cuatridimencional no va a permitir que ningun otro laser impacte sobre ese casillero.
+\item Poda sobre mismas lineas: Esta tambien es trivial, ya que en la misma linea donde tengo un sensor bidireccional vertical no puedo poner una vertical, lo mismo para el sensor bidireccional horizontal. Y donde 
+tengo un sensor cuatridimencional, no puedo poner ningun otro sensor en la misma linea.
+\item Poda sobre lineas de casilleros importantes: Dado un casillero importante hay que asegurarse que dos lineas atraviesen al mismo, y como solo hay lineas horizontales y verticales, no puede haber soluciones
+ddonde haya sensores bidireccionales verticales en los costados (misma linea horizontal) de un casillero importante; y no puede haber sensores verticales arriba o abajo (misma linea vertical) del casillero importante.
+ Por lo tanto, esto no solo es una poda, sino una condicion necesaria de la solucion.
+\end{itemize}
 
 \textbf{La solucion es optima, es decir, no existe otra cuyo costo sea menor} \newline
 
+Este se puede observar facilmente, ya que nuestro algoritmo a medida que va generando soluciones, ya guardando aquellas que tienen menor costo. De esta manera, el resultado final es la solucion con menor costo entre todas
+las posibles.
 
-nuestro algoritmo genera todas las combinaciones posibles en cada casillero. - buscamos el costo minimo entonces descartamos una solucion por ya tener una valida. la solucion eliminada puede llegar a ser correcta pero no va a ser la minima.
-- al poner un sensor sobre el casillero importante, se quita la posibilidad de poner otro cuyo laser lo atraviese, luego dicha casilla no va a ser atravesada por dos lasers.
-- no debe haber ningun laser pegandole al sensor sino se rompe y ademas podria cambiarse por una mejor solucion
-- si tengo un sensor horizontal o vertical restrinjo la linea hasta la pared.
-
-Finalmente, sea $C$ el conjunto de configuraciones posibles de la matriz, si en cada paso puedo probar 4 opciones diferentes para cada casillero disponible, y si mi matriz mide $n*m$, entonces por combinatoria tengo $4^{n*m}$ configuraciones finales posibles de la matriz, como nuestro algoritmo hace esencialmente eso (excepto por las podas y criterios de terminación que no representan soluciones validas) podemos decir que este encuentra todas las posibles configuraciones de la matriz.
-
-Como $C$ representa el conjunto de todas las posibles configuraciones del problema (en particular las que son solucion del problema) entonces la solución óptima, si es que existe alguna, está dentro de ese conjunto, y nuestro algoritmo debería encontrarla y devolverla.
-
-si tuviese una solucion correcta, esta estaria en el arbol de decision....
 
 \subsection{Complejidad del algoritmo}
 
