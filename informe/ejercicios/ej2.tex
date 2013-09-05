@@ -57,7 +57,7 @@ Al analizar el problema a resolver, nos percatamos de que el algoritmo de maximi
     \caption{Algoritmo Maximizador de la Cantidad De Intervalos No Solapados}
     \KwIn{Cursos $cs$}
     \KwOut{listaDeCursos}
-    Lista $seleccionados$ = lista de booleanos que representan si un curso fue elegido\\
+    Lista $seleccionados$ = nuevaLista($\#cs$,$false$)\\
     \eIf{\#cs == 0}{
         \textbf{devolver} $ListaVacia$\\
     }{
@@ -84,7 +84,7 @@ Al analizar el problema a resolver, nos percatamos de que el algoritmo de maximi
 \end{algorithm}
 
 
-donde $Cursos$ es una secuencia conteniendo la información (fecha de inicio y de fin) de los cursos del ciclo, $ordenarPorFin$ es un algoritmo que toma los cursos y los ordena de acuerdo a su fecha de finalización y $no\ se\ solapa$ verifica que la fecha de inicio del intervalo que se quiere agregar no se superponga con la fecha de fin del agregado precedentemente. Por otro lado, $filtrar$ recorre la lista de $seleccionados$ y se queda con aquellos cuyo valor es $true$.
+donde $Cursos$ es una secuencia conteniendo la información (fecha de inicio y de fin) de los cursos del ciclo, $ordenarPorFin$ es un algoritmo que toma los cursos y los ordena de acuerdo a su fecha de finalización y $no\ se\ solapa$ verifica que la fecha de inicio del intervalo que se quiere agregar no se superponga con la fecha de fin del agregado precedentemente. \textbf{nuevaLista} crea una lista nueva a partir de los parametros de entrada que definen su tamaño y sus valors iniciales. Por otro lado, $filtrar$ recorre la lista de $seleccionados$ y se queda con aquellos cuyo valor es $true$.
 
 \subsection{Demostración de correctitud}
 
@@ -108,7 +108,7 @@ Luego, podemos concluir que $k = n$, siendo, la solución de nuestro algoritmo, 
 Sea $n$ la cantidad de cursos del ciclo del programa de Profesores Visitantes de la FCEyN. Para analizar la complejidad de nuestro algoritmo, estudiémoslo por partes:
 \begin{itemize}
 \item En primer lugar, es necesario mencionar que la función \textbf{size} es $\mathcal{O}(1)$\footnote{http://en.cppreference.com/w/cpp/container/vector/size}. Por otra parte, las asignaciones, sumas, restas y otras operaciones básicas se realizan en $\mathcal{O}(1)$ debido a que operamos en un modelo uniforme.
-\item La función $filtrarSolapamientos$ contiene un ciclo principal que recorre todos los cursos evaluando que la fecha de inicio del elemento actual sea mayor a la fecha de fin del anterior ($\mathcal{O}(1)$), completando el arreglo $seleccionados$ de acuerdo al resultado obtenido por dicha comparación ($\mathcal{O}(1)$). Dado que dichas operaciones se realizan para cada intervalo del ciclo, la complejidad resulta en $\mathcal{O}(n)$.\newline
+\item La función $filtrarSolapamientos$ contiene un ciclo principal que recorre todos los cursos evaluando que la fecha de inicio del elemento actual sea mayor a la fecha de fin del anterior ($\mathcal{O}(1)$), completando el arreglo $seleccionados$ de acuerdo al resultado obtenido por dicha comparación ($\mathcal{O}(1)$\footnote{http://en.cppreference.com/w/cpp/container/vector/operator\_at}). Dado que dichas operaciones se realizan para cada intervalo del ciclo, la complejidad resulta en $\mathcal{O}(n)$.\newline
 \item La función principal 	compara el tamaño del conjunto de intervalos con 0. Si dicha comparación resulta verdadera, se aplica la función \textbf{push$\_$back} sobre la estructura \textbf{vector}, cuya complejidad es $\mathcal{O}(1)$\footnote{http://en.cppreference.com/w/cpp/container/vector/push$\_$back}. Por otro lado, si la comparación es falsa, se realiza \textbf{push$\_$back} sobre los $false$ de forma cíclica recorriendo todos los intervalos del ciclo, siendo esto $\mathcal{O}(n)$ * $\mathcal{O}(1)$ = $\mathcal{O}(n)$.
 \begin{itemize}
 \item Luego, se aplica la función \textbf{Sort} desde el primer intervalo del conjunto hasta el último, siendo su complejidad $\mathcal{O}(n\ log\ n)$\footnote{http://en.cppreference.com/w/cpp/algorithm/sort}.
