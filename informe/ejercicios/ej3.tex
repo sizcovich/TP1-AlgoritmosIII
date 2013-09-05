@@ -28,17 +28,27 @@ En el primer caso el costo total es de \$44000 y la segunda solución tiene un c
 
 \subsection{Resolución coloquial}
 
-Para resolver el problema presentado decidimos utilizar la técnica de $backtracking$. Ésta consiste en evaluar las posibles combinaciones de soluciones del problema almacenándolas hasta llegar a la deseada. Para ello, definimos criterios de parada que nos permitieron decidir si las soluciones parcialmente obtenidas eran candidatas a soluciones válidas.\newline
+Para resolver el problema presentado decidimos utilizar la técnica de $backtracking$. Ésta consiste en evaluar las posibles combinaciones de soluciones del problema almacenándolas hasta llegar a la deseada. Para ello, definimos criterios de parada que nos permitieran decidir si las soluciones parcialmente obtenidas eran candidatas a soluciones válidas.\newline
 \newline
-El modelo de nuestro problema mapea el piso, las paredes y los sitios importantes del museo a casillas dentro de una matriz, donde cada posicion de la matriz es una "baldosa" o "casillero" en el piso, donde cada uno de estos tiene información sobre si hay algun sensor puesto o si hay algún laser pasando por encima.\newline
+El modelo de nuestro problema mapea el piso, las paredes y los sitios importantes del museo a casillas dentro de una matriz, donde cada posicion de la matriz es una "baldosa" o "casillero" en el piso, donde cada uno de estos tiene información sobre si hay algun sensor puesto o si hay algún láser pasando por encima.\newline
+
+Podas reducen la cantidad se soluciones correctas o incorrectas: una vez que encuentro una sol se guarda el costo y cualquier rama cuyo costo actual sea mayor a mi mejor costo -2000 (dif entre sacar bidireccional y poner un direccional) lo descarta. sobre las importantes no puede haber ningun sensor bidireccional. no puede haber ningun sensor vertical en la misma linea que un casillero importante, lo mismo para horizontales en la vertical. si tengo un sensor vertical en una linea no puedo poner ninguno horizontal porque le va a pegar. analogamente de horizontales a vertical.
 \newline
-El problema se resuelve recorriendo la matriz secuencialmente y en cada paso tomando una decisión sobre el casillero actual, siento esta colocar un sensor o dejar el casillero sin ningún sensor, esto genera un árbol de decisiones en el cual cada una de sus ramas representan un escenario diferente en la distribución de sensores en la matriz que representa nuestra modelo, de esta manera nos garantizamos obtener todas las posibles combinaciones de configuraciones de la matriz. Finalmente, tomamos todas estas configuraciones, chequeamos cuales son soluciones correctas y nos quedamos con la que minimiza el costo de los ContarSensores.
+El problema se resuelve recorriendo la matriz secuencialmente y en cada paso tomando una decisión sobre el casillero actual, siento esta colocar un sensor o dejar el casillero sin ningún sensor(empezando por el bidireccional, luego el horizontal, el vertical y por último por nada), esto genera un árbol de decisiones en el cual cada una de sus ramas representan un escenario diferente en la distribución de sensores en la matriz que representa nuestra modelo, de esta manera nos garantizamos obtener todas las posibles combinaciones de configuraciones de la matriz. Finalmente, cada casilla tiene que tener un laser pasando por ella excepto pared, las importantes deben tener 2. que ningun sensor le pegue a ningun laser. el costo total de los sensores tiene que ser minimo entre todas las posibles soluciones. me guardo en algun lado la mejor hasta ahora, empezando por la primera (todos bidireccionales) y si esta sol es mejor la reemplazo. tomamos todas estas configuraciones, chequeamos cuales son soluciones correctas y nos quedamos con la que minimiza el costo de los ContarSensores.
 
 \subsection{Demostración de correctitud}
+
+nuestro algoritmo genera todas las combinaciones posibles en cada casillero. toma el primer elemento, ignorando el anterior intenta ubicar algun sensor o ninguno siempre  que no este en ningun caso de poda o que no rompa el enunciado. prueba todas las combinaciones, tiene 4 opciones en cada caso, reduciendo el problema en 1 ya que al haber tomado las 4 decisiones no vuelve sobre ella. cuando termina de probar todas las combinaciones, pregunta si es la mejor buscando el minimo, quedandose con uno y comparando e intercambiandose. veo que las podas no eliminan soluciones validas:
+- buscamos el costo minimo entonces descartamos una solucion por ya tener una valida. la solucion eliminada puede llegar a ser correcta pero no va a ser la minima.
+- al poner un sensor sobre el casillero importante, se quita la posibilidad de poner otro cuyo laser lo atraviese, luego dicha casilla no va a ser atravesada por dos lasers.
+- no debe haber ningun laser pegandole al sensor sino se rompe y ademas podria cambiarse por una mejor solucion
+- si tengo un sensor horizontal o vertical restrinjo la linea hasta la pared.
 
 Sea $C$ el conjunto de configuraciones posibles de la matriz, si en cada paso puedo probar 4 opciones diferentes para cada casillero disponible, y si mi matriz mide $n*m$, entonces por combinatoria tengo $4^{n*m}$ configuraciones finales posibles de la matriz, como nuestro algoritmo hace esencialmente eso (excepto por las podas y criterios de terminación que no representan soluciones validas) podemos decir que este encuentra todas las posibles configuraciones de la matriz.
 
 Como $C$ representa el conjunto de todas las posibles configuraciones del problema (en particular las que son solucion del problema) entonces la solución óptima, si es que existe alguna, está dentro de ese conjunto, y nuestro algoritmo debería encontrarla y devolverla.
+
+si tuviese una solucion correcta, esta estaria en el arbol de decision....
 
 \subsection{Complejidad del algoritmo}
 
