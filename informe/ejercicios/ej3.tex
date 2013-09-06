@@ -13,7 +13,7 @@ donde $S$ es la cantidad de sensores utilizados y $C$ es el costo toal de la sol
 $$t\ f\ c$$ 
 donde $t$ es el tipo de sensor y $(f,c)$ son la fila y columna en donde éste se ubica (la esquina superior izquierda de la grilla es la posición (1,1) y la inferior derecha es la $(n,m)$). Para los sensores cuatridireccionales, $t$ debe valer 1, para los bidireccionales en forma horizontal $t$ debe valer 2 y en forma vertical 3.\newline
 \newline
-Un ejemplo de este problema es el que está provisto por la cátedra:
+Dos ejemplos de este problema son los siguientes:
 
 \begin{figure}[H]
 	\begin{center}
@@ -128,15 +128,8 @@ Para demostrar la correctitud de nuestro algoritmo, debemos probar que se cumple
 
 \textbf{Nuestro algoritmo genera todas las combinaciones posibles para cada casillero.} \newline
 
-Esto lo realiza tomando el primer elemento (ignorando el anterior) e intentando ubicar algún sensor, o ninguno, siempre que este no se encuentre contemplado en las podas o que no rompa los casos especificados
- por el enunciado. Como resultado, por cada elemento, puede generar 4 casos posibles: 
- \begin{itemize}
- \item $sin$ $sensor$
- \item con $sensor$ $bidireccional$ $horizontal$  
- \item con $sensor$ $bidireccional$ $vertical$  
- \item con $sensor$ $cuatridireccional$ 
- \end{itemize}
-  Asi sucesivamente con cada cuadricula, logrando asi, generar todas las permutaciones factibles. 
+Esto ocurre pues, para cada elemento de la matriz mencionada, se evalúan las cuatro posibilidades (sensor horizontal, sensor vertical, sensor cuatridimensional y sin sensor) sin tener en cuenta la decisión de la casilla anterior siempre y cuando el caso no esté contemplado en alguna poda o que no rompa los casos especificados en el enunciado. Luego, todas las combinaciones posibles de casos son generadas.\newline
+\newline 
 
 \textbf{Las podas utilizadas no alteran la solución final} \newline
 
@@ -153,14 +146,12 @@ ddonde haya sensores bidireccionales verticales en los costados (misma linea hor
  Por lo tanto, esto no solo es una poda, sino una condicion necesaria de la solucion.
 \end{itemize}
 
-\textbf{La solucion es optima, es decir, no existe otra cuyo costo sea menor} \newline
+\textbf{La solución es óptima, es decir, no existe otra cuyo costo sea menor.} \newline
 
-Este se puede observar facilmente, ya que nuestro algoritmo a medida que va generando soluciones, ya guardando aquellas que tienen menor costo. De esta manera, el resultado final es la solucion con menor costo entre todas
-las posibles.
+Dado que nuestro algoritmo compara el valor de la solución creada con la más óptima almacenada y, en caso de que el costo de ésta última sea menor reemplaza la más óptima por ésta, el resultado final es la solución con menor costo de entre todas las posibles.
 
 
 \subsection{Complejidad del algoritmo}
-
 
 Veamos paso a paso la complejidad del algoritmo de backtracking:
 
