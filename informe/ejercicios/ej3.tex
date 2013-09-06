@@ -522,17 +522,19 @@ En este caso vemos como efectivamente la funcion crece aproximandose a la comple
 \begin{center}
 \includegraphics[width=460pt]{../imgs/graficoej3_todosUno.png}
 \end{center}
+\caption{Prueba con instancias cuyos casilleros son todos pisos no importantes}
 \end{figure}
 
-En este caso intentamos generar instancias que tuvieran todos los casilleros como espacios libres, sin paredes ni lugares importantes, para maximizar la cantidad de casilleros que puede intentar usar el algoritmo para probar combinaciones, los tiempos de esta corrida son en general bajos ya que las podas hacen un gran trabajo reduciendo la cantidad de opciones en cada paso ya por cada sensor que ponga la cantidad de casillas que voy a cubrir va a ser de al menos todo el ancho o el alto del tablero debido a que no hay paredes que lo detengan.
+En este caso generamos instancias que tuvieran todos los casilleros como espacios libres, sin paredes ni lugares importantes, asi maximizamos la cantidad de casilleros que puede intentar usar el algoritmo para probar combinaciones, los tiempos de esta ejecucion son en general bajos debido a que las podas hacen un gran trabajo reduciendo la cantidad de opciones en cada paso, Por ejemplo por cada sensor que ponga la cantidad de casillas que voy a cubrir va a ser de, a lo sumo, todo el ancho y el alto del tablero debido a que no hay paredes que detenga el laser que éste emite, eso reduce notablemente las posibilidades en el siguiente paso.
 
 \begin{figure}[H] %[h] Aqui [b] para button [t] para top
 \begin{center}
 \includegraphics[width=460pt]{../imgs/graficoej3_todosUnoSinSolucion.png}
 \end{center}
+\caption{Prueba con instancias cuyos casilleros son todos pisos, excepto tres que provocan que no haya solución}
 \end{figure}
 
-En este caso hicimos lo mismo que antes, solo que forzamos una combinacion de paredes y casilleros importantes que provoca que el algoritmo no encuentre ninguna solucion, y de hecho, no haya ninguna solucion al tablero en cuestion, de esta  manera nos evitamos que enrte en juego una de las podas mas improtantes, que es la que guarda el costo de una solucion y nunca busca soluciones cuyo costo sea mayor al actual, como en ningun momento encontramos ninguna solucion, nunca actualizamos ese costo de la solucion entonces el algoritmo va a seguir intentando todas las posibles combinaciones hasta que concluya que no hay ninguna combinacion posible para resolver el tablero, sin embargo las podas que se producen al colocar un laser siguen hacienod que se resuelve un poco mas rapido.
+En este caso hicimos lo mismo que antes, solo que forzamos una combinacion de paredes y casilleros importantes que provoca que el algoritmo no encuentre ninguna solución y, de hecho, no haya ninguna solucion de la matriz, de esta manera nos evitamos que entre en juego una de las podas mas improtantes, que es la que guarda el costo de una solución y nunca busca soluciones cuyo costo sea mayor al actual, como en ningún momento encontramos ninguna solución, nunca actualizamos ese costo con lo cual el algoritmo va a seguir intentando todas las posibles combinaciones hasta que concluya que no hay ninguna combinacion posible para resolver el tablero, sin embargo las podas que se producen al colocar un laser siguen haciendo que se resuelve un poco mas rapido, en contraste con el grafico anterior, este tiene un tiempo de ejecución mayor gracias a que logramos evitar que se utilice una poda importante.
 
 \begin{figure}[H] %[h] Aqui [b] para button [t] para top
 \begin{center}
@@ -540,5 +542,5 @@ En este caso hicimos lo mismo que antes, solo que forzamos una combinacion de pa
 \end{center}
 \end{figure}
 
-Este es un caso que encontramos que tiene la particularidad de anular casi todas las podas que pensamos para el ejercicio, la forma de este caso tiene el formato de la Figura 23 y es una generalizacion del mismo para tamaños de n*m. Por el orden en el cual nuestro algirmto intenta poner los sensores (primero los mas caros y luego los mas baratos) éste encuentra las soluciones desde la mas cara (poner todos cuatridireccionales) a las mas barata (poner todos bidireccionales), poner un sensor no anula ninguna otra casilla por que todas las casillas estan encerradas entre paredes, y las restricciones para colocar importantes o sensores que acabo de colocar no afectan a ninguna otra casilla por que hay paredes de por medio. Su tiempo de ejecucion se extendio tanto que no pudimos llegar a correr los tamaños de test que corrimos para los otros ejemplos. Este caso.
+Este es un test que tiene la particularidad de anular casi todas las podas que pensamos para el ejercicio, la forma de este test tiene el formato de la Figura 23 y es una generalizacion del mismo para tamaños de $n*m$. Por el orden en el cual nuestro algoritmo intenta poner los sensores (primero el mas caros y luego los mas baratos) éste encuentra las soluciones desde la mas cara (poner todos cuatridireccionales) a la mas barata (poner todos bidireccionales) y la poda del costo de la solucion actual no funciona. Poner un sensor no anula (por el laser) ninguna otra casilla por que todas las casillas estan encerradas entre paredes, y las restricciones para colocar importantes o sensores que acabo de colocar no afectan a ninguna otra casilla por que hay paredes de por medio. Su tiempo de ejecucion se extendio tanto que no pudimos llegar a correr los tamaños de test que corrimos para los otros ejemplos.
 
