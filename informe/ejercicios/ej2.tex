@@ -118,7 +118,7 @@ Sea $n$ la cantidad de cursos del ciclo del programa de Profesores Visitantes de
 \end{itemize}
 \end{itemize}
 
-Dado que las complejidades dentro de la función se suman entre ellas y las constantes pueden ser omitidas, la complejidad final va a quedar definida a partir del ciclo principal ($\mathcal{O}(n)$) y el ordenamiento inicial ($\mathcal{O}(n\ log\ n)$). Dado que ambas operaciones se realizan paralelamente, sus complejidades se suman, por lo que la complejidad final es ($\mathcal{O}(n\ log\ n)$) + $\mathcal{O}(n)$, que se encuentra acotada asintóticamente por $\mathcal{O}(n\ log\ n)$. Luego, la complejidad de nuestro algoritmo resulta menor a $\mathcal{O}(n^2)$, que fue lo requerido.
+Dado que las complejidades dentro de la función se suman entre ellas y las constantes pueden ser omitidas, la complejidad final va a quedar definida por el ciclo principal ($\mathcal{O}(n)$) y el ordenamiento inicial ($\mathcal{O}(n\ log\ n)$). Dado que ambas operaciones se realizan paralelamente, sus complejidades se suman, por lo que la complejidad final es ($\mathcal{O}(n\ log\ n)$) + $\mathcal{O}(n)$, que se encuentra acotada asintóticamente por $\mathcal{O}(n\ log\ n)$. Luego, la complejidad de nuestro algoritmo resulta menor a $\mathcal{O}(n^2)$, que fue lo requerido por la cátedra.
 
 \subsection{Código fuente}
 
@@ -170,7 +170,7 @@ Para verificar la correctitud de nuestro programa, dispusimos variar estratégic
 
 \begin{figure}[H] %[h] Aqui [b] para button [t] para top
 \begin{center}
-\includegraphics[width=450pt]{../imgs/instancia4.jpg}
+\includegraphics[width=470pt]{../imgs/instancia4.jpg}
 \end{center}
 \caption{Instancia posible nº1.}
 \end{figure}
@@ -186,7 +186,7 @@ Para verificar la correctitud de nuestro programa, dispusimos variar estratégic
 
 \begin{figure}[H] %[h] Aqui [b] para button [t] para top
 \begin{center}
-\includegraphics[width=450pt]{../imgs/instancia3.jpg}
+\includegraphics[width=490pt]{../imgs/instancia3.jpg}
 \end{center}
 \caption{Instancia posible nº3.}
 \end{figure}
@@ -198,7 +198,7 @@ Para verificar la correctitud de nuestro programa, dispusimos variar estratégic
 
 \begin{figure}[H] %[h] Aqui [b] para button [t] para top
 \begin{center}
-\includegraphics[width=450pt]{../imgs/instancia1.jpg}
+\includegraphics[width=470pt]{../imgs/instancia1.jpg}
 \end{center}
 \caption{Instancia posible nº4.}
 \end{figure}
@@ -206,10 +206,32 @@ Para verificar la correctitud de nuestro programa, dispusimos variar estratégic
 \end{itemize}
 
 \subsection{Testing}
-Para realizar las pruebas de complejidad, generamos instancias aleatorias de fechas de cursos alterando la cantidad de los mismos. Estas instancias fueron generadas en $C++$ con la función $rand()$ de forma tal a poder acotarlas por 365. Los intervalos se generaron del siguiente modo: a partir de dos números aleatorios entre 0 y 365, se tomó el menor y se lo posicionó como primer elemento del intervalo y al mayor como segundo. Este mismo proceso se realizó para una cantidad de 1000 a 100000 intervalos con los que se ejecutó el programa. De este modo, logramos medir las pruebas de nuestro algoritmo para comprobar que la complejidad correspondiera con la mencionada anteriormente.
+Para realizar las pruebas de complejidad, generamos instancias aleatorias de fechas de cursos alterando la cantidad de los mismos. Estas instancias fueron generadas en $C++$ con la función $rand()$ de forma tal a poder acotarlas por 365. Los intervalos se generaron del siguiente modo: a partir de dos números aleatorios entre 0 y 365, se tomó el menor y se lo posicionó como primer elemento del intervalo y al mayor como segundo. Este mismo proceso se realizó para una cantidad de 1000 a 100000 intervalos con los que se ejecutó el programa. De este modo, logramos medir las pruebas de nuestro algoritmo para comprobar que la complejidad correspondiera con la mencionada anteriormente:\newline
+\newline
+En el primer caso, generamos nuestro script de forma aleatoria sin imponer ningún tipo de norma. En dicho caso, los resultados obtenidos fueron los siguientes:
 
-%\begin{figure}[H] %[h] Aqui [b] para button [t] para top
-%\begin{center}
-%\includegraphics[width=300pt]{../imgs/complejidadEj1.jpg}
-%\end{center}
-%\end{figure}
+\begin{figure}[H] %[h] Aqui [b] para button [t] para top
+\begin{center}
+\includegraphics[width=460pt]{../imgs/graficoej2_aleatorios.png}
+\end{center}
+\end{figure}
+
+Como puede observarse, la complejidad del algoritmo realizado respeta la cota mencionada para instancias de tipo aleatorio. Veamos qué sucede cuando se toma alguna decisión sobre los valores ingresados como parámetro:\newline
+\newline
+En el siguiente caso, los intervalos utilizados para evaluar la función fueron realizados con las mismas herramientas referidas anteriormente a diferencia de que éstos no podían solaparse entre sí. La solución obtenida fue la siguiente:
+\begin{figure}[H] %[h] Aqui [b] para button [t] para top
+\begin{center}
+\includegraphics[width=460pt]{../imgs/graficoej2_distintos.png}
+\end{center}
+\end{figure}
+Puede observarse que la complejidad del algoritmo con dichos parámetros permanece igualmente próxima a $\mathcal{O}(n\ log\ n)$ que en el caso anterior. Esto se debe a que el algoritmo realiza, como primer paso, un ordenamiento de los intervalos, teniendo éste el mayor costo en el desarrollo del algoritmo. Veamos qué ocurre en el caso contrario:\newline
+\newline
+En el caso en el que los cursos se solapan todos entre sí, el comportamiento de la curva que representa la complejidad del algoritmo se mantiene similar a la de la prueba realizada previamente. Esto ocurre de acuerdo al motivo mencionado en el caso anterior.
+
+\begin{figure}[H] %[h] Aqui [b] para button [t] para top
+\begin{center}
+\includegraphics[width=460pt]{../imgs/graficoej2_solapados.png}
+\end{center}
+\end{figure}
+
+A modo de conclusión, podemos afirmar que la complejidad del algoritmo de máxima cantidad de intervalos no solapados es dada principalmente por el ordenamiento que éste realiza en primer lugar para poder aplicarse como $algoritmo \goloso$. Luego, el contenido de los intervalos no son lo más relevante al referirse a la complejidad del algoritmo.
