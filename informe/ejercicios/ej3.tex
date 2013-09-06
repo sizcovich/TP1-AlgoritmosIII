@@ -15,6 +15,9 @@ donde $t$ es el tipo de sensor y $(f,c)$ son la fila y columna en donde éste se
 \newline
 Dos ejemplos de este problema son los siguientes:
 
+\begin{itemize}
+\item {\large{\textbf{Ejemplo 1:}}}
+
 \begin{figure}[H] % indico que voy a poner una figura y [h] indica que la posiciÃƒÂ³n relativa, tambien puedo usar t = top entre otros.
 \hfill
 \begin{minipage}[t]{.45\textwidth}
@@ -39,7 +42,24 @@ En el ejemplo de la Figura 1 el museo se ve representado por una cuadricula dond
 
 En este caso, el costo total es de \$26000.
 
-En el ejemplo de la Figura 2 se puede observar un caso el cual no tiene solución ya que en la celda (5,1) se encuentra un casillero libre importante el cual debe tener dos laser's cruzados pasando sobre el pero al encontrarse en una esquina del tablero y tener una pared al lado, no puede ser atravesado por un laser horizontal.
+\textbf{Formato de entrada:} 
+$$5\ \ 5$$
+$$1\ \ 1\ \ 0\ \ 1\ \ 0$$
+$$2\ \ 1\ \ 0\ \ 1\ \ 1$$
+$$1\ \ 1\ \ 1\ \ 1\ \ 2$$
+$$1\ \ 0\ \ 1\ \ 1\ \ 0$$
+$$0\ \ 1\ \ 2\ \ 1\ \ 1$$
+\textbf{Formato de salida:} 
+$$5\ \ 26000$$
+$$1\ \ 0\ \ 0$$
+$$2\ \ 1\ \ 1$$
+$$3\ \ 1\ \ 4$$
+$$1\ \ 2\ \ 2$$
+$$1\ \ 4\ \ 3$$
+
+\newline
+
+\item {\large{\textbf{Ejemplo 2:}}}
 
 \begin{center}
 \begin{figure}[H] % indico que voy a poner una figura y [h] indica que la posiciÃƒÂ³n relativa, tambien puedo usar t = top entre otros.
@@ -52,6 +72,18 @@ En el ejemplo de la Figura 2 se puede observar un caso el cual no tiene solució
 \end{minipage}
 \end{figure}
 \end{center}
+
+En el ejemplo de la Figura 2 se puede observar un caso el cual no tiene solución ya que en la celda (5,1) se encuentra un casillero libre importante el cual debe tener dos laser's cruzados pasando sobre el pero al encontrarse en una esquina del tablero y tener una pared al lado, no puede ser atravesado por un laser horizontal.
+
+\textbf{Formato de entrada:} 
+$$5\ \ 5$$
+$$1\ \ 1\ \ 1\ \ 2\ \ 1$$
+$$1\ \ 2\ \ 0\ \ 1\ \ 1$$
+$$0\ \ 2\ \ 1\ \ 0\ \ 1$$
+$$1\ \ 1\ \ 1\ \ 1\ \ 0$$
+$$2\ \ 0\ \ 2\ \ 1\ \ 1$$
+\textbf{Formato de salida:} $$-1$$\newline
+\end{itemize}
 
 \subsection{Resolución coloquial}
 
@@ -180,7 +212,16 @@ Dado que nuestro algoritmo compara el valor de la solución creada con la más �
 
 \subsection{Complejidad del algoritmo}
 
-Dado que tenemos $nxm$ baldosas y nuestro algoritmo genera todas las permutaciones, la cantidad de casos a generar son 4x4x4x..x4 asi $nxm$ veces, ya que cada baldosa puede tener 4 elementos, quedando 4$^{nxm}$ casos posibles. A su vez, por cada caso posible se corroboran muchas podas que tienen un complejidad de $nxm$, es decir, que generar cada caso nombrado anteriormente, tiene un costo de $(nxm)$x4$^{nxm}$. Tener en cuenta que, a pesar que la complejidad no lo refleje, las podas cumplen un trabajo fundamental en cuestiones temporales ya que evitan que se generen todos los casos. Estas podas no impactan de forma positiva en la complejidad del algoritmo porque de impactar de dicha manera dejarian de ser podas y pasarian a constituir un mejor algoritmo. 
+Dado que tenemos $nxm$ baldosas y nuestro algoritmo, en el caso de no realizar ninguna poda, prueba 4 casos distintos para cada una de estas, obtenemos 4$^{nxm}$ combinaciones posibles. A su vez, por cada caso posible se realizan una serie de operaciones entre las cuales se encuentran:
+\begin{itemize}
+\item $Colocar\ lasers\ verticales$ y $Restringir\ celdas\ verticales$: Estas funciones en el peor de los casos recorren toda una columna de la matriz por lo cual tienen complejidad $\mathcal{O}(n)$
+\item $Colocar\ lasers\ horizontales$ y $Restringir\ celdas\ horizontales$: Estas funciones en el peor de los casos recorren toda una fila de la matriz por lo cual tienen complejidad $\mathcal{O}(m)$
+\item $Chequear\ solución$: Esta función recorre toda la matriz para corroborar si esta contiene una solución valida o no por lo que su complejidad es de $\mathcal{O}(nxm)$
+\end{itemize}
+
+En los casos en los que se coloca un sensor, o bien se usan las funciones $Colocar\ lasers\ verticales/horizontales$ y $Restringir\ celdas\ horizontales/verticales$ o bien las funciones $Colocar\ lasers\ verticales$ y $Colocar\ lasers\ horizontales$. En ambos casos, estas tienen complejidad $\mathcal{O}(n+m)$. Por otro lado, en muchos nodos se chequea si la solución a la cual se llego resuelve o no el problema, con lo cual se podría acotar el costo de cada nodo con la complejidad de $chequear\ solución$.
+
+Ya que tenemos 4$^{nxm}$ combinaciones posibles y cada una de estas en el peor de los casos requieren de una complejidad de $\mathcal{O}(nxm)$, nuestro algoritmo tiene un costo de $\mathcal{O}(nxm)$x4$^{nxm}$. Hay que tener en cuenta que a pesar de que la complejidad no lo refleje, las podas cumplen un trabajo fundamental en cuestiones temporales ya que evitan que se generen todos los casos y eso reduce mucho el tiempo de ejecución. Estas podas no impactan de forma positiva en la complejidad del algoritmo ya que de impactar de dicha manera dejarían de ser podas y pasarían a constituir un mejor algoritmo.
 \subsection{Código fuente}
 
 \begin{figure}[H]
