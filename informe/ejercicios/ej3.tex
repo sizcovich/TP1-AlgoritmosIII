@@ -212,16 +212,17 @@ Dado que nuestro algoritmo compara el valor de la solución creada con la más �
 
 \subsection{Complejidad del algoritmo}
 
-Dado que tenemos $nxm$ baldosas y nuestro algoritmo, en el caso de no realizar ninguna poda, prueba 4 casos distintos para cada una de estas, obtenemos 4$^{nxm}$ combinaciones posibles. A su vez, por cada caso posible se realizan una serie de operaciones entre las cuales se encuentran:
+Dado que tenemos $n$x$m$ baldosas de las cuales nuestro algoritmo genera 4 casos distintos para cada una de estas, obtenemos 4$^{nxm}$ combinaciones posibles. A su vez, por cada uno de estos casos se realizan una serie de operaciones, entre las cuales se encuentran:
 \begin{itemize}
-\item $Colocar\ lasers\ verticales$ y $Restringir\ celdas\ verticales$: Estas funciones en el peor de los casos recorren toda una columna de la matriz por lo cual tienen complejidad $\mathcal{O}(n)$
-\item $Colocar\ lasers\ horizontales$ y $Restringir\ celdas\ horizontales$: Estas funciones en el peor de los casos recorren toda una fila de la matriz por lo cual tienen complejidad $\mathcal{O}(m)$
-\item $Chequear\ solución$: Esta función recorre toda la matriz para corroborar si esta contiene una solución valida o no por lo que su complejidad es de $\mathcal{O}(nxm)$
+\item $Colocar\ sensores\ verticales$ y $Restringir\ celdas\ verticales$: Estas funciones en el peor de los casos recorren toda una columna de la matriz por lo cual tienen complejidad $\mathcal{O}(n)$
+\item $Colocar\ sensores\ horizontales$ y $Restringir\ celdas\ horizontales$: Estas funciones en el peor de los casos recorren toda una fila de la matriz por lo cual tienen complejidad $\mathcal{O}(m)$
+\item $Chequear\ solución$: Esta función recorre toda la matriz para corroborar si esta contiene una solución valida o no por lo que su complejidad es de $\mathcal{O}(n.m)$
 \end{itemize}
 
-En los casos en los que se coloca un sensor, o bien se usan las funciones $Colocar\ lasers\ verticales/horizontales$ y $Restringir\ celdas\ horizontales/verticales$ o bien las funciones $Colocar\ lasers\ verticales$ y $Colocar\ lasers\ horizontales$. En ambos casos, estas tienen complejidad $\mathcal{O}(n+m)$. Por otro lado, en muchos nodos se chequea si la solución a la cual se llego resuelve o no el problema, con lo cual se podría acotar el costo de cada nodo con la complejidad de $chequear\ solución$.
+En los casos en los que se coloca un sensor, o bien se usan las funciones $Colocar\ lasers\ verticales/horizontales$, $Restringir\ celdas\ horizontales/verticales$, $Colocar\ lasers\ verticales$ y $Colocar\ lasers\ horizontales$ se tiene una complejidad de $\mathcal{O}(n+m)$ ya que la suma de las complejidades de las funciones antes nombradas. Entonces $\mathcal{O}(n+m)$ + $\mathcal{O}(n.m)$ = $\mathcal{O}(n.m)$, es asi que por cada caso generado se necesitan $\mathcal{O}(n.m)$ operaciones de poda. \newline
+ Por otro lado, en muchos nodos se chequea si la solución a la cual se llego resuelve o no el problema, con lo cual se podría acotar el costo de cada nodo con la complejidad de $chequear\ solución$. 
 
-Ya que tenemos 4$^{nxm}$ combinaciones posibles y cada una de estas en el peor de los casos requieren de una complejidad de $\mathcal{O}(nxm)$, nuestro algoritmo tiene un costo de $\mathcal{O}(nxm)$x4$^{nxm}$. Hay que tener en cuenta que a pesar de que la complejidad no lo refleje, las podas cumplen un trabajo fundamental en cuestiones temporales ya que evitan que se generen todos los casos y eso reduce mucho el tiempo de ejecución. Estas podas no impactan de forma positiva en la complejidad del algoritmo ya que de impactar de dicha manera dejarían de ser podas y pasarían a constituir un mejor algoritmo.
+Dicho lo anterior, ya que tenemos 4$^{nxm}$ combinaciones posibles y cada una de estas en el peor de los casos requieren de una complejidad de $\mathcal{O}(nxm)$, nuestro algoritmo tiene un costo de $\mathcal{O}(n.m)$x4$^{nxm}$. Hay que tener en cuenta que a pesar de que la complejidad no lo refleje, las podas cumplen un trabajo fundamental en cuestiones temporales ya que evitan que se generen todos los casos y eso reduce mucho el tiempo de ejecución. Estas podas no impactan de forma positiva en la complejidad del algoritmo ya que de impactar de dicha manera dejarían de ser podas y pasarían a constituir un mejor algoritmo.
 \subsection{Código fuente}
 
 \begin{figure}[H]
