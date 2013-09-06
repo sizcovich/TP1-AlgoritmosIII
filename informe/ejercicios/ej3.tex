@@ -525,15 +525,21 @@ En este caso vemos como efectivamente la funcion crece aproximandose a la comple
 \end{center}
 \end{figure}
 
+En este caso intentamos generar instancias que tuvieran todos los casilleros como espacios libres, sin paredes ni lugares importantes, para maximizar la cantidad de casilleros que puede intentar usar el algoritmo para probar combinaciones, los tiempos de esta corrida son en general bajos ya que las podas hacen un gran trabajo reduciendo la cantidad de opciones en cada paso ya por cada sensor que ponga la cantidad de casillas que voy a cubrir va a ser de al menos todo el ancho o el alto del tablero debido a que no hay paredes que lo detengan.
+
 \begin{figure}[H] %[h] Aqui [b] para button [t] para top
 \begin{center}
 \includegraphics[width=460pt]{../imgs/graficoej3_todosUnoSinSolucion.png}
 \end{center}
 \end{figure}
 
+En este caso hicimos lo mismo que antes, solo que forzamos una combinacion de paredes y casilleros importantes que provoca que el algoritmo no encuentre ninguna solucion, y de hecho, no haya ninguna solucion al tablero en cuestion, de esta  manera nos evitamos que enrte en juego una de las podas mas improtantes, que es la que guarda el costo de una solucion y nunca busca soluciones cuyo costo sea mayor al actual, como en ningun momento encontramos ninguna solucion, nunca actualizamos ese costo de la solucion entonces el algoritmo va a seguir intentando todas las posibles combinaciones hasta que concluya que no hay ninguna combinacion posible para resolver el tablero, sin embargo las podas que se producen al colocar un laser siguen hacienod que se resuelve un poco mas rapido.
+
 \begin{figure}[H] %[h] Aqui [b] para button [t] para top
 \begin{center}
 \includegraphics[width=460pt]{../imgs/graficoej3_alternado.png}
 \end{center}
 \end{figure}
+
+Este es un caso particular que encontramos que tiene la particularidad de anular casi todas las podas que pensamos para el ejercicio, en este caso 
 
