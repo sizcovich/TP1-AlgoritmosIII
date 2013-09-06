@@ -33,12 +33,12 @@ Para resolver el problema presentado decidimos utilizar la técnica de $backtrac
 Para lograr una correcta visualización del problema, representamos el piso entero del museo con una matriz, respetando las paredes y las casillas importantes. Luego, cada elemento de la matriz representa a una baldosa/casillero del piso y almacena el estado de la misma. Esto significa que de acuerdo a si contiene un 0, un 1 o un 2, podemos saber si hay algún sensor en ella o si le pasa algún láser por encima.\newline
 \newline
 Nuestro algoritmo, en primera instancia, genera un árbol de decisiones sobre todas las combinaciones posibles de cada casillero. Para lograrlo, recorre paulatinamente la matriz mencionada y, en cada paso, toma una decisión sobre el casillero actual para avanzar, luego, al siguiente. Las posibles decisiones son colocar o no algún sensor, empezando por intentar con el sensor cuatridireccional, para proseguir con el horizontal, luego el vertical y por último sin ningún sensor. Con el fin de acotar el tiempo de ejecución del algoritmo, se idearon ciertas cotas que frenan la ramificación del nodo que llega a algún caso que no tiene solución. Las cotas implementadas fueron las siguientes:
-\begin{itemize}
+\begin{enumerate}
 \item Una vez que se encuentra una solución, se almacena su costo y cualquier rama cuyo costo actual sea mayor al $almacenado-2000$ (siendo 2000 = diferencia entre un sensor cuatridireccional y uno bidireccional) es descartado.
 \item Sobre las casillas importantes no puede haber ningún sensor cuatridireccional. Esto se debe a que en dicho caso, no existiría la posibilidad de atravesarlo por dos lásers sin que se rompan.
 \item No puede haber ningún sensor vertical en las filas que tengan algún casillero importante, lo mismo para sensores horizontales en la columna. Esto se debe al mismo motivo mencionado en el ítem anterior.
 \item Cualquier fila conteniendo algún sensor vertical no puede tener ninguno horizontal pues provocará un choque entre ellos. Análogamente de para una columna conteniendo un sensor horizontal a la que se le quiera agregar uno vertical.
-\end{itemize}
+\end{enumerate}
 De este modo, el árbol realizado contiene en cada nodo una posibilidad de casillero y, como máximo, tres hermanos con las otras posibilidades. Luego, el árbol es recorrido y se comparan los precios de cada solución válida hasta llegar a una mínima.\newline
 \newline
 
@@ -117,19 +117,18 @@ El pseudocódigo que describe la solución a nuestro problema es el siguiente:
 
 \subsection{Demostración de correctitud}
 
-
-Para demostrar la correctitud de nuestro algoritmo desarrollaremos los siguientes tres items:
+Para demostrar la correctitud de nuestro algoritmo, debemos probar que se cumplen las siguientes propiedades:
 \begin{itemize}
-\item Nuestro algoritmo genera todas las combinaciones posibles en cada casillero.
-\item Las podas utilizadas no alteran el resultado final.
-\item La solucion es optima, es decir, no existe otra cuyo costo sea menor.
+\item Nuestro algoritmo genera todas las combinaciones posibles para cada casillero.
+\item Las podas utilizadas no alteran la solución final.
+\item La solucion es óptima, es decir, no existe otra cuyo costo sea menor.
 \end{itemize}
 
 \newline
 
-\textbf{Nuestro algoritmo genera todas las combinaciones posibles en cada casillero.} \newline
+\textbf{Nuestro algoritmo genera todas las combinaciones posibles para cada casillero.} \newline
 
-Esto lo realiza tomando el primer elemento (ignorando el anterior) e intentando ubicar algun sensor, o ninguno, siempre que este no se encuentre contemplado en las podas o que no rompa los casos especificados
+Esto lo realiza tomando el primer elemento (ignorando el anterior) e intentando ubicar algún sensor, o ninguno, siempre que este no se encuentre contemplado en las podas o que no rompa los casos especificados
  por el enunciado. Como resultado, por cada elemento, puede generar 4 casos posibles: 
  \begin{itemize}
  \item $sin$ $sensor$
@@ -139,7 +138,7 @@ Esto lo realiza tomando el primer elemento (ignorando el anterior) e intentando 
  \end{itemize}
   Asi sucesivamente con cada cuadricula, logrando asi, generar todas las permutaciones factibles. 
 
-\textbf{Las podas utilizadas no alteran el resultado final} \newline
+\textbf{Las podas utilizadas no alteran la solución final} \newline
 
 Las podas utilizadas son:
 \begin{itemize}
