@@ -87,14 +87,14 @@ $$2\ \ 0\ \ 2\ \ 1\ \ 1$$
 
 \subsection{Resolución coloquial}
 
-Para resolver el problema presentado decidimos utilizar la técnica de $backtracking$. Ésta consiste en evaluar las posibles combinaciones de soluciones del problema almacenándolas hasta llegar a la deseada. Para ello, definimos criterios de parada que nos permitieran decidir si las soluciones parcialmente obtenidas eran candidatas a soluciones válidas.\newline
+Para resolver el problema presentado decidimos utilizar la técnica de $backtracking$. Ésta consiste en evaluar las posibles combinaciones de soluciones del problema hasta llegar a la deseada. Para ello, definimos criterios de parada que nos permitieran decidir si las soluciones parcialmente obtenidas eran candidatas a soluciones válidas.\newline
 \newline
 Para lograr una correcta visualización del problema, representamos el piso entero del museo con una matriz, respetando las paredes y las casillas importantes. Luego, cada elemento de la matriz representa a una baldosa/casillero del piso y almacena el estado de la misma. Esto significa que de acuerdo a si contiene un 0, un 1 o un 2, podemos saber si hay algún sensor en ella o si le pasa algún láser por encima.\newline
 \newline
 Nuestro algoritmo, en primera instancia, genera un árbol de decisiones sobre todas las combinaciones posibles de cada casillero. Para lograrlo, recorre paulatinamente la matriz mencionada y, en cada paso, toma una decisión sobre el casillero actual para avanzar, luego, al siguiente. Las posibles decisiones son colocar o no algún sensor, empezando por intentar con el sensor cuatridireccional, para proseguir con el horizontal, luego el vertical y por último sin ningún sensor. Con el fin de acotar el tiempo de ejecución del algoritmo, se idearon ciertas cotas que frenan la ramificación del nodo que llega a algún caso que no tiene solución. Las cotas implementadas fueron las siguientes:
 \begin{enumerate}
 \item Una vez que se encuentra una solución, se almacena su costo y cualquier rama cuyo costo actual sea mayor al $almacenado-2000$ (siendo 2000 = diferencia entre un sensor cuatridireccional y uno bidireccional) es descartado.
-\item Sobre las casillas importantes no puede haber ningún sensor cuatridireccional. Esto se debe a que en dicho caso, no existiría la posibilidad de atravesarlo por dos lásers sin que se rompan.
+\item Sobre las casillas importantes no puede haber ningún sensor cuatridireccional ni bidireccional. Esto se debe a que en dicho caso, no existiría la posibilidad de atravesarlo por dos lásers sin que se rompan.
 \item No puede haber ningún sensor vertical en las filas que tengan algún casillero importante, lo mismo para sensores horizontales en la columna. Esto se debe al mismo motivo mencionado en el ítem anterior.
 \item Cualquier fila conteniendo algún sensor vertical no puede tener ninguno horizontal pues provocará un choque entre ellos. Análogamente de para una columna conteniendo un sensor horizontal a la que se le quiera agregar uno vertical.
 \end{enumerate}
@@ -129,25 +129,24 @@ El pseudocódigo que describe la solución a nuestro problema es el siguiente:
 \begin{algorithm}[H]
 	\SetAlgoLined
 	\caption{backtrack}
-	\KwIn{Matriz $grilla$, Lista $casillasLibres$, Matriz $mejorGrilla$}
-	\KwOut{Lista sensores}
+	\KwIn{Matriz $grilla$, Lista $casillasLibres$, Matriz $mejorGrilla$, Entero $mejorCostoObtenido$}
+	\KwOut{}
 
     \If{$costoActual$ > $(mejorCostoObtenido - 2000)$}{
         backtrack($grilla$, $casillasLibres$)\\
 	}
 	
-	\If{sensores esta vacio}{
+	\If{$casillasLibres$ esta vacio}{
 		\If{chequearSolucion($grilla$) \land $ (costoActual $ < $ mejorCostoObtenido)$}{
 			$mejorCostoObtenido$ := $costoActual$\\
 			$mejorGrilla$ := $grilla$
 		}
     }
 
-	Casilla $casillaActual$ := Proxima casilla libre \in casillasLibres\\
-	
-	\If{$¬$sePuedeColocarUnSensor($casillaActual$)}{
-		$mejorCostoObtenido$ := $costoActual$\\
-		$mejorGrilla$ := $grilla$
+	Casilla $casillaActual$ := Proxima casilla \in casillasLibres\\
+
+	\If{$casillaActual$ tiene un laser pasando por ella}{
+		backtrack($grilla$,$casillasLibres$,$mejorGrilla$,$mejorCostoObtenido$);
 	}
 	
 	\If{Puedo poner un sensor bidireccional en $casillaActual$}{
@@ -156,22 +155,22 @@ El pseudocódigo que describe la solución a nuestro problema es el siguiente:
 		backtrack($grilla$, $casillasLibres$)\\
 	}
 	\If{Puedo poner un sensor vertical en $casillaActual$}{
-		Restringir por láser vertical\\
-		Restringir casilleros horizontales\\
+		restringirPorLaser($casillaActual$,$grilla$)\\
+		restringirPorSensor($casillaActual$,$grilla$)\\
 		Saco casillaActual de casillasLibres\\
 		backtrack($grilla$, $casillasLibres$)\\
 	}
 	\If{Puedo poner un sensor horizontal en $casillaActual$}{
-		Restringir por láser horizontal\\
-		Restringir casilleros verticales\\
+		restringirPorLaser($casillaActual$,$grilla$)\\
+		restringirPorSensor($casillaActual$,$grilla$)\\
 		Saco casillaActual de casillasLibres\\
 		backtrack($grilla$, $casillasLibres$)\\
 	}
 
-	Dejo el casillero en blanco\\
 	backtrack($grilla$, $casillasLibres$)\\
+	$casillasLibres \leftarrow casillaActual$
 
-	\textbf{devolver} ContarSensores($grilla$)
+	\textbf{devolver}
 \end{algorithm}
 
 \subsection{Demostración de correctitud}
