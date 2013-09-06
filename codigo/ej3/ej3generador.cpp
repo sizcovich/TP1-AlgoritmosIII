@@ -43,6 +43,11 @@ int main() {
 			shuffle(matriz.begin(), matriz.end(), g);
 
 			cout << i << " " << j << endl;
+			if (j>1) {
+				matriz[j-2] = 0;
+				matriz[j-1] = 2;
+				matriz[j] = 0;
+			}
 
 			for (int k = 0; k < matriz.size(); ++k) {
 				if (k % j == 0 && k!=0)
