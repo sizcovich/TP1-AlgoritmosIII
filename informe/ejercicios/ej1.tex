@@ -172,10 +172,33 @@ De este modo, logramos abarcar los casos límite en los que la implementación p
 
 \subsection{Testing}
 
-Para realizar las pruebas de complejidad, generamos instancias aleatorias de pesos de cajas alterando la cantidad de las mismas pero manteniendo estático el peso máximo de carga de los camiones en 120 \unit{kg}. Estas instancias fueron generadas en $C++$ con la función $rand()$ de forma tal a poder acotarlas por la capacidad de carga de los camiones. La cantidad de cajas generadas se comprendió entre 5000 y 100000, agregando de a 5000 en cada iteración. Las mediciones de tiempo en nanosegundos se realizaron con la función $high\ resolution\ clock$\footnote{http://en.cppreference.com/w/cpp/chrono/high\_resolution\_clock} de la librería $Chrono$ de $C++$. Debido a que éstas fueron realizadas en nanosegundos, las pruebas cuyo tamaño de la entrada era menor a 5000 se realizaba en mayor tiempo que las instancias más grandes pues el procesador le otorga más atención al no realizar cambio de contexto. De este modo, logramos medir las pruebas de nuestro algoritmo para comprobar que la complejidad correspondiera con la mencionada anteriormente.
+Para realizar las pruebas de complejidad, generamos instancias aleatorias de pesos de cajas alterando la cantidad de las mismas pero manteniendo estático el peso máximo de carga de los camiones en 120 \unit{kg}. Estas instancias fueron generadas en $C++$ con la función $rand()$ de forma tal a poder acotarlas por la capacidad de carga de los camiones. La cantidad de cajas generadas se comprendió entre 1000 y 100000, agregando de a 1000 en cada iteración. Las mediciones de tiempo en nanosegundos se realizaron con la función $high\ resolution\ clock$\footnote{http://en.cppreference.com/w/cpp/chrono/high\_resolution\_clock} de la librería $Chrono$ de $C++$. Debido a que éstas fueron realizadas en nanosegundos, las pruebas cuyo tamaño de la entrada era menor a 1000 se realizaba en mayor tiempo que las instancias más grandes pues el procesador le otorga más atención al no realizar cambio de contexto. De este modo, logramos medir las pruebas de nuestro algoritmo para comprobar que la complejidad correspondiera con la mencionada anteriormente.\newline
+\newline
+En el primer caso, procedimos a evaluar instancias random. Esto significa que cualquier peso menor a 120 podía ingresar como parámetro sin ningún tipo de orden. El resultado obtenido fue el siguiente:
 
-%\begin{figure}[H] %[h] Aqui [b] para button [t] para top
-%\begin{center}
-%\includegraphics[width=300pt]{../imgs/complejidadEj1.jpg}
-%\end{center}
-%\end{figure}
+\begin{figure}[H] %[h] Aqui [b] para button [t] para top
+\begin{center}
+\includegraphics[width=450pt]{../imgs/graficoej1_random.png}
+\end{center}
+\end{figure}
+
+Como puede observarse en el gráfico anterior, la complejidad del Algoritmo de Pascual se mantiene próxima a $\mathcal{O}(n\ log\ n)$ en todo momento, confirmando que es menor a $\mathcal{O}(n^2)$. Veamos qué ocurre en los casos siguientes.\newline
+\newline
+Para analizar la complejidad, decidimos estudiar qué ocurría al obtener paquetes ordenados de menor a mayor de acuerdo a su peso. Si bien consideramos que dicha opción daría un resultado del Algoritmo de Pascual en menos tiempo, pudimos observar que se mantuvo igual de cercano a $\mathcal{O}(n\ log\ n)$ que el caso anterior.
+
+\begin{figure}[H] %[h] Aqui [b] para button [t] para top
+\begin{center}
+\includegraphics[width=420pt]{../imgs/graficoej1_menoramayor.png}
+\end{center}
+\end{figure}
+
+Por último, analizamos el caso en el que los paquetes estuvieran ordenados de mayor a menor. Los resultados obtenidos fueron los siguientes:
+\begin{figure}[H] %[h] Aqui [b] para button [t] para top
+\begin{center}
+\includegraphics[width=430pt]{../imgs/graficoej1_mayoramenor.png}
+\end{center}
+\end{figure}
+
+Tal como puede observarse, la complejidad se mantiene correctamente y dicha alteración en el orden no afecta la velocidad de ejecución del algoritmo.\newline
+\newline
+A partir de aquí, podemos concluir que el orden en el que ingresan los paquetes no afecta la complejidad del Algoritmo de Pascual debido a que el mayor costo de éste lo tiene la función encargada de ordenarlo, siendo éste ($\mathcal{O}(n\ log\ n)$).
