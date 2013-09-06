@@ -29,18 +29,18 @@ int main() {
 
 			float tam = i*j;
 
-			int limP = static_cast<int>((tam/100)*PORCENTAJE_PAREDES);
-			int limI = static_cast<int>((tam/100)*PORCENTAJE_IMPORTANTES);
+			// int limP = static_cast<int>((tam/100)*PORCENTAJE_PAREDES);
+			// int limI = static_cast<int>((tam/100)*PORCENTAJE_IMPORTANTES);
 
-			//cout << limP << " " << limI << endl;
+			// //cout << limP << " " << limI << endl;
 
-			for (int k = 0; k < limP; k++)
-				matriz[k] = 0;
+			// for (int k = 0; k < limP; k++)
+			// 	matriz[k] = 0;
 			
-			for (int k = limP; k < (limP+limI); k++)
-				matriz[k] = 2;
+			// for (int k = limP; k < (limP+limI); k++)
+			// 	matriz[k] = 2;
 			
-			shuffle(matriz.begin(), matriz.end(), g);
+			// shuffle(matriz.begin(), matriz.end(), g);
 
 			cout << i << " " << j << endl;
 			if (j>1) {
