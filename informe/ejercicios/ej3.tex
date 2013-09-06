@@ -207,16 +207,16 @@ Dado que nuestro algoritmo compara el valor de la solución creada con la más �
 
 \subsection{Complejidad del algoritmo}
 
-Dado que tenemos $n$x$m$ baldosas de las cuales nuestro algoritmo genera 4 casos distintos para cada una de estas, obtenemos 4$^{nxm}$ combinaciones posibles. A su vez, por cada uno de estos casos se realizan una serie de operaciones, entre las cuales se encuentran:
+Dado que tenemos $n$x$m$ baldosas a partir de las que nuestro algoritmo genera 4 casos distintos para cada una de éstas, obtenemos $4^{nxm}$ combinaciones posibles. A su vez, por cada uno de estos casos se realizan una serie de operaciones, entre las cuales se encuentran:
 \begin{itemize}
-\item $Colocar\ sensores\ verticales$ y $Restringir\ celdas\ verticales$: Estas funciones en el peor de los casos recorren toda una columna de la matriz por lo cual tienen complejidad $\mathcal{O}(n)$
-\item $Colocar\ sensores\ horizontales$ y $Restringir\ celdas\ horizontales$: Estas funciones en el peor de los casos recorren toda una fila de la matriz por lo cual tienen complejidad $\mathcal{O}(m)$
-\item $Chequear\ solución$: Esta función recorre toda la matriz para corroborar si esta contiene una solución valida o no por lo que su complejidad es de $\mathcal{O}(nxm)$
+\item $Colocar\ sensores\ verticales$ y $Restringir\ celdas\ verticales$: Estas funciones en el peor de los casos recorren toda una columna de la matriz por lo que tienen complejidad $\mathcal{O}(n)$.
+\item $Colocar\ sensores\ horizontales$ y $Restringir\ celdas\ horizontales$: Estas funciones en el peor de los casos recorren toda una fila de la matriz por lo que tienen complejidad $\mathcal{O}(m)$.
+\item $Chequear\ solución$: Esta función recorre toda la matriz para corroborar si contiene una solución válida o no, luego su complejidad es de $\mathcal{O}(nxm)$.
 \end{itemize}
 
-En los casos en los que se coloca un sensor, o bien se usan las funciones $Colocar\ sensores\ verticales/horizontales$ y $Restringir\ celdas\ horizontales/verticales$ o bien las funciones $Colocar\ sensores\ verticales$ y $Colocar\ sensores\ horizontales$. En ambos casos, estas tienen complejidad $\mathcal{O}(n+m)$ ya que es la suma de las dos complejidades. Por otro lado, en muchos nodos se chequea si la solución a la cual se llego resuelve o no el problema, con lo cual se podría acotar el costo de cada nodo con la complejidad de $chequear\ solución$.
-
-Dicho lo anterior, ya que tenemos 4$^{nxm}$ combinaciones posibles y cada una de estas en el peor de los casos requieren de una complejidad de $\mathcal{O}(nxm)$, nuestro algoritmo tiene un costo de $\mathcal{O}(nxm)$x4$^{nxm}$. Hay que tener en cuenta que a pesar de que la complejidad no lo refleje, las podas cumplen un trabajo fundamental en cuestiones temporales ya que evitan que se generen todos los casos y esto reduce mucho el tiempo de ejecución. Estas podas no impactan de forma positiva en la complejidad del algoritmo ya que si asi lo hicieran dejarían de ser podas y pasarían a constituir un mejor algoritmo.
+En los casos en los que se coloca un sensor en una casilla libre, se pueden usan las funciones $Colocar\ sensores\ verticales/horizontales$ y $Restringir\ celdas\ horizontales/verticales$ o $Colocar\ sensores\ verticales$ y $Colocar\ sensores\ horizontales$. En ambos casos, éstas tienen complejidad $\mathcal{O}(n+m)$ ya que consiste en la suma de ambas complejidades debido a que las funciones se realizan paralelamente. Por otro lado, en gran parte de los nodos se verifica si la solución a la que se llegó resuelve o no el problema, por lo que el costo de cada nodo podría ser acotado por la complejidad de $chequear\ solución \mathcal{O}(nxm)$.\newline
+\newline
+A partir de lo mencionado precedentemente y teniendo en cuenta que tenemos $4^{nxm}$ combinaciones posibles cuyas complejidades son $\mathcal{O}(nxm)$ en el peor de los casos, nuestro algoritmo tiene un costo de $\mathcal{O}(nxm)x4^{nxm}$. Resulta importante mencionar que, si bien la complejidad del algoritmo no lo refleja, las podas cumplen un trabajo fundamental a la hora de medir la ejecución del algoritmo temporalmente. Esto se debe a que evitan que se generen todos los casos (tanto válidos como inválidos) reduciendo considerablemente el tiempo de ejecución del mismo. 
 
 
 \subsection{Código fuente}
