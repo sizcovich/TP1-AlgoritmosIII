@@ -153,10 +153,7 @@ Dado que nuestro algoritmo compara el valor de la solución creada con la más �
 
 \subsection{Complejidad del algoritmo}
 
-Veamos paso a paso la complejidad del algoritmo de backtracking:
-
-En la linea 1 se obtienen las posiciones libres de la grilla, esto se obtiene recorriendo secuencialmente todas las posiciones de la matriz y en cada paso pregunta si es una casilla libre o no, esta pregunta se hace en tiempo constante y recorrer todos los elementos tiene una complejidad de O($n*m$).
-
+Dado que tenemos $nxm$ baldosas y nuestro algoritmo genera todas las permutaciones, la cantidad de casos a generar son 4x4x4x..x4 asi $nxm$ veces, ya que cada baldosa puede tener 4 elementos, quedando 4$^{nxm}$ casos posibles. A su vez, por cada caso posible se corroboran muchas podas que tienen un complejidad de $nxm$, es decir, que generar cada caso nombrado anteriormente, tiene un costo de $(nxm)$x4$^{nxm}$. Tener en cuenta que, a pesar que la complejidad no lo refleje, las podas cumplen un trabajo fundamental en cuestiones temporales ya que evitan que se generen todos los casos. Estas podas no impactan de forma positiva en la complejidad del algoritmo porque de impactar de dicha manera dejarian de ser podas y pasarian a constituir un mejor algoritmo. 
 \subsection{Código fuente}
 
 \begin{figure}[H]
