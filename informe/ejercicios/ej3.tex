@@ -159,6 +159,124 @@ En la linea 1 se obtienen las posiciones libres de la grilla, esto se obtiene re
 
 \subsection{Código fuente}
 
+\begin{figure}[H]
+\begin{center}
+\begin{verbatim}
+for (int i = 0; i < g.size(); ++i) {
+   for (int j = 0; j < g[i].size(); ++j) {
+      if (g[i][j].tipo == 2)
+         restringirCasillasPorImportante(i, j); 
+         if (g[i][j].tipo == 1) 
+            casillasLibres.push(&(g[i][j]));
+         }
+      }
+\end{verbatim}
+\caption{Restringe las casillas segun corresponda}
+\end{center}
+\end{figure}
+
+\begin{figure}[H]
+\begin{center}
+\begin{verbatim}
+if (casillasLibres.empty()) {
+   if (chequearSolucion()) { 
+      if (costoActual < mejorCosto) {
+         haySolucion = true;
+         mejorCosto = costoActual;
+         gMejor = g;	
+         mejorCantSensores = cantSensores;
+        }
+    }
+    return;
+}
+\end{verbatim}
+\caption{Condicional que va almacenando la mejor solucion}
+\end{center}
+\end{figure}
+
+\begin{figure}[H]
+\begin{center}
+\begin{verbatim}
+if (costoActual > (mejorCosto-2000))
+   return;
+Casilla* casillaActual = casillasLibres.front();  
+casillasLibres.pop();
+if (casillaActual->laser > 0) {
+   backtrack();
+   casillasLibres.push(casillaActual);
+   return;
+} else {
+   if (casillaActual->restricciones[2]){ 
+      casillaActual->ocupado = true;
+      casillaActual->tipoSensor = 1;
+      casillaActual->laser = 3;
+      laserVertical(casillaActual->i, casillaActual->j, "PONER");
+      laserHorizontal(casillaActual->i, casillaActual->j, "PONER");
+      costoActual = costoActual + 6000;
+\end{verbatim}
+\caption{Diferentes podas utilizadas}
+\end{center}
+\end{figure}
+
+\begin{figure}[H]
+\begin{center}
+\begin{verbatim}
+      cantSensores++;
+      backtrack();
+      cantSensores--;
+      costoActual = costoActual - 6000;
+      laserVertical(casillaActual->i, casillaActual->j, "SACAR");
+      laserHorizontal(casillaActual->i, casillaActual->j, "SACAR");
+}
+if (casillaActual->restricciones[0]){ 
+      casillaActual->ocupado = true;
+      casillaActual->tipoSensor = 2;
+      casillaActual->laser = 1;
+      vector< vector <int> >cache;
+      for (int i = 0; i < g.size(); ++i)
+      cache.push_back(g[i][casillaActual->j].restricciones);
+      restringVertical(casillaActual->i, casillaActual->j);
+      laserHorizontal(casillaActual->i, casillaActual->j, "PONER");
+      costoActual = costoActual + 4000;
+      cantSensores++;
+      backtrack();
+      cantSensores--;
+      costoActual = costoActual - 4000;
+      laserHorizontal(casillaActual->i, casillaActual->j, "SACAR");
+      for (int i = 0; i < cache.size(); ++i)
+         g[i][casillaActual->j].restricciones = cache[i];
+}
+if (casillaActual->restricciones[1]){ 
+      casillaActual->ocupado = true;
+      casillaActual->tipoSensor = 3;
+      casillaActual->laser = 2;
+      vector< vector <int> >cache;			
+      for (int i = 0; i < g[casillaActual->i].size(); ++i)
+         cache.push_back(g[casillaActual->i][i].restricciones);
+      restringHorizontal(casillaActual->i, casillaActual->j);
+      laserVertical(casillaActual->i, casillaActual->j, "PONER"); 
+      costoActual = costoActual + 4000;
+      cantSensores++;
+      backtrack();
+      cantSensores--;
+      costoActual = costoActual - 4000;
+      laserVertical(casillaActual->i, casillaActual->j, "SACAR");
+      for (int i = 0; i < cache.size(); ++i)
+         g[casillaActual->i][i].restricciones = cache[i];
+}
+casillaActual->ocupado = false;
+casillaActual->tipoSensor = -1;
+casillaActual->laser = 0;	
+backtrack();
+casillasLibres.push(casillaActual);
+return;
+
+\end{verbatim}
+\caption{Diferentes podas utilizadas}
+\end{center}
+\end{figure}
+
+
 
 \subsection{Instancias posibles}
 Para verificar la correctitud de nuestro programa, dispusimos variar estratégicamente las instancias de entrada al ejecutarlo.
