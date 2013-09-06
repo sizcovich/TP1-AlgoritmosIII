@@ -186,22 +186,17 @@ Para demostrar la correctitud de nuestro algoritmo, debemos probar que se cumple
 
 \textbf{Nuestro algoritmo genera todas las combinaciones posibles para cada casillero.} \newline
 
-Esto ocurre pues, para cada elemento de la matriz mencionada, se evalúan las cuatro posibilidades (sensor horizontal, sensor vertical, sensor cuatridimensional y sin sensor) sin tener en cuenta la decisión de la casilla anterior siempre y cuando el caso no esté contemplado en alguna poda o que no rompa los casos especificados en el enunciado. Luego, todas las combinaciones posibles de casos son generadas.\newline
+Esto ocurre pues, para cada elemento de la matriz mencionada, se evalúan las cuatro posibilidades (sensor horizontal, sensor vertical, sensor cuatridimensional y sin sensor) sin tener en cuenta la decisión de la casilla anterior, siempre y cuando el caso no esté contemplado en alguna poda o no rompa los casos especificados en el enunciado. Luego, todas las combinaciones posibles de casos son generadas.\newline
 \newline 
 
 \textbf{Las podas utilizadas no alteran la solución final} \newline
 
-Las podas utilizadas son:
+Veamos que las podas elegidas no modifican la solución óptima:
 \begin{itemize}
-\item Poda sobre el costo : Sea T el costo de la mejor solucion generada por el algoritmo en determinado momento. Si cualquier otra solucion parcial ya alcanza el costo T-2000 pueden pasar dos cosas, o que el costo final sea T-2000 
-o que el costo final sea mayor a T $($ya que menos es imposible dado que la diferencia que existe entre los sensores de de 2000 $)$. Luego nuestro algoritmo descarta aquellas soluciones parciales cuyos costos superen los T-2000
-asegurando no eliminar soluciones factibles.  
-\item Poda sobre casilleros importantes: Esta es trivial, ya que cualquier solucion que un casillero importante contenga un sensor cuatridimencional no va a permitir que ningun otro laser impacte sobre ese casillero.
-\item Poda sobre mismas lineas: Esta tambien es trivial, ya que en la misma linea donde tengo un sensor bidireccional vertical no puedo poner una vertical, lo mismo para el sensor bidireccional horizontal. Y donde 
-tengo un sensor cuatridimencional, no puedo poner ningun otro sensor en la misma linea.
-\item Poda sobre lineas de casilleros importantes: Dado un casillero importante hay que asegurarse que dos lineas atraviesen al mismo, y como solo hay lineas horizontales y verticales, no puede haber soluciones
-ddonde haya sensores bidireccionales verticales en los costados (misma linea horizontal) de un casillero importante; y no puede haber sensores verticales arriba o abajo (misma linea vertical) del casillero importante.
- Por lo tanto, esto no solo es una poda, sino una condicion necesaria de la solucion.
+\item Poda nº1: Llamemos $T$ al costo de la mejor solución generada por el algoritmo en determinado momento. Si cualquier otra solución parcial ya alcanza el costo de $T$-2000 pueden ocurrir dos cosas: que el costo final de dicha solución sea $T$-2000 o que sea mayor a $T$. No existe otra opción pues 2000 es la diferencia en módulo que hay entre un sensor y el otro. Luego, esta poda descarta aquellas soluciones parciales cuyos costos superen los $T$-2000 asegurando no eliminar soluciones factibles.  
+\item Poda nº2: Debido a que cualquier sensor cuatridimensional aplicado a una casilla importante rompe con los criterios que validan un piso, esta cota no elimina casos que pueden ser solución óptima.
+\item Poda nº4: Al igual que en el caso anterior, aplicar un sensor bidimensional horizontal impide el agregado de sensores verticales en la misma columna y viceversa con las filas. Lo mismo ocurre con el agregado de sensores cuatridimensionales, que impiden la inserción de otro sensor en la misma fila o columna. Esta poda descarta soluciones inválidas sin alterar el resultado del problema.
+\item Poda nº3: Cada casillero importante debe ser atravesado por dos sensores en simultáneo. Dado que este caso abarca la situación en la que hay un sensor horizontal en la columna de la casilla importante o vertical en su fila, no puede haber solución válida. Por lo tanto, se le quita la oportunidad de solución a dichas opciones, dándole a dicha restricción no sólo el atributo de poda, sino que también el de condición necesaria para que sea solución óptima.
 \end{itemize}
 
 \textbf{La solución es óptima, es decir, no existe otra cuyo costo sea menor.} \newline
@@ -221,6 +216,8 @@ Dado que tenemos $n$x$m$ baldosas de las cuales nuestro algoritmo genera 4 casos
 En los casos en los que se coloca un sensor, o bien se usan las funciones $Colocar\ sensores\ verticales/horizontales$ y $Restringir\ celdas\ horizontales/verticales$ o bien las funciones $Colocar\ sensores\ verticales$ y $Colocar\ sensores\ horizontales$. En ambos casos, estas tienen complejidad $\mathcal{O}(n+m)$ ya que es la suma de las dos complejidades. Por otro lado, en muchos nodos se chequea si la solución a la cual se llego resuelve o no el problema, con lo cual se podría acotar el costo de cada nodo con la complejidad de $chequear\ solución$.
 
 Dicho lo anterior, ya que tenemos 4$^{nxm}$ combinaciones posibles y cada una de estas en el peor de los casos requieren de una complejidad de $\mathcal{O}(nxm)$, nuestro algoritmo tiene un costo de $\mathcal{O}(nxm)$x4$^{nxm}$. Hay que tener en cuenta que a pesar de que la complejidad no lo refleje, las podas cumplen un trabajo fundamental en cuestiones temporales ya que evitan que se generen todos los casos y esto reduce mucho el tiempo de ejecución. Estas podas no impactan de forma positiva en la complejidad del algoritmo ya que si asi lo hicieran dejarían de ser podas y pasarían a constituir un mejor algoritmo.
+
+
 \subsection{Código fuente}
 
 \begin{figure}[H]
