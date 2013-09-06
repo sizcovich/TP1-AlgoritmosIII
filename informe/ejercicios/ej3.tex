@@ -499,7 +499,7 @@ $$2\ \ 2\ \ 2$$
 \subsection{Testing}
 Para las pruebas de testing, hicimos diferentes instancias que nos permitieran poner a prueba varias caracteristicas de nuestro algoritmo, como la calidad de las podas y que tanto mejoran los tiempos de la ejecución cuando éstas son aplicadas con mayor frecuencia, tambien buscamos instancias que nos permitieran medir los tiempos de ejecución tratando de minimizar la efectividad de las podas y por ultimo hicimos un test aleatorio para poder ver el funcionamiento general del algoritmo.
 
-Para los test aleatorios tomamos valores de configuracion que limitan algunas caracteristicas de estos con el fin de evitar casos en donde el algoritmo de incorrecto rápidamente o que dada la cantidad de paredes dentro de la matriz el problema sea reducido a una instancia de menor tamaño. Para evitar esto decidimos que la cantidad de paredes iba a ser el 20\% del total de la cantidad de casilleros y que la cantidad de lugares importantes iba a ser el 10\%, elegimos estos valores para mantener el tamaño de los casilleros libres lo suficientemente grande para que no se iguale al tamaño de una instancia menor.
+Para los test aleatorios tomamos valores de configuracion que limitan algunas caracteristicas de estos con el fin de evitar casos en donde el algoritmo de incorrecto rápidamente o que dada la cantidad de paredes dentro de la matriz el problema sea reducido a una instancia de menor tamaño. Para evitar esto decidimos que la cantidad de paredes iba a ser el 20\% del total de la cantidad de casilleros y que la cantidad de lugares importantes iba a ser el 10\%, elegimos estos valores para mantener el tamaño de los casilleros libres lo suficientemente grande para que no se iguale al tamaño de una instancia menor. Para generar estos casos basicamente lo quehicimos fue crear un vector de n*m posiciones donde cada posicion tiene un 1 (piso) por defecto y luego tomar el 20\% de ese vector y ponerlo en 0 (pared) y luego tomar otro 10\% que no sea pared y ponerlo en 2 (importante), luego utilizamos la funcion \textbf{shuffle} para mezclar de forma aleatoria
 
 Trataremos de mostrar que los tiempos de ejecución de aproximan a la complejidad que calculamos que es $O((n*m)*4^{n*m})$ y que en ciertos casos, a pesar que las podas bajen los tiempos de ejecucion, por las caracteristicas de las instancias igual se puede ver que la funcion crece asintoticamente aproximandose a la cota de complejidad dada.
 
@@ -516,7 +516,7 @@ Los tiempos estan dados en nanosegundos, decidimos no hacer reducciones de los v
 \caption{Prueba con instancias aleatorias}
 \end{figure}
 
-En este caso vemos como efectivamente la funcion crece aproximandose a la complejidad que definimos. Estos casos aleatorios estan definidos en funcion del
+En este caso vemos como efectivamente la funcion crece aproximandose a la complejidad que definimos. Estos casos aleatorios estan definidos en funcion tableros cuya cantidad de elementos esta compuesta por un 20\% paredes, 10\% casilleros importantes y 70\% casilleros comunes. este grafico posee datos de varias ejecuciones del algoritmo con diferentes entradas aleatorias con iguales pocentajes y diferente distribucion que luego se promediaron para asi minimizar casos particulares en donde por diversos motivos (como las podas) la ejecucion termine mucho antes.
 
 
 \begin{figure}[H] %[h] Aqui [b] para button [t] para top
