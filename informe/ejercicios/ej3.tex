@@ -9,22 +9,48 @@ La entrada del algoritmo contiene una instancia del problema. La primera línea 
 
 En el caso en el que el problema no tenga solución, la salida deberá contener únicamente una línea con el valor -1. Caso contrario, la salida debe comenzar con dos números enteros: 
 $$S\ C$$ 
-donde $S$ es la cantidad de sensores utilizados y $C$ es el costo toal de la solución. Luego, para cada sensor utilizado, debe haber una línea con el siguiente formato: 
+donde $S$ es la cantidad de sensores utilizados y $C$ es el costo total de la solución. Luego, para cada sensor utilizado, debe haber una línea con el siguiente formato: 
 $$t\ f\ c$$ 
 donde $t$ es el tipo de sensor y $(f,c)$ son la fila y columna en donde éste se ubica (la esquina superior izquierda de la grilla es la posición (1,1) y la inferior derecha es la $(n,m)$). Para los sensores cuatridireccionales, $t$ debe valer 1, para los bidireccionales en forma horizontal $t$ debe valer 2 y en forma vertical 3.\newline
 \newline
 Dos ejemplos de este problema son los siguientes:
 
-\begin{figure}[H]
-	\begin{center}
-		\includegraphics[width=320pt]{../imgs/ej3_ejemploCatedra.png}
-	\end{center}
-\caption{Un ejemplo y dos soluciones distintas.}
+\begin{figure}[H] % indico que voy a poner una figura y [h] indica que la posiciÃƒÂ³n relativa, tambien puedo usar t = top entre otros.
+\hfill
+\begin{minipage}[t]{.45\textwidth}
+\begin{center}
+\epsfig{file=ejemplo1_ej3.jpg, scale=0.15} % primera imagen colocada a la izquierda
+\caption{Ejemplo de la entrada de un caso con resolución.}
+\label{fig-tc1}
+\end{center}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{.45\textwidth}
+\begin{center}
+\epsfig{file=solucion_ejemplo1_ej3.jpg, scale=0.15} % segunda imagen colocada a la derecha
+\caption{Ejemplo de la salida de un caso con resolución.}
+\label{fig-tc2}
+\end{center}
+\end{minipage}
+\hfill
 \end{figure}
 
-En el ejemplo de la Figura 1 el museo se ve representado por una cuadricula donde donde los cuadrados blancos representan el suelo, los cuadrados negros representan las paredes y los cuadrados que tienen un rombo dentro representan los lugares importantes, a continuación de la imagen se muestran dos posibles soluciones al problema, en las cuales las cruces rojas representan los sensores bidireccionales, y las lineas rojas gruesas representan los sensores horizontales y verticales, desde estos se extienden lineas rojas que representan el área que cubren estos sensores con lasers.
+En el ejemplo de la Figura 1 el museo se ve representado por una cuadricula donde donde los cuadrados blancos representan el suelo, los cuadrados negros representan las paredes y los cuadrados que tienen un rombo dentro representan los lugares importantes, a continuación de la imagen se muestran una posibles soluciones al problema, en la cual las cruces rojas representan los sensores bidireccionales, y las lineas rojas gruesas representan los sensores horizontales y verticales, desde estos se extienden lineas rojas que representan el área que cubren estos sensores con lasers.
 
-En el primer caso el costo total es de \$44000 y la segunda solución tiene un costo de \$42000.
+En este caso, el costo total es de \$26000.
+
+En el ejemplo de la Figura 2 se puede observar un caso el cual no tiene solución ya que en la celda (5,1) se encuentra un casillero libre importante el cual debe tener dos laser's cruzados pasando sobre el pero al encontrarse en una esquina del tablero y tener una pared al lado, no puede ser atravesado por un laser horizontal.
+
+\begin{center}
+\begin{figure}[H] % indico que voy a poner una figura y [h] indica que la posiciÃƒÂ³n relativa, tambien puedo usar t = top entre otros.
+\begin{minipage}[t]{.45\textwidth}
+\begin{center}
+\epsfig{file=ejemplo2_ej3.jpg, scale=0.13} % primera imagen colocada a la izquierda
+\caption{Ejemplo de la entrada de un caso sin resolución.}
+\end{center}
+\label{fig-tc1}
+\end{minipage}
+\end{figure}
 
 \subsection{Resolución coloquial}
 
@@ -121,7 +147,7 @@ Para demostrar la correctitud de nuestro algoritmo, debemos probar que se cumple
 \begin{itemize}
 \item Nuestro algoritmo genera todas las combinaciones posibles para cada casillero.
 \item Las podas utilizadas no alteran la solución final.
-\item La solucion es óptima, es decir, no existe otra cuyo costo sea menor.
+\item La solución es óptima, es decir, no existe otra cuyo costo sea menor.
 \end{itemize}
 
 \newline
@@ -135,7 +161,7 @@ Esto ocurre pues, para cada elemento de la matriz mencionada, se evalúan las cu
 
 Las podas utilizadas son:
 \begin{itemize}
-\item Poda sobre el costo : Sea T el costo de la mejor solucion generada por el algoritmo en determinado momento. Si cualquier otra solucion parcial ya alcaza el costo T-2000 pueden pasar dos cosas, o que el costo final sea T-2000 
+\item Poda sobre el costo : Sea T el costo de la mejor solucion generada por el algoritmo en determinado momento. Si cualquier otra solucion parcial ya alcanza el costo T-2000 pueden pasar dos cosas, o que el costo final sea T-2000 
 o que el costo final sea mayor a T $($ya que menos es imposible dado que la diferencia que existe entre los sensores de de 2000 $)$. Luego nuestro algoritmo descarta aquellas soluciones parciales cuyos costos superen los T-2000
 asegurando no eliminar soluciones factibles.  
 \item Poda sobre casilleros importantes: Esta es trivial, ya que cualquier solucion que un casillero importante contenga un sensor cuatridimencional no va a permitir que ningun otro laser impacte sobre ese casillero.
@@ -286,10 +312,19 @@ $$0\ \ 0\ \ 0$$
 $$0\ \ 2\ \ 0$$
 $$0\ \ 0\ \ 0$$
 \textbf{Parámetro de salida:} $$-1$$\newline
+
+\begin{center}
+\begin{figure}[H] % indico que voy a poner una figura y [h] indica que la posiciÃƒÂ³n relativa, tambien puedo usar t = top entre otros.
+\begin{minipage}[t]{.45\textwidth}
+\begin{center}
+\epsfig{file=instanciaposible_ej3_in1.jpg, scale=0.13} % primera imagen colocada a la izquierda
+\caption{Entrada de la instancia posible Nº1.}
+\end{center}
+\label{fig-tc1}
+\end{minipage}
+\end{figure}
 \item Por otra parte, probamos el programa para un museo conformado únicamente por paredes, en otras palabras, el caso vacío. Lo relevante de este caso es que nuestro algoritmo lo considera y otorga, como salida, que la solución es no colocar ningún láser.\newline
-
-
-
+\end{center}
 
 \textbf{Parámetro de entrada:} 
 $$3\ \ 3$$
@@ -311,6 +346,26 @@ $$2\ \ 1\ \ 2$$
 $$2\ \ 2\ \ 0$$
 \newline
 
+\begin{figure}[H] % indico que voy a poner una figura y [h] indica que la posiciÃƒÂ³n relativa, tambien puedo usar t = top entre otros.
+\hfill
+\begin{minipage}[t]{.45\textwidth}
+\begin{center}
+\epsfig{file=instanciaposible_ej3_in3.jpg, scale=0.15} % primera imagen colocada a la izquierda
+\caption{Entrada de la instancia posible Nº3.}
+\label{fig-tc1}
+\end{center}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{.45\textwidth}
+\begin{center}
+\epsfig{file=instanciaposible_ej3_out3.jpg, scale=0.15} % segunda imagen colocada a la derecha
+\caption{Salida de la instancia posible Nº3.}
+\label{fig-tc2}
+\end{center}
+\end{minipage}
+\hfill
+\end{figure}
+
 \item Por otra parte, resulta importante corroborar la solución en el caso en el que todos los espacios son importantes. En este caso particular no existe solución ya que no podrían pasar dos lásers por el mismo casillero especial sin que uno de estos toque a otro láser.\newline
 
 \textbf{Parámetro de entrada:} 
@@ -319,6 +374,19 @@ $$2\ \ 2\ \ 2$$
 $$2\ \ 2\ \ 2$$
 $$2\ \ 2\ \ 2$$
 \textbf{Parámetro de salida:} $$-1$$\newline
+
+\begin{center}
+\begin{figure}[H] % indico que voy a poner una figura y [h] indica que la posiciÃƒÂ³n relativa, tambien puedo usar t = top entre otros.
+\begin{minipage}[t]{.45\textwidth}
+\begin{center}
+\epsfig{file=instanciaposible_ej3_in4.jpg, scale=0.13} % primera imagen colocada a la izquierda
+\caption{Entrada de la instancia posible Nº4.}
+\end{center}
+\label{fig-tc1}
+\end{minipage}
+\end{figure}
+\item Por otra parte, probamos el programa para un museo conformado únicamente por paredes, en otras palabras, el caso vacío. Lo relevante de este caso es que nuestro algoritmo lo considera y otorga, como salida, que la solución es no colocar ningún láser.\newline
+\end{center}
 
 \item Otra situación posible es en la que se encuentran alternados los casilleros de piso y pared. De este caso puede destacarse que no es posible aplicar ninguna de las podas mencionadas.\newline
 \textbf{Parámetro de entrada:} 
@@ -339,7 +407,7 @@ $$2\ \ 2\ \ 2$$
 \begin{minipage}[t]{.45\textwidth}
 \begin{center}
 \epsfig{file=instanciaposible_ej3_in5.jpg, scale=0.15} % primera imagen colocada a la izquierda
-\caption{Entrada de la instancia posible Nº1.}
+\caption{Entrada de la instancia posible Nº5.}
 \label{fig-tc1}
 \end{center}
 \end{minipage}
@@ -347,7 +415,7 @@ $$2\ \ 2\ \ 2$$
 \begin{minipage}[t]{.45\textwidth}
 \begin{center}
 \epsfig{file=instanciaposible_ej3_out5.jpg, scale=0.15} % segunda imagen colocada a la derecha
-\caption{Salida de la instancia posible Nº1.}
+\caption{Salida de la instancia posible Nº5.}
 \label{fig-tc2}
 \end{center}
 \end{minipage}
@@ -368,6 +436,26 @@ $$2\ \ 1\ \ 0$$
 $$2\ \ 2\ \ 2$$
 \newline
 \end{itemize}
+
+\begin{figure}[H] % indico que voy a poner una figura y [h] indica que la posiciÃƒÂ³n relativa, tambien puedo usar t = top entre otros.
+\hfill
+\begin{minipage}[t]{.45\textwidth}
+\begin{center}
+\epsfig{file=instanciaposible_ej3_in6.jpg, scale=0.15} % primera imagen colocada a la izquierda
+\caption{Entrada de la instancia posible Nº6.}
+\label{fig-tc1}
+\end{center}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{.45\textwidth}
+\begin{center}
+\epsfig{file=instanciaposible_ej3_out6.jpg, scale=0.15} % segunda imagen colocada a la derecha
+\caption{Salida de la instancia posible Nº6.}
+\label{fig-tc2}
+\end{center}
+\end{minipage}
+\hfill
+\end{figure}
 
 \subsection{Testing}
 Para realizar las pruebas de complejidad, generamos instancias aleatorias de pesos de cajas alterando la cantidad de las mismas pero manteniendo estático el peso máximo de carga de los camiones en 120 \unit{kg}. Estas instancias fueron generadas en $C++$ con la función $rand()$ de forma tal a poder acotarlas por la capacidad de carga de los camiones. La cantidad de cajas generadas se comprendió entre 5000 y 100000, agregando de a 5000 en cada iteración. De este modo, logramos medir las pruebas de nuestro algoritmo para comprobar que la complejidad correspondiera con la mencionada anteriormente.
