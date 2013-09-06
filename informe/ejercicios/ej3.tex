@@ -207,14 +207,14 @@ Dado que nuestro algoritmo compara el valor de la solución creada con la más �
 
 \subsection{Complejidad del algoritmo}
 
-Dado que tenemos $n$x$m$ baldosas a partir de las que nuestro algoritmo genera 4 casos distintos para cada una de éstas, obtenemos $4^{nxm}$ combinaciones posibles. A su vez, por cada uno de estos casos se realizan una serie de operaciones, entre las cuales se encuentran:
+Dado que tenemos $n$x$m$ baldosas a partir de las cuales nuestro algoritmo genera 4 casos distintos para cada una de éstas, obtenemos $4^{nxm}$ combinaciones posibles. A su vez, por cada uno de estos casos se realizan una serie de operaciones, entre las cuales se encuentran:
 \begin{itemize}
 \item $Colocar$ $sensores$ $verticales$ y $Restringir$ $celdas$ $verticales$: Estas funciones en el peor de los casos recorren toda una columna de la matriz por lo que tienen complejidad $\mathcal{O}(n)$.
 \item $Colocar$ $sensores$ $horizontales$ y $Restringir$ $celdas$ $horizontales$: Estas funciones en el peor de los casos recorren toda una fila de la matriz por lo que tienen complejidad $\mathcal{O}(m)$.
 \item $Chequear$ $solución$: Esta función recorre toda la matriz para corroborar si contiene una solución válida o no, luego su complejidad es de $\mathcal{O}(nxm)$.
 \end{itemize}
 
-En los casos en los que se coloca un sensor en una casilla libre, se pueden usan las funciones $Colocar$ $sensores$ $verticales$$/$$horizontales$ y $Restringir$ $celdas$ $horizontales/verticales$ o $Colocar$ $sensores$ $verticales$ y $Colocar$ $sensores$ $horizontales$. En ambos casos, éstas tienen complejidad $\mathcal{O}(n+m)$ ya que consiste en la suma de ambas complejidades debido a que las funciones se realizan una a continuacion de la otra. Por otro lado, en gran parte de los nodos se verifica si la solución a la que se llegó resuelve o no el problema, por lo que el costo de cada nodo podría ser acotado por la complejidad de $chequear$ $solución$ ($mathcal{O}(nxm)$).\newline
+En los casos en los que se coloca un sensor en una casilla libre, se pueden usan las funciones $Colocar$ $sensores$ $verticales$$/$$horizontales$ y $Restringir$ $celdas$ $horizontales/verticales$ o $Colocar$ $sensores$ $verticales$ y $Colocar$ $sensores$ $horizontales$. En ambos casos, éstas tienen complejidad $\mathcal{O}(n+m)$ ya que consiste en la suma de ambas complejidades debido a que las funciones se realizan una a continuacion de la otra. Por otro lado, en gran parte de los nodos se verifica si la solución a la que se llegó resuelve o no el problema, por lo que el costo de cada nodo podría ser acotado por la complejidad de $chequear$ $solución$ ($\mathcal{O}(nxm)$).\newline
 \newline
 A partir de lo mencionado precedentemente y teniendo en cuenta que tenemos $4^{nxm}$ combinaciones posibles cuyas complejidades son $\mathcal{O}(nxm)$ en el peor de los casos, nuestro algoritmo tiene un costo de $\mathcal{O}(n$x$m)$x$4^{n$x$m}$. Resulta importante mencionar que, si bien la complejidad del algoritmo no lo refleja, las podas cumplen un trabajo fundamental a la hora de medir la ejecución del algoritmo temporalmente. Esto se debe a que evitan que se generen todos los casos (tanto válidos como inválidos) reduciendo considerablemente el tiempo de ejecución del mismo en el caso promedio. Sin embargo, éstas pueden empeorar la complejidad del algoritmo dado que realizan operaciones 'extra' y en algunos casos pueden no ser utilizadas.
 
@@ -361,8 +361,9 @@ $$0\ \ 0\ \ 0$$
 \label{fig-tc1}
 \end{minipage}
 \end{figure}
-\item Por otra parte, probamos el programa para un museo conformado únicamente por paredes, en otras palabras, el caso vacío. Lo relevante de este caso es que nuestro algoritmo lo considera y otorga, como salida, que la solución es no colocar ningún láser.\newline
 \end{center}
+
+\item Por otra parte, probamos el programa para un museo conformado únicamente por paredes, en otras palabras, el caso vacío. Lo relevante de este caso es que nuestro algoritmo lo considera y otorga, como salida, que la solución es no colocar ningún láser.
 
 \textbf{Parámetro de entrada:} 
 $$3\ \ 3$$
@@ -370,6 +371,7 @@ $$0\ \ 0\ \ 0$$
 $$0\ \ 0\ \ 0$$
 $$0\ \ 0\ \ 0$$
 \textbf{Parámetro de salida:} $$0\ \ 0$$\newline
+
 \item Otro caso interesante es analizar la solución obtenida al tener todos espacios libres. La idea de dicho caso consiste en comprobar que el algoritmo devuelve la solución más económica del problema.\newline
 
 \textbf{Parámetro de entrada:} 
@@ -423,7 +425,6 @@ $$2\ \ 2\ \ 2$$
 \label{fig-tc1}
 \end{minipage}
 \end{figure}
-\item Por otra parte, probamos el programa para un museo conformado únicamente por paredes, en otras palabras, el caso vacío. Lo relevante de este caso es que nuestro algoritmo lo considera y otorga, como salida, que la solución es no colocar ningún láser.\newline
 \end{center}
 
 \item Otra situación posible es en la que se encuentran alternados los casilleros de piso y pared. De este caso puede destacarse que no es posible aplicar ninguna de las podas mencionadas.\newline
