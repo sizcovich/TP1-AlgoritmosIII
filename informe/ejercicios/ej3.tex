@@ -496,5 +496,32 @@ $$2\ \ 2\ \ 2$$
 \end{figure}
 
 \subsection{Testing}
-Para realizar las pruebas de complejidad, generamos instancias aleatorias de pesos de cajas alterando la cantidad de las mismas pero manteniendo estático el peso máximo de carga de los camiones en 120 \unit{kg}. Estas instancias fueron generadas en $C++$ con la función $rand()$ de forma tal a poder acotarlas por la capacidad de carga de los camiones. La cantidad de cajas generadas se comprendió entre 5000 y 100000, agregando de a 5000 en cada iteración. De este modo, logramos medir las pruebas de nuestro algoritmo para comprobar que la complejidad correspondiera con la mencionada anteriormente.
+Para generar las pruebas de complejidad, generamos diferentes tipos de instancias que nos permitieran poner a prueba diferentes caracteristicas de nuestro algoritmo, como la calidad de las podas y que tanto mejoran los tiempos de la ejecución cuando estas son aplicadas en mas casos, tambien buscamos configuraciones que nos permitieran medir los tiempos de ejecucion tratando de minimizar la efectividad de las podas, por ultimo hicimos un test aleatorio para poder ver el funcionamiento general del algoritmo.
+
+Generar los casos random tiene valores de configuracion que limitan algunas caracteristicas de estas instancias para evitar generar casos en donde el algoritmo de siempre falso o sea posible que dada la cantidad de paredes dentro de la matriz el problema sea reducido a una instancia de menor tamaño, para evitar estos problemas decidimos que la cantidad de paredes iba a ser el 20\% del total de la cantidad de casilleros y que la cantidad de casilleros importantes iba a ser el 10\%, elegimos estos valores para mantener el tamaño de las casillas libres lo suficientemente grande para que no se iguale al tamaño de las casillas de una instancia de menor tamaño y asi poder notar la diferencia a la hora de correr los algoritmos.
+
+
+\begin{figure}[H] %[h] Aqui [b] para button [t] para top
+\begin{center}
+\includegraphics[width=460pt]{../imgs/graficoej3_aleatorio.png}
+\end{center}
+\end{figure}
+
+\begin{figure}[H] %[h] Aqui [b] para button [t] para top
+\begin{center}
+\includegraphics[width=460pt]{../imgs/graficoej3_todosUno.png}
+\end{center}
+\end{figure}
+
+\begin{figure}[H] %[h] Aqui [b] para button [t] para top
+\begin{center}
+\includegraphics[width=460pt]{../imgs/graficoej3_todosUnoSinSolucion.png}
+\end{center}
+\end{figure}
+
+\begin{figure}[H] %[h] Aqui [b] para button [t] para top
+\begin{center}
+\includegraphics[width=460pt]{../imgs/graficoej3_alternado.png}
+\end{center}
+\end{figure}
 
