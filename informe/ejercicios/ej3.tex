@@ -498,15 +498,15 @@ $$2\ \ 2\ \ 2$$
 \subsection{Testing}
 Para las pruebas de testing, generamos diferentes instancias que nos permitieran poner a prueba diversos aspectos de nuestro algoritmo, como por ejemplo la calidad de las podas y qué tanto mejoran los tiempos de la ejecución cuando éstas son aplicadas con mayor frecuencia. Por otra parte, buscamos instancias que nos permitieran medir los tiempos de ejecución intentando minimizar la efectividad de las podas y, por último, hicimos un test aleatorio para poder ver el funcionamiento general del algoritmo en los casos típicos.
 
-El tamaño de entrada en todos los casos esta definido en función de la cantidad de casilleros, donde $n$ es el ancho de la matriz que representa la entrada y $m$ es el alto.
+El tamaño de entrada en todos los casos se encuentra definido en función de la cantidad de casilleros, siendo $n$ el ancho de la matriz que representa la entrada y $m$ el alto.
 
-Para los tests aleatorios, tomamos valores de configuración que limitan algunas características de éstos con el fin de evitar casos en donde el algoritmo se resuelva rápidamente o que dada la cantidad de paredes dentro de la matriz el problema sea reducido a una instancia de menor tamaño. Para evitar esto decidimos que la cantidad de paredes iba a ser del 20\% del total de la cantidad de casilleros y que la cantidad de casilleros importantes iba a ser del 10\%, elegimos estos valores para mantener el tamaño de los casilleros libres lo suficientemente grande como para que no se iguale al tamaño de una instancia menor. Para generar estos casos lo que hicimos fue crear un vector de $n*m$ posiciones donde cada posición tiene un $1$ (piso) por defecto y luego tomamos el 20\% de ese vector y lo pusimos en $0$ (pared), luego tomamos otro 10\% que no sea pared y lo pusimos en $2$ (importante), luego utilizamos la función \textbf{shuffle} para mezclar de forma aleatoria el vector y lo escribimos en la salida respetando el formato de entrada del ejercicio.
+Configuramos los tests aleatorios para que limitaran, de algún modo, las instancias que generaran con el fin de evitar casos en donde el algoritmo se resolviera rápidamente o que, dada la cantidad de paredes dentro de la matriz, el problema fuera reducido a una instancia de menor tamaño. Para evitar esto, decidimos que la cantidad de paredes debía representar un 20\% de la cantidad de casilleros y que la cantidad de casilleros importantes debía ser el 10\%. Estos valores fueron elegidos para conservar la mayoría de casilleros libres. Para generar estos casos, creamos un vector de $n*m$ posiciones donde cada una de ellas fuera un $1$ (piso) por defecto con un 10\% de casilleros importantes ($2$), y poniendo en $0$ un 20\% de ese vector. Para mezclar dichos casilleros de forma aleatoria, utilizamos la función \textbf{shuffle} y los escribimos en la salida respetando el formato de entrada del ejercicio.\newline
 
-Trataremos de mostrar que los tiempos de ejecución de aproximan a la complejidad que calculamos que es $O((n*m)*4^{n*m})$ y que en ciertos casos, a pesar de que las podas bajen los tiempos de ejecución, por las características de las instancias igual se puede ver que la función crece asintóticamente aproximándose a la cota de complejidad dada.
+Veamos que los tiempos de ejecución del algoritmo se aproximan a la complejidad calculada anteriormente ($O((n$x$m)$x$4^{n$x$m})$) a pesar de que las podas definidas los disminuyan.
 
-Las funciones de complejidad fueron aproximadas a los datos de complejidad de cada conjunto de instancias por algoritmos matemáticos en donde se modifican constantes multiplicativas y aditivas de forma tal que la función resultante este lo mas cerca posible de los tiempos dados por los resultados, estas constantes no modifican la forma en la que se comporta la función de complejidad sino que modifican su posición y tamaño.
+Las funciones de complejidad con las que se compararon nuestros gráficos de tiempo fueron ajustadas por algoritmos matemáticos (proporcionados pos $scidavis$). Dichos algoritmos se encargaron de multiplicarle y sumarle constantes con el fin de que éstas se ajustaran a nuestros resultados sin modificar el comportamiento de las funciones utilizadas para comparar.
 
-Los tiempos están dados en nanosegundos, decidimos no hacer reducciones de los valores de entrada por que estos estaban entre los rangos de $1*10^{3}$ y $1*10^{11}$ y nos parece importante mostrar que en algún punto ,en casos que no difieren mucho de su tamaño de instancia, el tiempo de ejecución se dispara.
+Los tiempos están dados en nanosegundos. Decidimos suprimir valores de entrada evaluados para la realización del gráfico pues nos pareció importante la evolución de éstos entre los rangos de $1*10^{3}$ y $1*10^{11}$ para mostrar que, en algún punto, el tiempo de ejecución se dispara.
 
 \begin{figure}[H] %[h] Aquí [b] para button [t] para top
 \begin{center}
@@ -515,17 +515,17 @@ Los tiempos están dados en nanosegundos, decidimos no hacer reducciones de los 
 \caption{Prueba con instancias aleatorias}
 \end{figure}
 
-En este caso vemos como efectivamente la función crece aproximándose a la complejidad que definimos. Estos casos aleatorios están definidos en función tableros cuya cantidad de elementos esta compuesta por un 20\% paredes, 10\% casilleros importantes y 70\% casilleros comunes. este grafico posee datos de varias ejecuciones del algoritmo con diferentes entradas aleatorias con iguales porcentajes y diferente distribución que luego se promediaron para así minimizar casos particulares en donde por diversos motivos (como las podas) la ejecución termine mucho antes.
+En este caso vemos cómo, efectivamente, la función crece aproximándose a la complejidad que definimos. Estos casos aleatorios están definidos en función a tableros cuya cantidad de elementos está compuesta por un 20\% paredes, 10\% casilleros importantes y 70\% casilleros comunes. Este gráfico muestra datos de distintas ejecuciones del algoritmo con diferentes entradas aleatorias, igual proporción de casilleros del mismo tipo pero distinta distribución espacial. Los resultados obtenidos por dichas evaluaciones se promediaron para minimizar los casos particulares en los que, por diversos motivos (como las podas), la ejecución terminara antes de lo previsto.
 
 
 \begin{figure}[H] %[h] Aquí [b] para button [t] para top
 \begin{center}
 \includegraphics[width=460pt]{../imgs/graficoej3_todosUno.png}
 \end{center}
-\caption{Prueba con instancias cuyos casilleros son todos pisos no importantes}
+\caption{Prueba con instancias con casilleros libres.}
 \end{figure}
 
-En este caso generamos instancias que tuvieran todos los casilleros como espacios libres, sin paredes ni lugares importantes, así maximizamos la cantidad de casilleros que puede intentar usar el algoritmo para probar combinaciones, los tiempos de esta ejecución son en general bajos debido a que las podas hacen un gran trabajo reduciendo la cantidad de opciones en cada paso, Por ejemplo por cada sensor que ponga la cantidad de casillas que voy a cubrir va a ser de, a lo sumo, todo el ancho y el alto del tablero debido a que no hay paredes que detenga el laser que éste emite, eso reduce notablemente las posibilidades en el siguiente paso.
+Para realizar el gráfico que sigue, generamos instancias cuyos casilleros fueran todos espacios libres, sin paredes ni lugares importantes. De este modo maximizamos la cantidad de casilleros que pueden ser utilizados por el algoritmo para probar combinaciones sobre inserciones de sensores. Los tiempos de esta ejecución fueron, en general, bajos debido a que las podas redujeron enormemente la cantidad de opciones en cada paso. Por ejemplo, cada sensor insertado cubre, a lo sumo, toda la fila y columna en el que se lo inserta pues no hay paredes que detengan el láser que éste emite reduciendo notablemente las posibilidades en el paso siguiente.
 
 \begin{figure}[H] %[h] Aquí [b] para button [t] para top
 \begin{center}
@@ -534,7 +534,7 @@ En este caso generamos instancias que tuvieran todos los casilleros como espacio
 \caption{Prueba con instancias cuyos casilleros son todos pisos, excepto tres que provocan que no haya solución}
 \end{figure}
 
-En este caso hicimos lo mismo que antes, solo que forzamos una combinación de paredes y casilleros importantes que provoca que el algoritmo no encuentre ninguna solución y, de hecho, no haya ninguna solución de la matriz, de esta manera nos evitamos que entre en juego una de las podas mas importantes, que es la que guarda el costo de una solución y nunca busca soluciones cuyo costo sea mayor al actual, como en ningún momento encontramos ninguna solución, nunca actualizamos ese costo con lo cual el algoritmo va a seguir intentando todas las posibles combinaciones hasta que concluya que no hay ninguna combinación posible para resolver el tablero, sin embargo las podas que se producen al colocar un laser siguen haciendo que se resuelve un poco mas rápido, en contraste con el grafico anterior, este tiene un tiempo de ejecución mayor gracias a que logramos evitar que se utilice una poda importante.
+En el último caso, realizamos lo mismo que antes a diferencia de que forzamos una combinación de paredes y casilleros importantes que le imposibilitara al algoritmo encontrar solución. De este modo, nunca se llega a la poda que, al hallar una solución, compara su costo con las siguientes, acelerando el tiempo de ejecución. Sin embargo, el resto de las podas siguen acelerando el tiempo de resolución.
 
 \begin{figure}[H] %[h] Aquí [b] para button [t] para top
 \begin{center}
@@ -542,6 +542,4 @@ En este caso hicimos lo mismo que antes, solo que forzamos una combinación de p
 \end{center}
 \end{figure}
 
-Este es un test que tiene la particularidad de anular casi todas las podas que pensamos para el ejercicio, la forma de este test tiene el formato de la Figura 23 y es una generalización del mismo para tamaños de $n*m$. Por el orden en el cual nuestro algoritmo intenta poner los sensores (primero el mas caros y luego los mas baratos) éste encuentra las soluciones desde la mas cara (poner todos cuatridireccionales) a la mas barata (poner todos bidireccionales) y la poda del costo de la solución actual no funciona. Poner un sensor no anula (por el laser) ninguna otra casilla por que todas las casillas están encerradas entre paredes, y las restricciones para colocar importantes o sensores que acabo de colocar no afectan a ninguna otra casilla por que hay paredes de por medio. Su tiempo de ejecución se extendió tanto que no pudimos llegar a correr los tamaños de test que corrimos para los otros ejemplos.
-
-
+La particularidad del test mostrado es que es capaz de anular la mayoría de las podas ideadas para el ejercicio. El resultado de este test se ve representado en la Figura 23, generalizada para tamaños de $n*m$. Por el orden en el que nuestro algoritmo intenta poner los sensores (primero el más caro y luego los más baratos), éste encuentra las soluciones ordenadas decrecientemente en términos de costo y la poda que compara costos de soluciones no funciona de manera óptima. La inserción de un sensor no impide el agregado de otro en la misma fila o columna pues los casilleros se encuentran encerrados entre paredes. El tiempo de ejecución del mismo se extendió excesivamente por lo que no pudimos correrlo para los tamaños utilizados para los tests anteriores.
